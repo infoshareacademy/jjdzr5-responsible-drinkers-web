@@ -26,12 +26,12 @@ public class DrinkService {
 
     }
 
-    public Optional<Drink> getDrink(int id) {
+    public Drink getDrink(int id) {
         return new DrinkRepository().getRepository()
                 .stream()
                 .filter((Drink d) ->
                         d.getIdDrink() == id
                 )
-                .findFirst();
+                .findFirst().orElse(new Drink());
     }
 }
