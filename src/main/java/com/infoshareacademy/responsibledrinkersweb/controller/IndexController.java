@@ -15,9 +15,11 @@ public class IndexController {
     @Autowired
     private DateFormat dateFormat;
 
+    private static final Integer ELEMENTS_TO_PRINT = 8;
+
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("newestdrinks", drinkService.getNewest(8));
+        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
         model.addAttribute("dateformat", dateFormat.getDatePatter());
 
         return "index";
