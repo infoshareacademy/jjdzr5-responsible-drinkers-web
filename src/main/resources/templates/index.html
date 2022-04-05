@@ -27,7 +27,7 @@
                     <strong class="d-inline-block mb-2 text-primary" th:text="${drink.getIdDrink()}"></strong>
                     <h3 class="mb-0" th:text="${drink.getDrink()}">Featured post</h3>
                     <p class="card-text mb-auto" th:text="${drink.getAlcoholic()}"></p>
-                    <div class="mb-1 text-muted" th:text="${drink.getDateModified()}"></div>
+                    <div class="mb-1 text-muted" th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
                     <a href="#" class="stretched-link">More info</a>
                 </div>
