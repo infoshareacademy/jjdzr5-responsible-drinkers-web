@@ -14,7 +14,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("newestdrinks", drinkService.getDrinks().get(1).getDrink());
+        model.addAttribute("newestdrinks", drinkService.getNewest(8));
         return "index";
     }
 }

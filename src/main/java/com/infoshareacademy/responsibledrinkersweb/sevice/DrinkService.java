@@ -5,6 +5,7 @@ import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +17,10 @@ public class DrinkService {
     }
 
     public List<Drink> getNewest(int count) {
-//        SortDrinks sortDrinks = new SortDrinks(getDrinks());
-//        sortDrinks.getSortedList(SortItems.DATE);
-//        return getDrinks().stream().sorted(new DrinkDateModifiedComparator()).limit(count).toList();
-        return new ArrayList<>();
+        return getDrinks().stream()
+                .sorted(Comparator.comparing((Drink drink) -> drink.getDateModified(), Comparator.nullsLast(Comparator.reverseOrder())))
+                .limit(count)
+                .toList();
     }
 
     public void addDrink(Drink drink) {
