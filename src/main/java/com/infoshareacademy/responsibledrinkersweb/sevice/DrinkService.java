@@ -32,6 +32,7 @@ public class DrinkService {
                 .filter((Drink d) ->
                         d.getIdDrink() == id
                 )
-                .findFirst().orElse(new Drink());
+                .findFirst()
+                .orElse(new Drink());
     }
 }
