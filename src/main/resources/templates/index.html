@@ -29,7 +29,7 @@
                     <p class="card-text mb-auto" th:text="${drink.getAlcoholic()}"></p>
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a href="#" class="stretched-link">More info</a>
+                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">More info</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img th:src="${drink.getDrinkThumb()}" class="bd-placeholder-img" width="200" height="250"
