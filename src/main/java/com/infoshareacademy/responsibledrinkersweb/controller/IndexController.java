@@ -21,7 +21,6 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
         model.addAttribute("dateformat", dateFormat.getDatePatter());
-
         return "index";
     }
 }
