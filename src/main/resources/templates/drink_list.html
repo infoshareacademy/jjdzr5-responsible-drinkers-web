@@ -44,7 +44,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="login.html">Zaloguj się</a></li>
-                        <li><a class="dropdown-item" href="singup.html">Załóż konto</a></li>
+                        <li><a class="dropdown-item" href="signup.html">Załóż konto</a></li>
                         <li><a class="dropdown-item" href="account_settings.html">Ustawienia konta</a></li>
                     </ul>
                 </li>
@@ -55,6 +55,30 @@
 
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
+    <table class="table caption-top table-hover bg-light">
+        <caption class="text-center">List of drinks</caption>
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">ID</th>
+            <th scope="col" class="text-center">Drink Name</th>
+            <th scope="col" class="text-center">Date Modified</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="drink : ${drinklist}">
+            <th class="text-center" scope="row" th:text="${drinkStat.index+1}"></th>
+            <td class="text-center" th:text="${drink.getIdDrink()}"></td>
+            <td class="text-center" th:text="${drink.getDrink()}"></td>
+            <td th:with="df = ${dateformat}" class="text-center"
+                th:text="${#temporals.format(drink.getDateModified(),df)}"></td>
+            <td>
+                <button type="button" class="btn btn-primary"><i class="far fa-eye">Więcej</i></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

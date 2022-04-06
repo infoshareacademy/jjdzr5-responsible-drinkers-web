@@ -29,13 +29,13 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Strona główna</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{index.html}">Strona główna</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{drink_list.html}">Lista drinków</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add_new_drink.html">Dodaj drinka</a>
+                    <a class="nav-link" th:href="@{add_new_drink.html}">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="manager.html">Panel zarządzania</a>
@@ -47,7 +47,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="login.html">Zaloguj się</a></li>
-                        <li><a class="dropdown-item" href="singup.html">Załóż konto</a></li>
+                        <li><a class="dropdown-item" href="signup.html">Załóż konto</a></li>
                         <li><a class="dropdown-item" href="account_settings.html">Ustawienia konta</a></li>
                     </ul>
                 </li>
