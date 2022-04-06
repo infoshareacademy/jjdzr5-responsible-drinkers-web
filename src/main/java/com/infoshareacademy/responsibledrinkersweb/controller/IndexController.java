@@ -23,4 +23,10 @@ public class IndexController {
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "index";
     }
+
+    @RequestMapping("/drink_list.html")
+    public String drinkList(Model model) {
+        model.addAttribute("drinklist",drinkService.getDrinks());
+        return "drink_list";
+    }
 }

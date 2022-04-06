@@ -32,7 +32,7 @@
                     <a class="nav-link active" aria-current="page" href="index.html">Strona główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="drink_list.html">Lista drinków</a>
+                    <a class="nav-link" th:href="@{drink_list.html}">Lista drinków</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="add_new_drink.html">Dodaj drinka</a>
@@ -68,8 +68,7 @@
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}"
                          th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">More
-                        info</a>
+                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">Więcej informacji</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img th:src="${drink.getDrinkThumb()}" class="bd-placeholder-img" width="200" height="250"
