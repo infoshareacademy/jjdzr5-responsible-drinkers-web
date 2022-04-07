@@ -77,7 +77,10 @@
             <td th:with="df = ${dateformat}" class="text-center"
                 th:text="${#temporals.format(drink.getDateModified(),df)}"></td>
             <td>
-                <button type="button" class="btn btn-primary"><i class="far fa-eye">Więcej</i></button>
+                <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-primary btn-sm active"
+                   role="button" aria-pressed="true" methods="post">More info</a>
+                <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
+                   role="button" aria-pressed="true" methods="post">Delete</a>
             </td>
         </tr>
         </tbody>
