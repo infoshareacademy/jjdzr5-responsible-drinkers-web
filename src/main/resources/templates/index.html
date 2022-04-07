@@ -56,19 +56,29 @@
     </div>
 </nav>
 
-<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<div class="container">
+    <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+</div>
+<div class="container">
+    <blockquote class="blockquote text-center">
+        <p class="mb-0" style="color: white; margin-bottom: 20px; margin-top: 20px">Tu będzie opis projektu.</p>
+        <p class="mb-0" style="color: white; margin-bottom: 20px; margin-top: 20px">Będą
+            opisane funkcjonalności jakie będą dostępne na stronie. Będzie informacja o autorach.</p>
+    </blockquote>
+</div>
 <div class="container">
     <div class="row mb-2">
         <div class="col-md-6" th:each="drink : ${newestdrinks}">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary" th:text="${drink.getIdDrink()}"></strong>
-                    <h3 class="mb-0" th:text="${drink.getDrink()}">Featured post</h3>
+                    <h3 class="mb-0" th:text="${drink.getDrink()}"></h3>
                     <p class="card-text mb-auto" th:text="${drink.getAlcoholic()}"></p>
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}"
                          th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">Więcej informacji</a>
+                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">Więcej
+                        informacji</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img th:src="${drink.getDrinkThumb()}" class="bd-placeholder-img" width="200" height="250"
