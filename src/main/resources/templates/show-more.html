@@ -4,19 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${drink.getDrink()}"></title>
-    <link th:rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-    <link th:rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"-->
-    <!--          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
-    <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"-->
-    <!--            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"-->
-    <!--            crossorigin="anonymous"></script>-->
+    <link th:rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
+    <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
 </head>
 <body style="background-color: #2b2b2b">
 <nav class="navbar navbar-expand navbar-dark"
@@ -30,16 +24,16 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" th:href="@{index.html}">Strona główna</a>
+                    <a class="nav-link " aria-current="page" th:href="@{index}">Strona główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{drink_list.html}">Lista drinków</a>
+                    <a class="nav-link" th:href="@{drink_list}">Lista drinków</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{add_new_drink.html}">Dodaj drinka</a>
+                    <a class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manager.html">Panel zarządzania</a>
+                    <a class="nav-link" th:href="@{manager}">Panel zarządzania</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -47,21 +41,22 @@
                         Konto
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="login.html">Zaloguj się</a></li>
-                        <li><a class="dropdown-item" href="signup.html">Załóż konto</a></li>
-                        <li><a class="dropdown-item" href="account_settings.html">Ustawienia konta</a></li>
+                        <li><a class="dropdown-item" th:href="@{login}">Zaloguj się</a></li>
+                        <li><a class="dropdown-item" th:href="@{signup}">Załóż konto</a></li>
+                        <li><a class="dropdown-item" th:href="@{account_settings}">Ustawienia konta</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container bg-light">
+<div class="container bg-light" style="margin-top: 20px; border-radius: 5px">
     <p th:text="${drink.getIdDrink()}"></p>
     <p th:text="${drink.getDrink()}"></p>
     <p th:text="${drink.getCategory()}"></p>
     <p th:text="${drink.getAlcoholic()}"></p>
     <p th:text="${drink.getGlass()}"></p>
+    <p th:text="${drink.getInstructions()}"></p>
     <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
     <img th:src="${drink.getDrinkThumb()}">
 </div>
@@ -84,6 +79,5 @@
         </ul>
     </footer>
 </div>
-<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
