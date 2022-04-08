@@ -50,9 +50,9 @@
         </div>
     </div>
 </nav>
-<div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px">
-    <div>
-        <h2 style="border-bottom-style: ; border-bottom-width: 1px; border-bottom-color: #171717" th:text="${drink.getDrink()}"></h2>
+<div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px; height: 800px">
+    <div style="margin: 0px; float:right; max-width: 600px; width: fit-content">
+        <h2 style="border-bottom-style: double; border-bottom-color: #171717" th:text="${drink.getDrink()}"></h2>
         <p class="text-secondary" th:text="'ID: ' + ${drink.getIdDrink()}"></p>
         <h5>Category:</h5>
         <p th:text="${drink.getCategory()}"></p>
@@ -67,8 +67,8 @@
         <h5>Last modified:</h5>
         <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
     </div>
-    <div style="max-width: 600px">
-        <img class="img-fluid" style="max-width: inherit" th:src="${drink.getDrinkThumb()}">
+    <div style="margin: 0px; float: left">
+        <img style="max-width: 600px; border-radius: 5px" th:src="${drink.getDrinkThumb()}">
     </div>
 </div>
 <div class="container">
