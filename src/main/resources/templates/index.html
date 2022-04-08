@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link th:rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
     <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+
 </head>
 <body style="background-color: #2b2b2b">
 
@@ -66,13 +67,13 @@
         <div class="col-md-6" th:each="drink : ${newestdrinks}">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary" th:text="${drink.getIdDrink()}"></strong>
+                    <strong class="d-inline-block mb-2 text-dark" th:text="${'ID: ' + drink.getIdDrink()}"></strong>
                     <h3 class="mb-0" th:text="${drink.getDrink()}"></h3>
                     <p class="card-text mb-auto" th:text="${drink.getAlcoholic()}"></p>
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}"
                          th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="stretched-link" methods="post">Więcej
+                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="button" style="color: #0066cc" methods="post" target="_blank">Więcej
                         informacji</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
