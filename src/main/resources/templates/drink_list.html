@@ -53,29 +53,31 @@
 
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
-    <table class="table caption-top table-hover bg-light" style="border-radius: 5px">
+    <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
         <caption class="text-center">List of drinks</caption>
         <thead>
         <tr>
-            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center" style="color: #171717">#</th>
             <th scope="col" class="text-center"><a th:href="@{drink_list}">ID</a></th>
             <th scope="col" class="text-center"><a th:href="@{drink_list}">Nazwa</a></th>
+            <th scope="col" class="text-center"><a th:href="@{drink_list}">Typ</a></th>
             <th scope="col" class="text-center"><a th:href="@{drink_list}">Data dodania</a></th>
-            <th scope="col" class="text-center">Actions</th>
+            <th scope="col" class="text-center" style="color: #171717">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="drink : ${drinklist}">
-            <th class="text-center" scope="row" th:text="${drinkStat.index+1}"></th>
-            <td class="text-center" th:text="${drink.getIdDrink()}"></td>
-            <td class="text-center" th:text="${drink.getDrink()}"></td>
-            <td th:with="df = ${dateformat}" class="text-center"
+            <th class="text-center" style="color:#171717;" scope="row" th:text="${drinkStat.index+1}"></th>
+            <td class="text-center" style="color:#171717;" th:text="${drink.getIdDrink()}"></td>
+            <td class="text-center" style="color:#171717;" th:text="${drink.getDrink()}"></td>
+            <td class="text-center" style="color:#171717;" th:text="${drink.getAlcoholic()}"></td>
+            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center"
                 th:text="${#temporals.format(drink.getDateModified(),df)}"></td>
-            <td>
-                <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
-                   role="button" aria-pressed="true" methods="post">More info</a>
-                <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
-                   role="button" aria-pressed="true" methods="post">Delete</a>
+            <td class="text-center">
+                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
+                       role="button" aria-pressed="true" methods="post">More info</a>
+                    <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
+                       role="button" aria-pressed="true" methods="post">Delete</a>
             </td>
         </tr>
         </tbody>
