@@ -2,7 +2,7 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dodawanie drinka</title>
+    <title>Logowanie</title>
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
@@ -16,12 +16,10 @@
 </head>
 <body style="background-color: #2b2b2b">
 
-<nav class="navbar navbar-expand navbar-dark"
-     style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
+<nav class="navbar navbar-expand navbar-dark" style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.html">Responsible Drinkers, Inc</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -33,14 +31,13 @@
                     <a class="nav-link" href="drink_list.html">Lista drinków</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="add_new_drink.html">Dodaj drinka</a>
+                    <a class="nav-link" href="add_new_drink.html">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="manager.html">Panel zarządzania</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Konto
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -53,24 +50,10 @@
         </div>
     </div>
 </nav>
-<div class="container-sm">
-    <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
-</div>
+
+<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
-    <form action="add_drink.html"  method="get">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="idDrink">ID</label>
-                <input type="number" class="form-control" id="idDrink" placeholder="0" name="idDrink">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="nameDrink">Password</label>
-                <input type="text" class="form-control" id="nameDrink" placeholder="nazwa" name="nameDrink">
-            </div>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary" name="action" value="save">Dodaj</button>
-            </div>
-    </form>
+    <h1 th:text="${iddrink}"></h1>
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -80,9 +63,7 @@
 
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
 
-            <li class="ms-3"><a class="text-muted"
-                                href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web"
-                                target="_blank">
+            <li class="ms-3"><a class="text-muted" href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web" target="_blank">
                 <i class="bi bi-github">
                     <use xlink:href="#github"></use>
                 </i>
