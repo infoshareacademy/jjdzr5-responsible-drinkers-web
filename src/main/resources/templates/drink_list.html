@@ -27,7 +27,7 @@
                     <a class="nav-link" th:href="@{index}">Strona główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{drink_list}">Lista drinków</a>
+                    <a class="nav-link" th:href="@{/drink_list(sort=0)}" methods="post">Lista drinków</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
@@ -42,7 +42,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" th:href="@{login}">Zaloguj się</a></li>
-                        <li><a class="dropdown-item" th:href="@{signup.html}">Załóż konto</a></li>
+                        <li><a class="dropdown-item" th:href="@{signup}">Załóż konto</a></li>
                         <li><a class="dropdown-item" th:href="@{account_settings}">Ustawienia konta</a></li>
                     </ul>
                 </li>
@@ -58,10 +58,10 @@
         <thead>
         <tr>
             <th scope="col" class="text-center text-dark">#</th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">ID</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Nazwa</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Typ</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Data dodania</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=1)}" methods="post">ID</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=2)}" methods="post">Nazwa</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=4)}" methods="post">Typ</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=3)}" methods="post">Data dodania</a></th>
             <th scope="col" class="text-center" style="color: #343a40">Actions</th>
         </tr>
         </thead>
