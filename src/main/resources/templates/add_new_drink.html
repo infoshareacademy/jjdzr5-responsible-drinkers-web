@@ -13,10 +13,12 @@
 </head>
 <body style="background-color: #2b2b2b">
 
-<nav class="navbar navbar-expand navbar-dark" style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
+<nav class="navbar navbar-expand navbar-dark"
+     style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{index}">Responsible Drinkers, Inc</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -34,7 +36,8 @@
                     <a class="nav-link" th:href="@{manager}">Panel zarządzania</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         Konto
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -50,6 +53,31 @@
 
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
+    <div class="row row-cols-3">
+        <div class="col-3">
+
+        </div>
+        <div class="col-6">
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">ID</label>
+                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           placeholder="Podaj ID">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Nazwa</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nazwa drinka">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Dodaj"/>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col-3">
+
+        </div>
+    </div>
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -59,7 +87,9 @@
 
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
 
-            <li class="ms-3"><a class="text-muted" href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web" target="_blank">
+            <li class="ms-3"><a class="text-muted"
+                                href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web"
+                                target="_blank">
                 <i class="bi bi-github">
                     <use xlink:href="#github"></use>
                 </i>
