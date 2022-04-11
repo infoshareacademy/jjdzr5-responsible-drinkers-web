@@ -50,25 +50,25 @@
         </div>
     </div>
 </nav>
-
-<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
-    <h1 th:text="${iddrink}"></h1>
+<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+</div>
+<div class="container">
+    <p class="text-white" th:text="${drink}"></p>
+    <p class="text-white" th:text="${drink.idDrink}"></p>
+    <p class="text-white" th:text="${drink.category}"></p>
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">
             <span class="text-muted">© 2022 Responsible Drinkers, Inc</span>
         </div>
-
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-
             <li class="ms-3"><a class="text-muted" href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web" target="_blank">
                 <i class="bi bi-github">
                     <use xlink:href="#github"></use>
                 </i>
             </a></li>
-
         </ul>
     </footer>
 </div>
