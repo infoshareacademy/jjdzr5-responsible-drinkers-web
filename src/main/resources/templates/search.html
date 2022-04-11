@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Zarządzania</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link th:rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
+    <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+</head>
+<body style="background-color: #2b2b2b">
+
+<nav class="navbar navbar-expand navbar-dark" style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{index}">Responsible Drinkers, Inc</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{index}">Strona główna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/drink_list(sort=0)}" methods="post">Lista drinków</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{manager}">Panel zarządzania</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Konto
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{login}">Zaloguj się</a></li>
+                        <li><a class="dropdown-item" th:href="@{signup}">Załóż konto</a></li>
+                        <li><a class="dropdown-item" th:href="@{account_settings}">Ustawienia konta</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<div class="container">
+    <h1 th:text="${keyword}"></h1>
+    <h1 th:text="${result.size()}"></h1>
+</div>
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <span class="text-muted">© 2022 Responsible Drinkers, Inc</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+
+            <li class="ms-3"><a class="text-muted" href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web" target="_blank">
+                <i class="bi bi-github">
+                    <use xlink:href="#github"></use>
+                </i>
+            </a></li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

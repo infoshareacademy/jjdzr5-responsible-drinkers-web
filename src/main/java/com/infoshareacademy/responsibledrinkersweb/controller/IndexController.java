@@ -1,6 +1,7 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.service.searching.Search;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.sevice.DateFormat;
@@ -23,19 +24,19 @@ public class IndexController {
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
-    @GetMapping("/")
+    @GetMapping(path = {"/", "/index"})
     public String main(Model model) {
         model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "index";
     }
 
-    @GetMapping("/index")
-    public String index(Model model) {
-        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
-        return "index";
-    }
+//    @GetMapping("/index")
+//    public String index(Model model) {
+//        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
+//        model.addAttribute("dateformat", dateFormat.getDatePatter());
+//        return "index";
+//    }
 
     @GetMapping("/drink_list")
     public String drinkList(Model model, @RequestParam int sort) {
@@ -80,5 +81,22 @@ public class IndexController {
     @GetMapping("/account_settings")
     public String account(Model model) {
         return "account_settings";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam String keyword) {
+        Integer id;
+        try {
+            id = Integer.parseInt(keyword);
+        } catch (NumberFormatException e) {
+            id = null;
+        }
+        List<Drink> result = new Search(drinkService.getDrinks())
+                .searchByName(keyword)
+                .searchByID(id)
+                .getResults();
+        model.addAttribute("result", result);
+        model.addAttribute("keyword", keyword);
+        return "search";
     }
 }
