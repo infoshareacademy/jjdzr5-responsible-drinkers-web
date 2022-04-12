@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -30,13 +31,6 @@ public class IndexController {
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "index";
     }
-
-//    @GetMapping("/index")
-//    public String index(Model model) {
-//        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
-//        model.addAttribute("dateformat", dateFormat.getDatePatter());
-//        return "index";
-//    }
 
     @GetMapping("/drink_list")
     public String drinkList(Model model, @RequestParam int sort) {
@@ -61,6 +55,12 @@ public class IndexController {
     public String addDrink(Model model, Drink drink) {
         model.addAttribute("drink", new Drink());
         return "add_new_drink";
+    }
+
+    @GetMapping("delete-drink")
+    public RedirectView delete(@RequestParam int id) {
+        drinkService.deleteDrink(id);
+        return new RedirectView("/drink_list?sort=0");
     }
 
     @GetMapping("/manager")

@@ -4,10 +4,7 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class DrinkService {
@@ -35,5 +32,10 @@ public class DrinkService {
                 )
                 .findFirst()
                 .orElse(new Drink());
+    }
+
+    public void deleteDrink(int id) {
+        getDrinks().removeIf(drink -> drink.getIdDrink().equals(id));
+
     }
 }
