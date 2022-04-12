@@ -63,7 +63,7 @@
             <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
         </div>
         <div class="col" style="margin: 0px">
-            <img class="img-fluid" style="border-radius: 5px" th:src="${drink.getDrinkThumb()}">
+            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px" th:src="${drink.getDrinkThumb()}">
         </div>
     </div>
 </div>
