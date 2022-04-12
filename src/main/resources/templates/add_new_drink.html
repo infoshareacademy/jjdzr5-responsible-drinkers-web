@@ -59,9 +59,9 @@
 <div class="container">
     <div class="row row-cols-3">
         <div class="col-3">
-
         </div>
-        <div class="col-6">
+        <div class="col-6 bg-light rounded-3">
+            <hr class="border-top">
             <form action="#" th:action="@{/new_drink}" th:object="${drink}" method="post">
                 <div class="form-group">
                     <label for="id">ID</label>
@@ -70,13 +70,54 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Nazwa</label>
-                    <input type="text" th:field="*{drink}" class="form-control" id="name" placeholder="Nazwa drinka">
+                    <input type="text" th:field="*{strDrink}" class="form-control" id="name" placeholder="Nazwa drinka">
+                    <span class="text-warning" th:if="${#fields.hasErrors('strDrink')}" th:errors="*{strDrink}"></span>
                 </div>
                 <div class="form-group">
                     <label for="typ">Kategoria</label>
                     <input type="text" th:field="*{category}" class="form-control" id="typ" placeholder="Nazwa drinka">
                 </div>
-                <input type="submit" class="btn btn-primary" value="Dodaj"/>
+                <div class="form-group">
+                    <label for="skladnik1">Składnik 1</label>
+                    <input type="text" th:field="*{ingredient1}" class="form-control" id="skladnik1"
+                           placeholder="Wymień">
+                </div>
+                <div class="form-group">
+                    <label for="skladnik2">Składnik 2</label>
+                    <input type="text" th:field="*{ingredient2}" class="form-control" id="skladnik2"
+                           placeholder="składnik">
+                </div>
+                <div class="form-group">
+                    <label for="skladnik3">Składnik 3</label>
+                    <input type="text" th:field="*{ingredient3}" class="form-control" id="skladnik3"
+                           placeholder="składnik">
+                </div>
+                <div class="form-group">
+                    <label for="alkohol">Alkoholowy</label>
+                    <select th:field="*{alcoholic}" class="form-select" aria-label="Default select example" id="alkohol">
+                        <option th:value="'Alcoholic'" th:text="Alkoholic"></option>
+                        <option th:value="'Non alcoholic'" th:text="Non-alkoholic"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="skladnik4">Składnik 4</label>
+                    <input type="text" th:field="*{ingredient4}" class="form-control" id="skladnik4"
+                           placeholder="składnik">
+                </div>
+                <div class="form-group">
+                    <label for="skladnik5">Składnik 5</label>
+                    <input type="text" th:field="*{ingredient5}" class="form-control" id="skladnik5"
+                           placeholder="składnik">
+                </div>
+                <div class="form-group">
+                    <label for="url">URL zdjęcia</label>
+                    <input type="text" th:field="*{drinkThumb}" class="form-control" id="url"
+                           placeholder="składnik">
+                </div>
+                <div class="container text-center">
+                    <input type="submit" class="btn btn-primary mx-2" value="Dodaj"/>
+                    <input type="reset" class="btn btn-primary my-3" value="Reset"/>
+                </div>
             </form>
         </div>
         <div class="col-3">
