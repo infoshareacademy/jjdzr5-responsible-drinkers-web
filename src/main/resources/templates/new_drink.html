@@ -25,25 +25,25 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Strona główna</a>
+                    <a class="nav-link" th:href="@{index}">Strona główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="drink_list.html">Lista drinków</a>
+                    <a class="nav-link" th:href="@{drink_list}">Lista drinków</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add_new_drink.html">Dodaj drinka</a>
+                    <a class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manager.html">Panel zarządzania</a>
+                    <a class="nav-link" th:href="@{manager}">Panel zarządzania</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Konto
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="login.html">Zaloguj się</a></li>
-                        <li><a class="dropdown-item" href="signup.html">Załóż konto</a></li>
-                        <li><a class="dropdown-item" href="account_settings.html">Ustawienia konta</a></li>
+                        <li><a class="dropdown-item" th:href="@{login.html}">Zaloguj się</a></li>
+                        <li><a class="dropdown-item" th:href="@{signup}">Załóż konto</a></li>
+                        <li><a class="dropdown-item" th:href="@{account_settings}">Ustawienia konta</a></li>
                     </ul>
                 </li>
             </ul>
@@ -54,10 +54,17 @@
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 </div>
 <div class="container">
-    <p class="text-white" th:text="${drink}"></p>
-    <p class="text-white" th:text="${drink.strDrink}"></p>
+<h1 class="text-center" style="color: white; margin-top: 20px">Dodano nowego drinka</h1>
+</div>
+<div class="container">
     <p class="text-white" th:text="${drink.idDrink}"></p>
+    <p class="text-white" th:text="${drink.strDrink}"></p>
     <p class="text-white" th:text="${drink.category}"></p>
+    <p class="text-white" th:text="${drink.alcoholic}"></p>
+    <p class="text-white" th:text="${drink.ingredient1}"></p>
+    <p class="text-white" th:text="${drink.ingredient2}"></p>
+    <p class="text-white" th:text="${drink.instructions}"></p>
+    <img class="img-thumbnail" th:src="${drink.drinkThumb}">
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

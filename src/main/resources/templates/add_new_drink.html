@@ -17,7 +17,8 @@
      style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{index}">Responsible Drinkers, Inc</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -60,55 +61,69 @@
             <hr class="border-top">
             <form action="#" th:action="@{/new_drink}" th:object="${drink}" method="post">
                 <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="number" th:field="*{idDrink}" class="form-control" id="id" aria-describedby="emailHelp"
-                           placeholder="Podaj ID">
+                    <label class="my-2" for="nextId">ID</label>
+                    <input type="text" th:field="*{idDrink}" class="form-control" id="nextId"
+                           aria-describedby="emailHelp"
+                           placeholder="Podaj ID" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="name">Nazwa</label>
+                    <label class="my-2" for="name">Nazwa</label>
                     <input type="text" th:field="*{strDrink}" class="form-control" id="name" placeholder="Nazwa drinka">
-                    <span class="text-warning" th:if="${#fields.hasErrors('strDrink')}" th:errors="*{strDrink}"></span>
+                    <span class="text-danger" th:if="${#fields.hasErrors('strDrink')}" th:errors="*{strDrink}"></span>
                 </div>
                 <div class="form-group">
-                    <label for="typ">Kategoria</label>
-                    <input type="text" th:field="*{category}" class="form-control" id="typ" placeholder="Nazwa drinka">
+                    <label class="my-2" for="typ">Kategoria</label>
+                    <input type="text" th:field="*{strCategory}" class="form-control" id="typ" placeholder="Nazwa drinka">
+                    <span class="text-danger" th:if="${#fields.hasErrors('strCategory')}" th:errors="*{strCategory}"></span>
                 </div>
                 <div class="form-group">
-                    <label for="skladnik1">Składnik 1</label>
-                    <input type="text" th:field="*{ingredient1}" class="form-control" id="skladnik1"
-                           placeholder="Wymień">
-                </div>
-                <div class="form-group">
-                    <label for="skladnik2">Składnik 2</label>
-                    <input type="text" th:field="*{ingredient2}" class="form-control" id="skladnik2"
-                           placeholder="składnik">
-                </div>
-                <div class="form-group">
-                    <label for="skladnik3">Składnik 3</label>
-                    <input type="text" th:field="*{ingredient3}" class="form-control" id="skladnik3"
-                           placeholder="składnik">
-                </div>
-                <div class="form-group">
-                    <label for="alkohol">Alkoholowy</label>
-                    <select th:field="*{alcoholic}" class="form-select" aria-label="Default select example" id="alkohol">
+                    <label class="my-2" for="alkohol">Alkoholowy</label>
+                    <select th:field="*{alcoholic}" class="form-select" aria-label="Default select example"
+                            id="alkohol">
                         <option th:value="'Alcoholic'" th:text="Alkoholic"></option>
                         <option th:value="'Non alcoholic'" th:text="Non-alkoholic"></option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="skladnik4">Składnik 4</label>
+                    <label class="my-2" for="skladnik1">Składnik 1</label>
+                    <input type="text" th:field="*{strIngredient1}" class="form-control" id="skladnik1"
+                           placeholder="składnik">
+                    <span class="text-danger" th:if="${#fields.hasErrors('strIngredient1')}"
+                          th:errors="*{strIngredient1}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="skladnik2">Składnik 2</label>
+                    <input type="text" th:field="*{strIngredient2}" class="form-control" id="skladnik2"
+                           placeholder="składnik">
+                    <span class="text-danger" th:if="${#fields.hasErrors('strIngredient2')}"
+                          th:errors="*{strIngredient2}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="skladnik3">Składnik 3</label>
+                    <input type="text" th:field="*{ingredient3}" class="form-control" id="skladnik3"
+                           placeholder="składnik">
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="skladnik4">Składnik 4</label>
                     <input type="text" th:field="*{ingredient4}" class="form-control" id="skladnik4"
                            placeholder="składnik">
                 </div>
                 <div class="form-group">
-                    <label for="skladnik5">Składnik 5</label>
+                    <label class="my-2" for="skladnik5">Składnik 5</label>
                     <input type="text" th:field="*{ingredient5}" class="form-control" id="skladnik5"
                            placeholder="składnik">
                 </div>
                 <div class="form-group">
-                    <label for="url">URL zdjęcia</label>
-                    <input type="text" th:field="*{drinkThumb}" class="form-control" id="url"
-                           placeholder="składnik">
+                    <label class="my-2" for="url">URL zdjęcia</label>
+                    <input type="text" th:field="*{strDrinkThumb}" class="form-control" id="url"
+                           placeholder="www.example.com">
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="instructions">Przepis</label>
+                    <textarea type="textarea" th:field="*{strInstructions}" class="form-control" id="instructions"
+                              placeholder="Instrukcja "></textarea>
+                    <span class="text-danger" th:if="${#fields.hasErrors('strInstructions')}" th:errors="*{strInstructions}"></span>
+
                 </div>
                 <div class="container text-center">
                     <input type="submit" class="btn btn-primary mx-2" value="Dodaj"/>

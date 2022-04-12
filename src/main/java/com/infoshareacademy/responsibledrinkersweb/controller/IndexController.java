@@ -45,8 +45,16 @@ public class IndexController {
     }
 
     @RequestMapping("/add_new_drink")
-    public String addNewDrink(Model model, Drink drink) {
-        model.addAttribute("drink", new Drink());
+    public String addNewDrink(Model model) {
+        int nextId = drinkService.getDrinks().stream()
+                .sorted((Drink o1, Drink o2) -> o2.getIdDrink() - o1.getIdDrink())
+                .limit(1)
+                .findFirst()
+                .orElse(new Drink())
+                .getIdDrink() + 1;
+        Drink drink = new Drink();
+        drink.setIdDrink(nextId);
+        model.addAttribute("drink", drink);
         return "add_new_drink";
     }
 
