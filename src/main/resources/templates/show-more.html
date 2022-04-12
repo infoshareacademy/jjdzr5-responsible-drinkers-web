@@ -44,25 +44,27 @@
         </div>
     </div>
 </nav>
-<div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px; height: 800px">
-    <div style="margin: 0px; float:right; width: 600px">
-        <h2 style="border-bottom-style: double; border-bottom-color: #171717" th:text="${drink.getDrink()}"></h2>
-        <p class="text-secondary" th:text="'ID: ' + ${drink.getIdDrink()}"></p>
-        <h5>Category:</h5>
-        <p th:text="${drink.getCategory()}"></p>
-        <h5>Type:</h5>
-        <p th:text="${drink.getAlcoholic()}"></p>
-        <h5>Glass type:</h5>
-        <p th:text="${drink.getGlass()}"></p>
-        <h5>Ingredients:</h5>
-        <p th:text="${drink.getStringIntredientrs()}"></p>
-        <h5>Instructions:</h5>
-        <p th:text="${drink.getInstructions()}"></p>
-        <h5>Last modified:</h5>
-        <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
-    </div>
-    <div style="margin: 0px; float: left">
-        <img style="max-width: 600px; border-radius: 5px" th:src="${drink.getDrinkThumb()}">
+<div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px">
+    <div class="row">
+        <div class="col">
+            <h2 style="border-bottom-style: double; border-bottom-color: #171717" th:text="${drink.getDrink()}"></h2>
+            <p class="text-secondary" th:text="'ID: ' + ${drink.getIdDrink()}"></p>
+            <h5>Category:</h5>
+            <p th:text="${drink.getCategory()}"></p>
+            <h5>Type:</h5>
+            <p th:text="${drink.getAlcoholic()}"></p>
+            <h5>Glass type:</h5>
+            <p th:text="${drink.getGlass()}"></p>
+            <h5>Ingredients:</h5>
+            <p th:text="${drink.getStringIntredientrs()}"></p>
+            <h5>Instructions:</h5>
+            <p th:text="${drink.getInstructions()}"></p>
+            <h5>Last modified:</h5>
+            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
+        </div>
+        <div class="col" style="margin: 0px">
+            <img class="img-fluid" style="border-radius: 5px" th:src="${drink.getDrinkThumb()}">
+        </div>
     </div>
 </div>
 <div class="container">
