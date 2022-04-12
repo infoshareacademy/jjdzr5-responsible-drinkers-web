@@ -55,6 +55,7 @@ public class IndexController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
+            drinkService.addDrink(drink);
             model.addAttribute("drink", drink);
             return "new_drink";
         }
