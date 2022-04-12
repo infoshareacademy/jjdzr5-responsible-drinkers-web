@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Rejestracja</title>
-    <div th:insert="index :: links"></div>
-</head>
+<head th:insert="common::header ('Rejestracja')"></head>
 <body style="background-color: #2b2b2b">
 
 <nav class="navbar navbar-expand navbar-dark"
@@ -48,24 +44,8 @@
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
 </div>
-<div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <div class="col-md-4 d-flex align-items-center">
-            <span class="text-muted">© 2022 Responsible Drinkers, Inc</span>
-        </div>
 
-        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-
-            <li class="ms-3"><a class="text-muted"
-                                href="https://github.com/infoshareacademy/jjdzr5-responsible-drinkers-web"
-                                target="_blank">
-                <i class="bi bi-github">
-                    <use xlink:href="#github"></use>
-                </i>
-            </a></li>
-        </ul>
-    </footer>
-</div>
+<div th:insert="common::footer"></div>
 
 <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
 </body>
