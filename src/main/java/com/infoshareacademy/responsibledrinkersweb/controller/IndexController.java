@@ -9,18 +9,12 @@ import com.infoshareacademy.responsibledrinkersweb.sevice.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
-
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -89,7 +83,8 @@ public class IndexController {
         if (result.hasErrors()) {
             return "edit";
         } else {
-            // TODO
+            drinkService.deleteDrink(drink.getIdDrink());
+            drinkService.addDrink(drink);
             model.addAttribute("drink", drink);
             return "new_drink";
         }
@@ -143,5 +138,12 @@ public class IndexController {
         model.addAttribute("result", result);
         model.addAttribute("keyword", keyword);
         return "search";
+    }
+
+    @RequestMapping("/show-more")
+    public String showMore(@RequestParam int id, Model model) {
+        model.addAttribute("drink", drinkService.getDrink(id));
+        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        return "show-more";
     }
 }

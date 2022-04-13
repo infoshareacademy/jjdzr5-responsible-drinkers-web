@@ -26,7 +26,7 @@ public class DrinkService {
     }
 
     public void addDrink(Drink drink) {
-        DrinkManager drinkManager = new DrinkManager(drinkList);
+        DrinkManager drinkManager = new DrinkManager(getDrinks());
         drink.setDateModified(LocalDateTime.now());
         drinkManager.addDrinkToList(drink);
     }
@@ -43,11 +43,6 @@ public class DrinkService {
 
     public void deleteDrink(int id) {
         getDrinks().removeIf(drink -> drink.getIdDrink().equals(id));
-    }
-
-    public void modifyDrink(Drink drinkToModify, Drink drinkModified) {
-        DrinkManager drinkManager = new DrinkManager(getDrinks());
-        drinkManager.modifyDrink(drinkToModify, drinkModified);
     }
 
     public Drink findByID(int id) {
