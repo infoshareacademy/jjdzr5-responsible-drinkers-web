@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
+
 @Controller
 public class IndexController {
 
@@ -56,13 +63,32 @@ public class IndexController {
         return "drink_list";
     }
 
-    @GetMapping("/add_new_drink")
-    public String addDrink(Model model, Drink drink) {
-        model.addAttribute("drink", new Drink());
+    @RequestMapping("/add_new_drink")
+    public String addNewDrink(Model model) {
+        int nextId = drinkService.getDrinks().stream()
+                .sorted((Drink o1, Drink o2) -> o2.getIdDrink() - o1.getIdDrink())
+                .limit(1)
+                .findFirst()
+                .orElse(new Drink())
+                .getIdDrink() + 1;
+        Drink drink = new Drink();
+        drink.setIdDrink(nextId);
+        model.addAttribute("drink", drink);
         return "add_new_drink";
     }
 
-    @GetMapping("/manager")
+    @PostMapping("/new_drink")
+    public String newDrink(@Valid @ModelAttribute Drink drink, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add_new_drink";
+        } else {
+            drinkService.addDrink(drink);
+            model.addAttribute("drink", drink);
+            return "new_drink";
+        }
+    }
+
+    @RequestMapping("/manager")
     public String manager(Model model) {
         return "manager";
     }
