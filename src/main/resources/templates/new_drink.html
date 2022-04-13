@@ -56,15 +56,28 @@
 <div class="container">
 <h1 class="text-center" style="color: white; margin-top: 20px">Dodano nowego drinka</h1>
 </div>
-<div class="container">
-    <p class="text-white" th:text="${drink.idDrink}"></p>
-    <p class="text-white" th:text="${drink.strDrink}"></p>
-    <p class="text-white" th:text="${drink.category}"></p>
-    <p class="text-white" th:text="${drink.alcoholic}"></p>
-    <p class="text-white" th:text="${drink.ingredient1}"></p>
-    <p class="text-white" th:text="${drink.ingredient2}"></p>
-    <p class="text-white" th:text="${drink.instructions}"></p>
-    <img class="img-thumbnail" th:src="${drink.drinkThumb}">
+<div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px">
+    <div class="row">
+        <div class="col">
+            <h2 style="border-bottom-style: double; border-bottom-color: #171717" th:text="${drink.getDrink()}"></h2>
+            <p class="text-secondary" th:text="'ID: ' + ${drink.getIdDrink()}"></p>
+            <h5>Category:</h5>
+            <p th:text="${drink.getCategory()}"></p>
+            <h5>Type:</h5>
+            <p th:text="${drink.getAlcoholic()}"></p>
+            <h5>Glass type:</h5>
+            <p th:text="${drink.getGlass()}"></p>
+            <h5>Ingredients:</h5>
+            <p th:text="${drink.getStringIntredientrs()}"></p>
+            <h5>Instructions:</h5>
+            <p th:text="${drink.getInstructions()}"></p>
+            <h5>Last modified:</h5>
+            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
+        </div>
+        <div class="col" style="margin: 0px">
+            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px" th:src="${drink.getDrinkThumb()}">
+        </div>
+    </div>
 </div>
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
