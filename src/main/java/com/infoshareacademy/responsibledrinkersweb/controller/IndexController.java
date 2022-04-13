@@ -54,6 +54,7 @@ public class IndexController {
         } else {
             model.addAttribute("drinklist", drinkList);
         }
+        model.addAttribute("keyword", "");
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "drink_list";
     }
@@ -81,6 +82,24 @@ public class IndexController {
             model.addAttribute("drink", drink);
             return "new_drink";
         }
+    }
+
+    @PostMapping("/modify")
+    public String modify(@Valid @ModelAttribute Drink drink, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "edit";
+        } else {
+            // TODO
+            model.addAttribute("drink", drink);
+            return "new_drink";
+        }
+    }
+
+    @GetMapping("edit")
+    public String edit(@RequestParam int id, Model model) {
+        Drink drink = drinkService.getDrink(id);
+        model.addAttribute("drink", drink);
+        return "edit";
     }
 
     @GetMapping("delete-drink")

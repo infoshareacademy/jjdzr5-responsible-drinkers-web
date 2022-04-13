@@ -44,4 +44,16 @@ public class DrinkService {
     public void deleteDrink(int id) {
         getDrinks().removeIf(drink -> drink.getIdDrink().equals(id));
     }
+
+    public void modifyDrink(Drink drinkToModify, Drink drinkModified) {
+        DrinkManager drinkManager = new DrinkManager(getDrinks());
+        drinkManager.modifyDrink(drinkToModify, drinkModified);
+    }
+
+    public Drink findByID(int id) {
+        return getDrinks().stream()
+                .filter(drink -> drink.getIdDrink() == id)
+                .findFirst()
+                .orElse(new Drink());
+    }
 }

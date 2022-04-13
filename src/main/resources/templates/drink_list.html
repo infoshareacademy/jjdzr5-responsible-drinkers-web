@@ -6,7 +6,6 @@
     <div th:insert="index :: links"></div>
 </head>
 <body style="background-color: #2b2b2b">
-
 <nav class="navbar navbar-expand navbar-dark"
      style="background-color: #3e3e3e;  border-bottom: solid; border-bottom-color: white; border-bottom-width: thin">
     <div class="container-fluid">
@@ -61,7 +60,6 @@
             </form>
         </div>
     </div>
-
 </div>
 <div class="container">
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
@@ -87,10 +85,12 @@
             <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
             <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center"
-                th:text="${#temporals.format(drink.getDateModified(),df)}"></td>
+                th:text="${#temporals.format(drink.getDateModified(),df) ?: 'Brak' }"></td>
             <td class="text-center">
                 <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
                    role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
+                <a th:href="@{'/edit?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
+                   role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
                 <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
                    role="button" aria-pressed="true" methods="post">Delete</a>
             </td>
@@ -113,12 +113,9 @@
                     <use xlink:href="#github"></use>
                 </i>
             </a></li>
-
         </ul>
     </footer>
 </div>
-
-
 <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

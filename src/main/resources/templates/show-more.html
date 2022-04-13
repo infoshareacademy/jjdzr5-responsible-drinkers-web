@@ -60,10 +60,11 @@
             <h5>Instructions:</h5>
             <p th:text="${drink.getInstructions()}"></p>
             <h5>Last modified:</h5>
-            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
+            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df) ?: 'Brak' }"></p>
         </div>
         <div class="col" style="margin: 0px">
-            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px" th:src="${drink.getDrinkThumb()}">
+            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px"
+                 th:src="${drink.getDrinkThumb()}">
         </div>
     </div>
 </div>
