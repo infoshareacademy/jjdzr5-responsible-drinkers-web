@@ -40,4 +40,8 @@ public class DrinkService {
                 .findFirst()
                 .orElse(new Drink());
     }
+
+    public void deleteDrink(int id) {
+        getDrinks().removeIf(drink -> drink.getIdDrink().equals(id));
+    }
 }
