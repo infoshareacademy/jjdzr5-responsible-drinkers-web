@@ -20,7 +20,7 @@
                     <a class="nav-link" th:href="@{index}">Strona główna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/drink_list(sort=0)}" methods="post">Lista drinków</a>
+                    <a class="nav-link" th:href="@{/drink_list}" methods="post">Lista drinków</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
@@ -51,7 +51,7 @@
         <div class="col-3"></div>
         <div class="col-4"></div>
         <div class="col-5">
-            <form action="#" th:action="@{/search}" method="get">
+            <form action="#" th:action="@{/drink_list(keyword=)}" th:object="${String}" method="get">
                 <div class="input-group">
                     <input type="search" name="keyword" th:value="${keyword}" class="form-control rounded"
                            placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
@@ -67,13 +67,13 @@
         <thead>
         <tr>
             <th scope="col" class="text-center text-dark">#</th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=1)}"
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=1,keyword=${keyword})}"
                                                    methods="post">ID</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=2)}"
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=2,keyword=${keyword})}"
                                                    methods="post">Nazwa</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=4)}"
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=4,keyword=${keyword})}"
                                                    methods="post">Typ</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=3)}"
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=3,keyword=${keyword})}"
                                                    methods="post">Data dodania</a></th>
             <th scope="col" class="text-center" style="color: #343a40">Actions</th>
         </tr>

@@ -1,7 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
-import com.infoshareacademy.drinkers.service.searching.Search;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.sevice.DateFormat;
@@ -34,8 +33,12 @@ public class IndexController {
     }
 
     @GetMapping("/drink_list")
-    public String drinkList(Model model, @RequestParam int sort) {
-        List<Drink> drinkList = drinkService.getDrinks();
+    public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort,
+                            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
+        List<Drink> drinkList = drinkService.getDrinks().stream()
+                .filter(drink -> drink.getDrink().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
+
         SortDrinks sortDrinks = new SortDrinks(drinkList);
         if (sort == 1) {
             model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.ID));
@@ -48,7 +51,7 @@ public class IndexController {
         } else {
             model.addAttribute("drinklist", drinkList);
         }
-        model.addAttribute("keyword", "");
+        model.addAttribute("keyword", keyword);
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "drink_list";
     }
@@ -121,23 +124,6 @@ public class IndexController {
     @GetMapping("/account_settings")
     public String account(Model model) {
         return "account_settings";
-    }
-
-    @GetMapping("/search")
-    public String search(Model model, @RequestParam String keyword) {
-        Integer id;
-        try {
-            id = Integer.parseInt(keyword);
-        } catch (NumberFormatException e) {
-            id = null;
-        }
-        List<Drink> result = new Search(drinkService.getDrinks())
-                .searchByName(keyword)
-                .searchByID(id)
-                .getResults();
-        model.addAttribute("result", result);
-        model.addAttribute("keyword", keyword);
-        return "search";
     }
 
     @RequestMapping("/show-more")
