@@ -76,6 +76,7 @@ public class IndexController {
             return "add_new_drink";
         } else {
             drinkService.addDrink(drink);
+            model.addAttribute("dateformat", dateFormat.getDatePatter());
             model.addAttribute("drink", drink);
             return "new_drink";
         }
