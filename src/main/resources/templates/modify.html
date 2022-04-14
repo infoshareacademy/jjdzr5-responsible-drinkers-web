@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common::header ('Modyfikacja')"></head>
+<body style="background-color: #2b2b2b">
+<nav th:insert="common::navbar"></nav>
+<div class="container">
+<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+</div>
+<div class="container">
+<h1 class="text-center" style="color: white; margin-top: 20px">Dodano nowego drinka</h1>
+</div>
+<div class="container">
+    <p class="text-white" th:text="${drink.idDrink}"></p>
+    <p class="text-white" th:text="${drink.strDrink}"></p>
+    <p class="text-white" th:text="${drink.category}"></p>
+    <p class="text-white" th:text="${drink.alcoholic}"></p>
+    <p class="text-white" th:text="${drink.ingredient1}"></p>
+    <p class="text-white" th:text="${drink.ingredient2}"></p>
+    <p class="text-white" th:text="${drink.instructions}"></p>
+    <img class="img-thumbnail" th:src="${drink.drinkThumb}">
+</div>
+<div th:insert="common::footer"></div>
+<div th:insert="common::script"></div>
+</body>
+</html>

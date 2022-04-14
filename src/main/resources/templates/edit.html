@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="common::header ('Dodawanie drinka')"></head>
+<head th:insert="common::header ('Edit')"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
 <div class="container">
@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
-            <form action="#" th:action="@{/new_drink}" th:object="${drink}" method="post">
+            <form action="#" th:action="@{/modify}" th:object="${drink}" method="post">
                 <div class="form-group">
                     <label class="my-2" for="nextId">ID</label>
                     <input type="text" th:field="*{idDrink}" class="form-control" id="nextId"
@@ -36,13 +36,6 @@
                         <option th:value="'Alcoholic'" th:text="Alkoholic"></option>
                         <option th:value="'Non alcoholic'" th:text="Non-alkoholic"></option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label class="my-2" for="glass">Rodzaj naczynia</label>
-                    <input type="text" th:field="*{strGlass}" class="form-control" id="glass"
-                           placeholder="Rodzaj naczynia">
-                    <span class="text-danger" th:if="${#fields.hasErrors('strGlass')}"
-                          th:errors="*{strGlass}"></span>
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="skladnik1">Składnik 1</label>
@@ -86,8 +79,9 @@
 
                 </div>
                 <div class="container text-center">
-                    <input type="submit" class="btn btn-primary mx-2" value="Dodaj"/>
+                    <input type="submit" class="btn btn-primary mx-2" value="Modyfikuj"/>
                     <input type="reset" class="btn btn-primary my-3" value="Reset"/>
+                    <a th:href="@{'drink_list?sort=0'}" class="btn btn-primary my-3">Wróć</a>
                 </div>
             </form>
         </div>

@@ -2,9 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="common::header (${drink.getDrink()})"></head>
 <body style="background-color: #2b2b2b">
-
 <nav th:insert="common::navbar"></nav>
-
 <div class="container bg-light" style="margin-top: 20px; border-radius: 5px; padding: 30px">
     <div class="row">
         <div class="col">
@@ -21,16 +19,15 @@
             <h5>Instructions:</h5>
             <p th:text="${drink.getInstructions()}"></p>
             <h5>Last modified:</h5>
-            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df)}"></p>
+            <p th:with="df = ${dateformat}" th:text="${#temporals.format(drink.getDateModified(),df) ?: 'Brak' }"></p>
         </div>
         <div class="col" style="margin: 0px">
-            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px" th:src="${drink.getDrinkThumb()}">
+            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px"
+                 th:src="${drink.getDrinkThumb()}">
         </div>
     </div>
 </div>
-
 <div th:insert="common::footer"></div>
-
-<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+<div th:insert="common::script"></div>
 </body>
 </html>

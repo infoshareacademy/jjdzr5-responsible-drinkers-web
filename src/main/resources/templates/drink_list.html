@@ -2,20 +2,38 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="common::header ('Lista drinków')"></head>
 <body style="background-color: #2b2b2b">
-
 <nav th:insert="common::navbar"></nav>
-
-<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<div class="container">
+    <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+</div>
+<div class="container my-2">
+    <div class="row justify-content-end">
+        <div class="col-3"></div>
+        <div class="col-4"></div>
+        <div class="col-5">
+            <form action="#" th:action="@{/drink_list(keyword=)}" th:object="${String}" method="get">
+                <div class="input-group">
+                    <input type="search" name="keyword" th:value="${keyword}" class="form-control rounded"
+                           placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                    <input type="submit" class="btn btn-outline-primary" value="Szukaj">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="container">
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
-        <caption class="text-center">List of drinks</caption>
         <thead>
         <tr>
             <th scope="col" class="text-center text-dark">#</th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">ID</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Nazwa</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Typ</a></th>
-            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{drink_list}">Data dodania</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=1,keyword=${keyword})}"
+                                                   methods="post">ID</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=2,keyword=${keyword})}"
+                                                   methods="post">Nazwa</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=4,keyword=${keyword})}"
+                                                   methods="post">Typ</a></th>
+            <th scope="col" class="text-center"><a class="bi-sort-down-alt text-dark" th:href="@{/drink_list(sort=3,keyword=${keyword})}"
+                                                   methods="post">Data dodania</a></th>
             <th scope="col" class="text-center" style="color: #343a40">Actions</th>
         </tr>
         </thead>
@@ -26,20 +44,20 @@
             <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
             <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center"
-                th:text="${#temporals.format(drink.getDateModified(),df)}"></td>
+                th:text="${#temporals.format(drink.getDateModified(),df) ?: 'Brak' }"></td>
             <td class="text-center">
-                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
-                       role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
-                    <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
-                       role="button" aria-pressed="true" methods="post">Delete</a>
+                <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
+                   role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
+                <a th:href="@{'/edit?id=' + ${drink.getIdDrink()}}" class="btn btn-secondary btn-sm active"
+                   role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
+                <a th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}" class="btn btn-danger btn-sm active"
+                   role="button" aria-pressed="true" methods="post">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-
 <div th:insert="common::footer"></div>
-
-<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+<div th:insert="common::script"></div>
 </body>
 </html>

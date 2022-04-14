@@ -2,16 +2,14 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="common::header ('Responsible Drinkers')"></head>
 <body style="background-color: #2b2b2b">
-
 <nav th:insert="common::navbar"></nav>
-
 <div class="container">
     <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 </div>
 <div class="container">
     <blockquote class="blockquote text-center">
-        <p class="mb-0" style="color: white; margin-bottom: 20px; margin-top: 20px">Tu będzie opis projektu.</p>
-        <p class="mb-0" style="color: white; margin-bottom: 20px; margin-top: 20px">Będą
+        <p class="mb-0 bg-light text-black rounded-2" style="margin-bottom: 20px; margin-top: 20px; padding: 10px">Tu będzie opis projektu.</p>
+        <p class="mb-0 bg-light text-black rounded-2" style="margin-bottom: 20px; margin-top: 20px; padding: 10px">Będą
             opisane funkcjonalności jakie będą dostępne na stronie. Będzie informacja o autorach.</p>
     </blockquote>
 </div>
@@ -43,9 +41,7 @@
         </div>
     </div>
 </div>
-
 <div th:insert="common::footer"></div>
-
-<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+<div th:insert="common::script"></div>
 </body>
 </html>
