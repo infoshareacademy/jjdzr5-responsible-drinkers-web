@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="common::header ('Responsible Drinkers')"></head>
+<head th:insert="common::header (#{html.index.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
 <div class="container">
-    <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+    <h1 th:text="#{html.index.description1}" class="text-center" style="color: white; margin-top: 20px"></h1>
 </div>
 <div class="container">
     <blockquote class="blockquote text-center">
-        <p class="mb-0 bg-light text-black rounded-2" style="margin-bottom: 20px; margin-top: 20px; padding: 10px">Tu będzie opis projektu.</p>
-        <p class="mb-0 bg-light text-black rounded-2" style="margin-bottom: 20px; margin-top: 20px; padding: 10px">Będą
-            opisane funkcjonalności jakie będą dostępne na stronie. Będzie informacja o autorach.</p>
+        <p th:text="#{html.index.description2}" class="mb-0 bg-light text-black rounded-2"
+           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
+        <p th:text="#{html.index.description3}" class="mb-0 bg-light text-black rounded-2"
+           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
     </blockquote>
 </div>
 <div class="container">
@@ -24,9 +25,8 @@
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}"
                          th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="button" style="color: #0066cc"
-                       methods="post" target="_blank">Więcej
-                        informacji</a>
+                    <a  th:text="#{html.index.a.title}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}" class="button" style="color: #0066cc"
+                       methods="post" target="_blank"></a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img th:src="${drink.getDrinkThumb()}" class="bd-placeholder-img" width="200" height="250"
