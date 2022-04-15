@@ -14,10 +14,10 @@
             <hr class="border-top">
             <form action="#" th:action="@{/new_drink}" th:object="${drink}" method="post">
                 <div class="form-group">
-                    <label class="my-2" for="nextId">ID</label>
+                    <label th:text="#{html.add_new_drink.id}" class="my-2" for="nextId">ID</label>
                     <input type="text" th:field="*{idDrink}" class="form-control" id="nextId"
                            aria-describedby="emailHelp"
-                           placeholder="Podaj ID" readonly>
+                           th:placeholder="#{html.add_new_drink.placeholder.id}" readonly>
                 </div>
                 <div class="form-group">
                     <label th:text="#{html.add_new_drink.name}" class="my-2" for="name"></label>
@@ -27,7 +27,8 @@
                 </div>
                 <div class="form-group">
                     <label th:text="#{html.add_new_drink.category}" class="my-2" for="typ">Kategoria</label>
-                    <input type="text" th:field="*{strCategory}" class="form-control" id="typ" th:placeholder="#{html.add_new_drink.placeholder.category}">
+                    <input type="text" th:field="*{strCategory}" class="form-control" id="typ"
+                           th:placeholder="#{html.add_new_drink.placeholder.category}">
                     <span class=" text-danger" th:if="${#fields.hasErrors('strCategory')}"
                     th:errors="*{strCategory}"></span>
                 </div>

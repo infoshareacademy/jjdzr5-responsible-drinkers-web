@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="common::header ('Rejestracja')"></head>
+<head th:insert="common::header (#{html.signup.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
-<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<h1 th:text="#{html.signup.description}" class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 <div class="container">
 </div>
 <div th:insert="common::footer"></div>

@@ -89,8 +89,8 @@ public class IndexController {
         } else {
             drinkService.deleteDrink(drink.getIdDrink());
             drinkService.addDrink(drink);
-            model.addAttribute("dateformat", dateFormat.getDatePatter());
             model.addAttribute("drink", drink);
+            model.addAttribute("dateformat", dateFormat.getDatePatter());
             return "new_drink";
         }
     }
