@@ -91,7 +91,8 @@ public class IndexController {
             drinkService.addDrink(drink);
             model.addAttribute("drink", drink);
             model.addAttribute("dateformat", dateFormat.getDatePatter());
-            return "new_drink";
+            return "modify";
+//            return "new_drink";
         }
     }
 
