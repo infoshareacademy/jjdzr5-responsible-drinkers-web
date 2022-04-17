@@ -9,9 +9,9 @@
 </div>
 <div class="container my-2">
     <div class="row justify-content-end">
+        <div class="col-6"></div>
         <div class="col-3"></div>
-        <div class="col-4"></div>
-        <div class="col-5">
+        <div class="col-3">
             <form action="#" th:action="@{/drink_list(keyword=)}" th:object="${String}" method="get">
                 <div class="input-group">
                     <input type="search" name="keyword" th:value="${keyword}" class="form-control rounded"
@@ -62,14 +62,17 @@
             <td class="text-center" style="color:#343a40;" th:text="${drink.getIdDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
-            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center"
-                th:text="${#temporals.format(drink.getDateModified(),df) ?: '----'}"></td>
+            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center" >
+                <span th:if="${drink.getDateModified() != null}" th:with="df = ${dateformat}"  th:text="${#temporals.format(drink.getDateModified(),df)}"></span>
+                <span th:unless="${drink.getDateModified()}" th:with="df = ${dateformat}"  th:text="#{html.drink_list.th.date.empty}"></span>
+                <span></span>
+            </td>
             <td class="text-center">
                 <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
-                   class="btn btn-secondary btn-sm active"
+                   class="btn btn-info btn-sm active"
                    role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
                 <a th:text="#{html.drink_list.actions.modify}" th:href="@{'/edit?id=' + ${drink.getIdDrink()}}"
-                   class="btn btn-secondary btn-sm active"
+                   class="btn btn-outline-primary btn-sm active mx-2"
                    role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
                 <a th:text="#{html.drink_list.actions.delete}" th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}"
                    class="btn btn-danger btn-sm active"

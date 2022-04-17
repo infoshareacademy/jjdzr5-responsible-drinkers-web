@@ -56,15 +56,14 @@ public class IndexController {
         return "drink_list";
     }
 
-    @RequestMapping("/add_new_drink")
-    public String addNewDrink(Model model) {
+    @GetMapping( value="/add_new_drink")
+    public String addNewDrink(Model model, Drink drink) {
         int nextId = drinkService.getDrinks().stream()
                 .sorted((Drink o1, Drink o2) -> o2.getIdDrink() - o1.getIdDrink())
                 .limit(1)
                 .findFirst()
                 .orElse(new Drink())
                 .getIdDrink() + 1;
-        Drink drink = new Drink();
         drink.setIdDrink(nextId);
         model.addAttribute("drink", drink);
         return "add_new_drink";
@@ -92,7 +91,6 @@ public class IndexController {
             model.addAttribute("drink", drink);
             model.addAttribute("dateformat", dateFormat.getDatePatter());
             return "modify";
-//            return "new_drink";
         }
     }
 
