@@ -3,6 +3,7 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
+import com.infoshareacademy.responsibledrinkersweb.UserAccount;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +116,18 @@ public class IndexController {
 
     @GetMapping("/login")
     public String login(Model model) {
+        model.addAttribute("account", new UserAccount());
         return "login";
+    }
+
+    @PostMapping("/new_account")
+    public String newAccount(@Valid @ModelAttribute UserAccount account, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            System.out.println(result.getAllErrors().get(0).getDefaultMessage());
+            return "/login";
+        }
+        model.addAttribute("account", account);
+        return "new_account";
     }
 
     @GetMapping("/signup")
