@@ -1,6 +1,9 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
+import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.service.filtering.FilterElements;
+import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.sevice.DateFormat;
@@ -34,11 +37,25 @@ public class IndexController {
 
     @GetMapping("/drink_list")
     public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort,
-                            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
-        List<Drink> drinkList = drinkService.getDrinks().stream()
-                .filter(drink -> drink.getDrink().toLowerCase().contains(keyword.toLowerCase()))
-                .toList();
+                            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                            @RequestParam(value = "f", required = false, defaultValue = "") Alcoholic f,
+                            @RequestParam(value = "type", required = false, defaultValue = "") FilterElements type) {
 
+        List<Drink> drinkList;
+        drinkList = drinkService.search(keyword);
+
+        if (f != null) {
+            if (f.equals(Alcoholic.ALCOHOLIC)) {
+                drinkList = drinkService.filter(true);
+            } else if (f.equals(Alcoholic.NON_ALCOHOLIC)) {
+                drinkList = drinkService.filter(false);
+            }
+        }
+
+        if (type != null) {
+            FilterList filterList = new FilterList(drinkService.getDrinks());
+            drinkList = filterList.getFilteredByIngredient(type).getResults();
+        }
         SortDrinks sortDrinks = new SortDrinks(drinkList);
         if (sort == 1) {
             model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.ID));
@@ -53,10 +70,11 @@ public class IndexController {
         }
         model.addAttribute("keyword", keyword);
         model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("alco", Alcoholic.values());
         return "drink_list";
     }
 
-    @GetMapping( value="/add_new_drink")
+    @GetMapping(value = "/add_new_drink")
     public String addNewDrink(Model model, Drink drink) {
         int nextId = drinkService.getDrinks().stream()
                 .sorted((Drink o1, Drink o2) -> o2.getIdDrink() - o1.getIdDrink())

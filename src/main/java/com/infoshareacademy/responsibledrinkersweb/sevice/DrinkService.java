@@ -1,5 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb.sevice;
 
+import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.service.manage.DrinkManager;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
@@ -32,7 +33,8 @@ public class DrinkService {
         }
         if (drink.getIngredient4().isBlank()) {
             drink.setIngredient4(null);
-        }        if (drink.getIngredient5().isBlank()) {
+        }
+        if (drink.getIngredient5().isBlank()) {
             drink.setIngredient5(null);
         }
         drink.setDateModified(LocalDateTime.now());
@@ -58,5 +60,23 @@ public class DrinkService {
                 .filter(drink -> drink.getIdDrink() == id)
                 .findFirst()
                 .orElse(new Drink());
+    }
+
+    public List<Drink> search(String searchString) {
+        return getDrinks().stream()
+                .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
+                .toList();
+    }
+
+    public List<Drink> filter(Boolean isAlcoholic) {
+        if (isAlcoholic) {
+            return getDrinks().stream()
+                    .filter(drink -> drink.getAlcoholic().equals(Alcoholic.ALCOHOLIC.getName()))
+                    .toList();
+        } else {
+            return getDrinks().stream()
+                    .filter(drink -> drink.getAlcoholic().equals(Alcoholic.NON_ALCOHOLIC.getName()))
+                    .toList();
+        }
     }
 }

@@ -7,10 +7,37 @@
     <h1 th:text="#{html.drink_list.description}" class="text-center" style="color: white; margin-top: 20px">Pij
         odpowiedzialnie!</h1>
 </div>
-<div class="container my-2">
+<div class="container my-4">
     <div class="row justify-content-end">
-        <div class="col-6"></div>
-        <div class="col-3"></div>
+        <div class="col-3 ">
+            <form action="#" th:action="@{/drink_list(f=)}"
+                  th:object="${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic)}" method="get">
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" name="f">
+                        <option name="f"
+                                th:each="name : ${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic).values()}"
+                                th:value="${name}" th:text="${name.getName()}">Wybierz ...
+                        </option>
+                    </select>
+                    <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-4">
+            <form action="#" th:action="@{/drink_list(type=)}"
+                  th:object="${T(com.infoshareacademy.drinkers.service.filtering.FilterElements)}" method="get">
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" name="type">
+                        <option th:each="name : ${T(com.infoshareacademy.drinkers.service.filtering.FilterElements).values()}"
+                                th:value="${name}" th:text="${name.getName()}">Wybierz ...
+                        </option>
+                    </select>
+                    <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-1"></div>
         <div class="col-3">
             <form action="#" th:action="@{/drink_list(keyword=)}" th:object="${String}" method="get">
                 <div class="input-group">
@@ -62,9 +89,11 @@
             <td class="text-center" style="color:#343a40;" th:text="${drink.getIdDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
             <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
-            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center" >
-                <span th:if="${drink.getDateModified() != null}" th:with="df = ${dateformat}"  th:text="${#temporals.format(drink.getDateModified(),df)}"></span>
-                <span th:unless="${drink.getDateModified()}" th:with="df = ${dateformat}"  th:text="#{html.drink_list.th.date.empty}"></span>
+            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center">
+                <span th:if="${drink.getDateModified() != null}" th:with="df = ${dateformat}"
+                      th:text="${#temporals.format(drink.getDateModified(),df)}"></span>
+                <span th:unless="${drink.getDateModified()}" th:with="df = ${dateformat}"
+                      th:text="#{html.drink_list.th.date.empty}"></span>
                 <span></span>
             </td>
             <td class="text-center">
