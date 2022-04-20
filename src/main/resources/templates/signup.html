@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="common::header ('Rejestracja')"></head>
+<head th:insert="common::header ('Rejestracja')">
+    <script src="../static/script.js"></script>
+</head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
 <h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
@@ -11,7 +13,7 @@
         </div>
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
-            <form action="#" th:action="@{/new_account}" th:object="${userAccount}" method="post">
+            <form onsubmit="checkPassword()" th:action="@{/new_account}" th:object="${userAccount}" method="post">
                 <div class="form-group">
                     <label class="my-2" for="userName">Nazwa użytkownika</label>
                     <input type="text" th:field="*{userName}" class="form-control" id="userName"
@@ -20,27 +22,61 @@
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="email">Adres e-mail</label>
-                    <input type="text" th:field="*{userName}" class="form-control" id="email"
+                    <input type="email" th:field="*{email}" class="form-control" id="email"
                            placeholder="Adres e-mail">
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
                 <div class="form-group">
                     <label>Płeć</label>
                     <select class="form-select" aria-label="Płeć" th:field="*{gender}">
-                        <option th:value="'M'" th:text="Mężczyzna"></option>
-                        <option th:value="'F'" th:text="Kobieta"></option>
-                        <option th:value="'O'" th:text="Inna"></option>
+                        <option th:value="*{GENDER_MALE}" th:text="Mężczyzna"></option>
+                        <option th:value="*{GENDER_FEMALE}" th:text="Kobieta"></option>
+                        <option th:value="*{GENDER_OTHER}" th:text="Inna"></option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="my-2" for="password">Hasło</label>
+                    <input type="password" th:field="*{password}" class="form-control" id="password"
+                           placeholder="Hasło">
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="confirm_password">Potwierdź hasło</label>
+                    <input type="password" th:field="*{password}" class="form-control" id="confirm_password"
+                           placeholder="Potwierdź hasło">
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
 
+                <div class="form-group">
+                    <label class="my-2" for="dateOfBirth">Data urodzenia</label>
+                    <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
+                           placeholder="Data urodzenia">
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                </div>
 
                 <div class="container text-center">
-                    <input type="submit" class="btn btn-primary mx-2" value="Utwórz konto"/>
+                    <input type="submit"  class="btn btn-primary mx-2" value="Utwórz konto"/>
                     <input type="reset" class="btn btn-primary my-3" value="Wyczyść formularz"/>
                 </div>
 
 
             </form>
+<!--            <script src="../static/script.js"></script>-->
+            <script>
+                function checkPassword(){
+                    let password = document.getElementById("password").value;
+                    let confirmPassword = document.getElementById("confirm_password").value;
+                    console.log(password,confirmPassword);
+
+                    if(password.length !== 0){
+                        if (password !== confirmPassword) {
+                            alert("Hasła muszą być jednakowe");
+                        }
+                    } else {
+                        alert("Pole hasło nie może być puste");
+                    }
+                }
+            </script>
         </div>
         <div class="col-3">
 

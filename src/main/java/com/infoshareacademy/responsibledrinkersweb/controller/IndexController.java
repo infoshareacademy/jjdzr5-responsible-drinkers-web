@@ -129,17 +129,19 @@ public class IndexController {
     @PostMapping("/new_account")
     public String newAccount(@Valid @ModelAttribute UserAccount account, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors().get(0).getDefaultMessage());
             return "/signup";
         }
         model.addAttribute("userAccount", account);
         return "new_account";
     }
 
+
+
     @GetMapping("/account_settings")
     public String account(Model model) {
         return "account_settings";
     }
+
 
     @RequestMapping("/show-more")
     public String showMore(@RequestParam int id, Model model) {

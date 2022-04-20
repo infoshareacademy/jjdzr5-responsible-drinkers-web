@@ -10,28 +10,24 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class UserAccount {
-    public static final String GENDER_MALE = "M";
-    public static final String GENDER_FEMALE = "F";
-    public static final String GENDER_OTHER = "O";
+    public static final String GENDER_MALE = "Mężczyzna";
+    public static final String GENDER_FEMALE = "Kobieta";
+    public static final String GENDER_OTHER = "Inna";
 
     @Size(min = 4, max = 25, message = "{validation.userName}")
-    @NotBlank(message = "{validation.blank}")
     private String userName;
 
-    @NotBlank(message = "{validation.blank}")
     private String gender;
 
     @Email(message = "{validation.email}")
     @NotBlank(message = "{validation.blank}")
     private String email;
 
-    @NotBlank(message = "{validation.blank}")
     @Size(min = 8, max = 25, message = "{validation.password}")
     private String password;
 
     @Past(message = "{validation.pastDate}")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @NotBlank(message = "{validation.blank}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
 
