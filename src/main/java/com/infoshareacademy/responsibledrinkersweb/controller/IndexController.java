@@ -116,23 +116,24 @@ public class IndexController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("account", new UserAccount());
         return "login";
+    }
+
+
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        model.addAttribute("userAccount", new UserAccount());
+        return "signup";
     }
 
     @PostMapping("/new_account")
     public String newAccount(@Valid @ModelAttribute UserAccount account, BindingResult result, Model model) {
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors().get(0).getDefaultMessage());
-            return "/login";
+            return "/signup";
         }
-        model.addAttribute("account", account);
+        model.addAttribute("userAccount", account);
         return "new_account";
-    }
-
-    @GetMapping("/signup")
-    public String signup(Model model) {
-        return "signup";
     }
 
     @GetMapping("/account_settings")

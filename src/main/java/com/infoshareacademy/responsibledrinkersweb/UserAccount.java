@@ -12,6 +12,7 @@ import java.util.Objects;
 public class UserAccount {
     public static final String GENDER_MALE = "M";
     public static final String GENDER_FEMALE = "F";
+    public static final String GENDER_OTHER = "O";
 
     @Size(min = 4, max = 25, message = "{validation.userName}")
     @NotBlank(message = "{validation.blank}")

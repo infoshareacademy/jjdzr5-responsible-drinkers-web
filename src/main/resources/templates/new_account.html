@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common::header ('Utworzono nowe konto')"></head>
+<body style="background-color: #2b2b2b">
+<nav th:insert="common::navbar"></nav>
+<h1 class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
 
+
+<div th:insert="common::footer"></div>
+<div th:insert="common::script"></div>
 </body>
 </html>
