@@ -2,10 +2,7 @@ package com.infoshareacademy.responsibledrinkersweb;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -26,8 +23,12 @@ public class UserAccount {
     @Size(min = 8, max = 25, message = "{validation.password}")
     private String password;
 
+    @Size(min = 8, max = 25, message = "{validation.password}")
+    private String repeatPassword;
+
     @Past(message = "{validation.pastDate}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "{validation.null.date}")
     private LocalDate dateOfBirth;
 
 
@@ -63,6 +64,14 @@ public class UserAccount {
         this.password = password;
     }
 
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -76,11 +85,23 @@ public class UserAccount {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserAccount that = (UserAccount) o;
-        return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(dateOfBirth, that.dateOfBirth);
+        return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(repeatPassword, that.repeatPassword) && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, gender, email, password, dateOfBirth);
+        return Objects.hash(userName, gender, email, password, repeatPassword, dateOfBirth);
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "userName='" + userName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", repeatPassword='" + repeatPassword + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

@@ -3,7 +3,8 @@
 <head th:insert="common::header (#{html.signup.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
-<h1 th:text="#{html.signup.description}" class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<h1 th:text="#{html.signup.description}" class="text-center" style="color: white; margin-top: 20px">Pij
+    odpowiedzialnie!</h1>
 
 <div class="container">
     <div class="row row-cols-3">
@@ -11,7 +12,7 @@
         </div>
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
-            <form onsubmit="checkPassword()" th:action="@{/new_account}" th:object="${userAccount}" method="post">
+            <form th:action="@{/new_account}" th:object="${userAccount}" method="post">
                 <div class="form-group">
                     <label class="my-2" for="userName">Nazwa użytkownika</label>
                     <input type="text" th:field="*{userName}" class="form-control" id="userName"
@@ -39,40 +40,43 @@
                     <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
                 <div class="form-group">
-                    <label class="my-2" for="confirm_password">Potwierdź hasło</label>
-                    <input type="password" th:field="*{password}" class="form-control" id="confirm_password"
+                    <label class="my-2" for="repeat_password">Potwierdź hasło</label>
+                    <input type="password" th:field="*{repeatPassword}" class="form-control" id="repeat_password"
                            placeholder="Potwierdź hasło">
-                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                    <span class="text-danger" th:if="${#fields.hasErrors('repeatPassword')}"
+                          th:errors="*{repeatPassword}"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="my-2" for="dateOfBirth">Data urodzenia</label>
                     <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
                            placeholder="Data urodzenia">
-                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}"
+                          th:errors="*{dateOfBirth}"></span>
                 </div>
 
                 <div class="container text-center">
-                    <input type="submit"  class="btn btn-primary mx-2" value="Utwórz konto"/>
+                    <input onclick="return checkPassword()" type="submit" class="btn btn-primary mx-2"
+                           value="Utwórz konto"/>
                     <input type="reset" class="btn btn-primary my-3" value="Wyczyść formularz"/>
                 </div>
 
 
             </form>
-<!--            <script src="../static/script.js"></script>-->
+            <!--            <script src="../static/script.js"></script>-->
             <script>
-                function checkPassword(){
+                function checkPassword() {
                     let password = document.getElementById("password").value;
-                    let confirmPassword = document.getElementById("confirm_password").value;
-                    console.log(password,confirmPassword);
+                    let repeatPassword = document.getElementById("repeat_password").value;
+                    console.log(password, repeatPassword);
 
-                    if(password.length !== 0){
-                        if (password !== confirmPassword) {
+                    if (password.length > 7) {
+                        if (password !== repeatPassword) {
                             alert("Hasła muszą być jednakowe");
+                            return false;
                         }
-                    } else {
-                        alert("Pole hasło nie może być puste");
                     }
+                    return true;
                 }
             </script>
         </div>
