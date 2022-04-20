@@ -27,6 +27,14 @@ public class DrinkService {
 
     public void addDrink(Drink drink) {
         DrinkManager drinkManager = new DrinkManager(getDrinks());
+        if (drink.getIngredient3().isBlank()) {
+            drink.setIngredient3(null);
+        }
+        if (drink.getIngredient4().isBlank()) {
+            drink.setIngredient4(null);
+        }        if (drink.getIngredient5().isBlank()) {
+            drink.setIngredient5(null);
+        }
         drink.setDateModified(LocalDateTime.now());
         drinkManager.addDrinkToList(drink);
     }
