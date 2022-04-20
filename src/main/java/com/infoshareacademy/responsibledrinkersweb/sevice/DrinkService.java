@@ -7,6 +7,7 @@ import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -63,9 +64,13 @@ public class DrinkService {
     }
 
     public List<Drink> search(String searchString) {
-        return getDrinks().stream()
-                .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
-                .toList();
+        if (searchString!=null) {
+            return getDrinks().stream()
+                    .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
+                    .toList();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public List<Drink> filter(Boolean isAlcoholic) {

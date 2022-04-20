@@ -8,79 +8,81 @@
         odpowiedzialnie!</h1>
 </div>
 <div class="container my-4">
-    <div class="row justify-content-end">
-        <div class="col-3 ">
-            <form action="#" th:action="@{/drink_list(f=)}"
-                  th:object="${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic)}" method="get">
+    <form action="#" th:action="@{/list}" th:object="${listparameter}" method="post">
+        <div class="row justify-content-end">
+            <div class="col-3 ">
                 <div class="input-group">
-                    <select class="form-select" aria-label="Default select example" name="f">
-                        <option name="f"
-                                th:each="name : ${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic).values()}"
-                                th:value="${name}" th:text="${name.getName()}">Wybierz ...
+                    <select class="form-select" aria-label="Default select example" name="f" th:field="*{alcoholic}">
+                        <option value="">Wybierz...</option>
+                        <option th:each="value : ${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic).values()}"
+                                th:value="${value}" th:text="${value.getName()}"
+                                th:selected="${value.equals(listparameter.alcoholic)? true : false}">
+                            Wybierz ...
                         </option>
                     </select>
                     <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
                 </div>
-            </form>
-        </div>
-        <div class="col-1"></div>
-        <div class="col-4">
-            <form action="#" th:action="@{/drink_list(type=)}"
-                  th:object="${T(com.infoshareacademy.drinkers.service.filtering.FilterElements)}" method="get">
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
                 <div class="input-group">
-                    <select class="form-select" aria-label="Default select example" name="type">
-                        <option th:each="name : ${T(com.infoshareacademy.drinkers.service.filtering.FilterElements).values()}"
-                                th:value="${name}" th:text="${name.getName()}">Wybierz ...
+                    <select class="form-select" aria-label="Default select example" th:field="*{filterElements}">
+                        <option value="">Wybierz...</option>
+                        <option th:each="valueElement : ${T(com.infoshareacademy.drinkers.service.filtering.FilterElements).values()}"
+                                th:value="${valueElement}" th:text="${valueElement.getName()}"
+                                th:selected="${valueElement.equals(listparameter.filterElements) ? true : false}">
+                            Wybierz ...
                         </option>
                     </select>
-                    <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
+                    <input type="submit" class="btn  btn-outline-danger" value="Filtruj"/>
                 </div>
-            </form>
-        </div>
-        <div class="col-1"></div>
-        <div class="col-3">
-            <form action="#" th:action="@{/drink_list(keyword=)}" th:object="${String}" method="get">
+            </div>
+            <div class="col-1"></div>
+            <div class="col-3">
                 <div class="input-group">
-                    <input type="search" name="keyword" th:value="${keyword}" class="form-control rounded"
+                    <input type="search" name="keyword" th:field="*{keyword}" class="form-control rounded"
                            th:placeholder="#{html.drink_list.actions.placeholder.search}" aria-label="Search"
                            aria-describedby="search-addon"/>
                     <input type="submit" class="btn btn-outline-primary" value="Szukaj"
                            th:value="#{html.drink_list.actions.search}">
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 <div class="container">
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
         <thead>
         <tr>
-            <th scope="col" class="text-center text-dark">#</th>
-            <th scope="col" class="text-center">
-                <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"
-                   th:href="@{/drink_list(sort=1,keyword=${keyword})}"
-                   methods="post">ID</a>
-            </th>
-            <th scope="col" class="text-center">
-                <a th:text="#{html.drink_list.th.name}"
-                   class="bi-sort-down-alt text-dark"
-                   th:href="@{/drink_list(sort=2,keyword=${keyword})}"
-                   methods="post">Nazwa</a>
-            </th>
-            <th scope="col" class="text-center">
-                <a th:text="#{html.drink_list.th.type}"
-                   class="bi-sort-down-alt text-dark"
-                   th:href="@{/drink_list(sort=4,keyword=${keyword})}"
-                   methods="post">Typ</a>
-            </th>
-            <th scope="col" class="text-center">
-                <a th:text="#{html.drink_list.th.date}"
-                   class="bi-sort-down-alt text-dark"
-                   th:href="@{/drink_list(sort=3,keyword=${keyword})}"
-                   methods="post">Data dodania</a>
-            </th>
-            <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">Actions
-            </th>
+            <form action="#" th:action="@{/list}" th:object="${listparameter}" method="post">
+
+                <th scope="col" class="text-center text-dark">#</th>
+                <th scope="col" class="text-center">
+                    <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"
+                       th:href="@{/drink_list(sort=1)}">ID</a>
+                </th>
+                <th scope="col" class="text-center">
+                    <a th:text="#{html.drink_list.th.name}"
+                       class="bi-sort-down-alt text-dark"
+                       th:href="@{/drink_list(sort=2)}"
+                       methods="post">Nazwa</a>
+                </th>
+                <th scope="col" class="text-center">
+                    <a th:text="#{html.drink_list.th.type}"
+                       class="bi-sort-down-alt text-dark"
+                       th:href="@{/drink_list(sort=4)}"
+                       methods="post">Typ</a>
+                </th>
+                <th scope="col" class="text-center">
+                    <a th:text="#{html.drink_list.th.date}"
+                       class="bi-sort-down-alt text-dark"
+                       th:href="@{/drink_list(sort=3)}"
+                       methods="post">Data dodania</a>
+                </th>
+                <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
+                    Actions
+                </th>
+            </form>
         </tr>
         </thead>
         <tbody>

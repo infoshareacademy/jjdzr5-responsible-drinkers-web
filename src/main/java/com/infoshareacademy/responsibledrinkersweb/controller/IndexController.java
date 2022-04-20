@@ -8,6 +8,7 @@ import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.sevice.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.sevice.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.sevice.ListParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class IndexController {
@@ -35,14 +37,37 @@ public class IndexController {
         return "index";
     }
 
+    @PostMapping("/list")
+    public String list(@ModelAttribute ListParameter parameter, Model model) {
+        System.out.println("test");
+        System.out.println(parameter);
+
+        List<Drink> drinkList = drinkService.search(parameter.getKeyword());
+
+        if (parameter.getAlcoholic()!=null) {
+            drinkList = drinkList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
+        }
+        if (parameter.getFilterElements()!=null) {
+            FilterList filterList = new FilterList(drinkList);
+            drinkList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+        }
+
+        System.out.println("test");
+        System.out.println(parameter);
+        model.addAttribute("listparameter",parameter);
+        model.addAttribute("drinklist", drinkList);
+        model.addAttribute("dateformat", dateFormat.getDatePatter());
+
+        return "drink_list";
+    }
+
     @GetMapping("/drink_list")
     public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort,
                             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                             @RequestParam(value = "f", required = false, defaultValue = "") Alcoholic f,
                             @RequestParam(value = "type", required = false, defaultValue = "") FilterElements type) {
 
-        List<Drink> drinkList;
-        drinkList = drinkService.search(keyword);
+        List<Drink> drinkList = drinkService.search(keyword);
 
         if (f != null) {
             if (f.equals(Alcoholic.ALCOHOLIC)) {
@@ -53,9 +78,10 @@ public class IndexController {
         }
 
         if (type != null) {
-            FilterList filterList = new FilterList(drinkService.getDrinks());
+            FilterList filterList = new FilterList(drinkList);
             drinkList = filterList.getFilteredByIngredient(type).getResults();
         }
+
         SortDrinks sortDrinks = new SortDrinks(drinkList);
         if (sort == 1) {
             model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.ID));
@@ -68,9 +94,8 @@ public class IndexController {
         } else {
             model.addAttribute("drinklist", drinkList);
         }
-        model.addAttribute("keyword", keyword);
         model.addAttribute("dateformat", dateFormat.getDatePatter());
-        model.addAttribute("alco", Alcoholic.values());
+        model.addAttribute("listparameter",new ListParameter());
         return "drink_list";
     }
 
