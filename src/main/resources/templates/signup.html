@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="email">Adres e-mail</label>
-                    <input type="email" th:field="*{email}" class="form-control" id="email"
+                    <input type="text" th:field="*{email}" class="form-control" id="email"
                            placeholder="Adres e-mail">
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
