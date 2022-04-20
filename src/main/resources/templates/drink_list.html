@@ -10,7 +10,7 @@
 <div class="container my-4">
     <form action="#" th:action="@{/list}" th:object="${listparameter}" method="post">
         <div class="row justify-content-end">
-            <div class="col-3 ">
+            <div class="col-4 ">
                 <div class="input-group">
                     <select class="form-select" aria-label="Default select example" name="f" th:field="*{alcoholic}">
                         <option value="">Wybierz...</option>
@@ -23,7 +23,6 @@
                     <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
                 </div>
             </div>
-            <div class="col-1"></div>
             <div class="col-4">
                 <div class="input-group">
                     <select class="form-select" aria-label="Default select example" th:field="*{filterElements}">
@@ -37,8 +36,7 @@
                     <input type="submit" class="btn  btn-outline-danger" value="Filtruj"/>
                 </div>
             </div>
-            <div class="col-1"></div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="input-group">
                     <input type="search" name="keyword" th:field="*{keyword}" class="form-control rounded"
                            th:placeholder="#{html.drink_list.actions.placeholder.search}" aria-label="Search"
