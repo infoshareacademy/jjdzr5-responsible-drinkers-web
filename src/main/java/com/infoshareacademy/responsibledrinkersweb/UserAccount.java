@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class UserAccount {
-    public static final String GENDER_MALE = "Mężczyzna";
-    public static final String GENDER_FEMALE = "Kobieta";
-    public static final String GENDER_OTHER = "Inna";
+    public static final String GENDER_MALE = "male";
+    public static final String GENDER_FEMALE = "female";
+    public static final String GENDER_OTHER = "other";
 
     @Size(min = 4, max = 25, message = "{validation.userName}")
     private String userName;
