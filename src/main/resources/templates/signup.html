@@ -3,9 +3,86 @@
 <head th:insert="common::header (#{html.signup.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
-<h1 th:text="#{html.signup.description}" class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<h1 th:text="#{html.signup.description}" class="text-center" style="color: white; margin-top: 20px">Pij
+    odpowiedzialnie!</h1>
+
 <div class="container">
+    <div class="row row-cols-3">
+        <div class="col-3">
+        </div>
+        <div class="col-6 bg-light rounded-3">
+            <hr class="border-top">
+            <form th:action="@{/new_account}" th:object="${userAccount}" method="post">
+                <div class="form-group">
+                    <label class="my-2" for="userName" th:text="#{html.signup.form.userName}">Nazwa użytkownika</label>
+                    <input type="text" th:field="*{userName}" class="form-control" id="userName"
+                           th:placeholder="#{html.signup.form.userName}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="email" th:text="#{html.signup.form.email}">Adres e-mail</label>
+                    <input type="text" th:field="*{email}" class="form-control" id="email"
+                           th:placeholder="#{html.signup.form.email}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{html.signup.form.gender}">Płeć</label>
+                    <select class="form-select" aria-label="Płeć" th:field="*{gender}">
+                        <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
+                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="password" th:text="#{html.signup.form.password}">Hasło</label>
+                    <input type="password" th:field="*{password}" class="form-control" id="password"
+                           th:placeholder="#{html.signup.form.password}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="repeat_password" th:text="#{html.signup.form.repeatPassword}">Potwierdź hasło</label>
+                    <input type="password" th:field="*{repeatPassword}" class="form-control" id="repeat_password"
+                           th:placeholder="#{html.signup.form.repeatPassword}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('repeatPassword')}"
+                          th:errors="*{repeatPassword}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="my-2" for="dateOfBirth" th:text="#{html.signup.form.dateOfBirth}">Data urodzenia</label>
+                    <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
+                           th:placeholder="#{html.signup.form.dateOfBirth}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}"
+                          th:errors="*{dateOfBirth}"></span>
+                </div>
+                <div class="container text-center">
+                    <input onclick="return checkPassword()" type="submit" class="btn btn-primary mx-2"
+                           th:value="#{html.signup.form.button.submit}"/>
+                    <input type="reset" class="btn btn-primary my-3" th:value="#{html.signup.form.button.reset}"/>
+                </div>
+
+
+            </form>
+            <!--            <script src="../static/script.js"></script>-->
+            <script>
+                function checkPassword() {
+                    let password = document.getElementById("password").value;
+                    let repeatPassword = document.getElementById("repeat_password").value;
+                    console.log(password, repeatPassword);
+
+                    if (password.length > 7) {
+                        if (password !== repeatPassword) {
+                            alert("Hasła muszą być jednakowe");
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            </script>
+        </div>
+        <div class="col-3">
+
+        </div>
+    </div>
 </div>
+
 <div th:insert="common::footer"></div>
 <div th:insert="common::script"></div>
 </body>
