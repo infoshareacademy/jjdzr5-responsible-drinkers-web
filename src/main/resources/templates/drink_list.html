@@ -13,27 +13,27 @@
             <div class="col-3 ">
                 <div class="input-group">
                     <select class="form-select" aria-label="Default select example" name="f" th:field="*{alcoholic}">
-                        <option value="">Wybierz...</option>
+                        <option value="" th:text="#{html.drink_list.select.text}">Wybierz...</option>
                         <option th:each="value : ${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic).values()}"
                                 th:value="${value}" th:text="${value.getName()}"
                                 th:selected="${value.equals(listparameter.alcoholic)? true : false}">
                             Wybierz ...
                         </option>
                     </select>
-                    <input type="submit" class="btn btn-outline-danger" value="Filtruj"/>
+                    <input type="submit" class="btn btn-outline-danger" th:value="#{html.drink_list.button.filter}"/>
                 </div>
             </div>
             <div class="col-3">
                 <div class="input-group">
                     <select class="form-select" aria-label="Default select example" th:field="*{filterElements}">
-                        <option value="">Wybierz...</option>
+                        <option value="" th:text="#{html.drink_list.select.text}">Wybierz...</option>
                         <option th:each="valueElement : ${T(com.infoshareacademy.drinkers.service.filtering.FilterElements).values()}"
                                 th:value="${valueElement}" th:text="${valueElement.getName()}"
                                 th:selected="${valueElement.equals(listparameter.filterElements) ? true : false}">
                             Wybierz ...
                         </option>
                     </select>
-                    <input type="submit" class="btn  btn-outline-danger" value="Filtruj"/>
+                    <input type="submit" class="btn  btn-outline-danger" th:value="#{html.drink_list.button.filter}"/>
                 </div>
             </div>
             <div class="col-3">
@@ -41,7 +41,7 @@
                     <input type="search" name="keyword" th:field="*{keyword}" class="form-control rounded"
                            th:placeholder="#{html.drink_list.actions.placeholder.search}" aria-label="Search"
                            aria-describedby="search-addon"/>
-                    <input type="submit" class="btn btn-outline-primary" value="Szukaj"
+                    <input type="submit" class="btn btn-outline-primary"
                            th:value="#{html.drink_list.actions.search}">
                 </div>
             </div>
