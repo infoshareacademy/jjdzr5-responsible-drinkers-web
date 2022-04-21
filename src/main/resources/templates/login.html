@@ -3,9 +3,39 @@
 <head th:insert="common::header (#{html.login.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
-<h1 th:text="#{html.login.description}" class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<h1 th:text="#{html.login.description}" class="text-center" style="color: white; margin-top: 20px">Pij
+    odpowiedzialnie!</h1>
+
 <div class="container">
+    <div class="row row-cols-3">
+        <div class="col-3"></div>
+        <div class="col-6 bg-light rounded-3">
+            <hr class="border-top">
+            <form th:action="@{/welcome}" th:object="${userAccount}" method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="email"
+                           th:placeholder="#{html.login.form.email}">
+                    <label for="email" th:text="#{html.login.form.email}">Adres e-mail</label>
+                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password"
+                           th:placeholder="#{html.login.form.password}">
+                    <label for="password" th:text="#{html.signup.form.password}">Hasło</label>
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div class="container text-center">
+                    <input type="submit" class="btn btn-primary mx-2" style="background-color: #0066cc" th:value="#{html.login.form.button.submit}"/>
+                </div>
+                <div class="container text-center" style="padding: 15px">
+                    <a th:text="#{html.login.form.button.signup}" th:href="@{'/signup'}" class="button" style="color: #0066cc" methods="post"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
 </div>
+
 <div th:insert="common::footer"></div>
 <div th:insert="common::script"></div>
 </body>

@@ -141,9 +141,14 @@ public class IndexController {
 
     @GetMapping("/login")
     public String login(Model model) {
+        model.addAttribute("userAccount", new UserAccount());
         return "login";
     }
 
+    @PostMapping("/welcome")
+    public String welcome(@ModelAttribute UserAccount userAccount, Model model) {
+        return "welcome";
+    }
 
     @GetMapping("/signup")
     public String signup(Model model) {
