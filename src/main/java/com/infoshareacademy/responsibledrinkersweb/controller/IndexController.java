@@ -4,9 +4,10 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
-import com.infoshareacademy.responsibledrinkersweb.sevice.DateFormat;
-import com.infoshareacademy.responsibledrinkersweb.sevice.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.sevice.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.domain.UserAccount;
+import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
+import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -143,15 +144,28 @@ public class IndexController {
         return "login";
     }
 
+
     @GetMapping("/signup")
     public String signup(Model model) {
+        model.addAttribute("userAccount", new UserAccount());
         return "signup";
     }
+
+    @PostMapping("/new_account")
+    public String newAccount(@Valid @ModelAttribute UserAccount account, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "/signup";
+        }
+        model.addAttribute("userAccount", account);
+        return "new_account";
+    }
+
 
     @GetMapping("/account_settings")
     public String account(Model model) {
         return "account_settings";
     }
+
 
     @RequestMapping("/show-more")
     public String showMore(@RequestParam int id, Model model) {

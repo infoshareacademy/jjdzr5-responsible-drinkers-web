@@ -1,4 +1,4 @@
-package com.infoshareacademy.responsibledrinkersweb.sevice;
+package com.infoshareacademy.responsibledrinkersweb.service;
 
 import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
