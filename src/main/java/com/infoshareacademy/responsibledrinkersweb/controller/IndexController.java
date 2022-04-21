@@ -1,8 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
-import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
-import com.infoshareacademy.drinkers.service.filtering.FilterElements;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class IndexController {
@@ -27,6 +25,9 @@ public class IndexController {
     private DrinkService drinkService;
     @Autowired
     private DateFormat dateFormat;
+
+    private List<Drink> modifyList = new ArrayList<>();
+    private ListParameter listParameter = new ListParameter();
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
@@ -37,65 +38,47 @@ public class IndexController {
         return "index";
     }
 
-    @PostMapping("/list")
-    public String list(@ModelAttribute ListParameter parameter, Model model) {
-        System.out.println("test");
-        System.out.println(parameter);
-
-        List<Drink> drinkList = drinkService.search(parameter.getKeyword());
-
-        if (parameter.getAlcoholic()!=null) {
-            drinkList = drinkList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
+    @PostMapping(value = "/list")
+    public String list(@ModelAttribute ListParameter parameter, Model model,
+                       @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
+        listParameter = parameter;
+        modifyList = drinkService.search(parameter.getKeyword());
+        if (parameter.getAlcoholic() != null) {
+            modifyList = modifyList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
         }
-        if (parameter.getFilterElements()!=null) {
-            FilterList filterList = new FilterList(drinkList);
-            drinkList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+        if (parameter.getFilterElements() != null) {
+            FilterList filterList = new FilterList(modifyList);
+            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
         }
-
-        System.out.println("test");
-        System.out.println(parameter);
-        model.addAttribute("listparameter",parameter);
-        model.addAttribute("drinklist", drinkList);
+        model.addAttribute("listparameter", parameter);
+        model.addAttribute("drinklist", modifyList);
         model.addAttribute("dateformat", dateFormat.getDatePatter());
-
         return "drink_list";
     }
 
     @GetMapping("/drink_list")
-    public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort,
-                            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-                            @RequestParam(value = "f", required = false, defaultValue = "") Alcoholic f,
-                            @RequestParam(value = "type", required = false, defaultValue = "") FilterElements type) {
-
-        List<Drink> drinkList = drinkService.search(keyword);
-
-        if (f != null) {
-            if (f.equals(Alcoholic.ALCOHOLIC)) {
-                drinkList = drinkService.filter(true);
-            } else if (f.equals(Alcoholic.NON_ALCOHOLIC)) {
-                drinkList = drinkService.filter(false);
-            }
+    public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
+        List<Drink> drinkList = modifyList;
+        if (modifyList.isEmpty()) {
+            modifyList = drinkService.getDrinks();
         }
 
-        if (type != null) {
-            FilterList filterList = new FilterList(drinkList);
-            drinkList = filterList.getFilteredByIngredient(type).getResults();
-        }
-
-        SortDrinks sortDrinks = new SortDrinks(drinkList);
+        SortDrinks sortDrinks = new SortDrinks(modifyList);
         if (sort == 1) {
-            model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.ID));
+            modifyList = sortDrinks.getSortedList(SortItems.ID);
         } else if (sort == 2) {
-            model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.DRINK_NAME));
+            modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
         } else if (sort == 4) {
-            model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.ALCOHOLIC));
+            modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
         } else if (sort == 3) {
-            model.addAttribute("drinklist", sortDrinks.getSortedList(SortItems.DATE));
+            modifyList = sortDrinks.getSortedList(SortItems.DATE);
         } else {
-            model.addAttribute("drinklist", drinkList);
+            listParameter = new ListParameter();
+            modifyList = drinkService.getDrinks();
         }
+        model.addAttribute("drinklist", modifyList);
         model.addAttribute("dateformat", dateFormat.getDatePatter());
-        model.addAttribute("listparameter",new ListParameter());
+        model.addAttribute("listparameter", listParameter);
         return "drink_list";
     }
 
