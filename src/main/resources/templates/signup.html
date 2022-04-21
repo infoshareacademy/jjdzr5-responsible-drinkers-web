@@ -14,51 +14,49 @@
             <hr class="border-top">
             <form th:action="@{/new_account}" th:object="${userAccount}" method="post">
                 <div class="form-group">
-                    <label class="my-2" for="userName">Nazwa użytkownika</label>
+                    <label class="my-2" for="userName" th:text="#{html.signup.form.userName}">Nazwa użytkownika</label>
                     <input type="text" th:field="*{userName}" class="form-control" id="userName"
-                           placeholder="Nazwa użytkownika">
+                           th:placeholder="#{html.signup.form.userName}">
                     <span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
                 </div>
                 <div class="form-group">
-                    <label class="my-2" for="email">Adres e-mail</label>
+                    <label class="my-2" for="email" th:text="#{html.signup.form.email}">Adres e-mail</label>
                     <input type="text" th:field="*{email}" class="form-control" id="email"
-                           placeholder="Adres e-mail">
+                           th:placeholder="#{html.signup.form.email}">
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
                 <div class="form-group">
-                    <label>Płeć</label>
+                    <label th:text="#{html.signup.form.gender}">Płeć</label>
                     <select class="form-select" aria-label="Płeć" th:field="*{gender}">
-                        <option th:value="*{GENDER_MALE}" th:text="Mężczyzna"></option>
-                        <option th:value="*{GENDER_FEMALE}" th:text="Kobieta"></option>
-                        <option th:value="*{GENDER_OTHER}" th:text="Inna"></option>
+                        <option th:value="*{GENDER_MALE}" th:text="#{html.signup.form.gender.male}"></option>
+                        <option th:value="*{GENDER_FEMALE}" th:text="#{html.signup.form.gender.female}"></option>
+                        <option th:value="*{GENDER_OTHER}" th:text="#{html.signup.form.gender.other}"></option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="my-2" for="password">Hasło</label>
+                    <label class="my-2" for="password" th:text="#{html.signup.form.password}">Hasło</label>
                     <input type="password" th:field="*{password}" class="form-control" id="password"
-                           placeholder="Hasło">
+                           th:placeholder="#{html.signup.form.password}">
                     <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
                 <div class="form-group">
-                    <label class="my-2" for="repeat_password">Potwierdź hasło</label>
+                    <label class="my-2" for="repeat_password" th:text="#{html.signup.form.repeatPassword}">Potwierdź hasło</label>
                     <input type="password" th:field="*{repeatPassword}" class="form-control" id="repeat_password"
-                           placeholder="Potwierdź hasło">
+                           th:placeholder="#{html.signup.form.repeatPassword}">
                     <span class="text-danger" th:if="${#fields.hasErrors('repeatPassword')}"
                           th:errors="*{repeatPassword}"></span>
                 </div>
-
                 <div class="form-group">
-                    <label class="my-2" for="dateOfBirth">Data urodzenia</label>
+                    <label class="my-2" for="dateOfBirth" th:text="#{html.signup.form.dateOfBirth}">Data urodzenia</label>
                     <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
-                           placeholder="Data urodzenia">
+                           th:placeholder="#{html.signup.form.dateOfBirth}">
                     <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}"
                           th:errors="*{dateOfBirth}"></span>
                 </div>
-
                 <div class="container text-center">
                     <input onclick="return checkPassword()" type="submit" class="btn btn-primary mx-2"
-                           value="Utwórz konto"/>
-                    <input type="reset" class="btn btn-primary my-3" value="Wyczyść formularz"/>
+                           th:value="#{html.signup.form.button.submit}"/>
+                    <input type="reset" class="btn btn-primary my-3" th:value="#{html.signup.form.button.reset}"/>
                 </div>
 
 
