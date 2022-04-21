@@ -1,4 +1,4 @@
-package com.infoshareacademy.responsibledrinkersweb;
+package com.infoshareacademy.responsibledrinkersweb.domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

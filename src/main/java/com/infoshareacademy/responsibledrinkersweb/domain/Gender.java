@@ -1,4 +1,4 @@
-package com.infoshareacademy.responsibledrinkersweb;
+package com.infoshareacademy.responsibledrinkersweb.domain;
 
 public enum Gender {
     MALE("Mężczyzna"),

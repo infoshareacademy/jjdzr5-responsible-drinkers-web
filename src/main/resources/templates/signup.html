@@ -29,7 +29,7 @@
                     <label th:text="#{html.signup.form.gender}">Płeć</label>
                     <select class="form-select" aria-label="Płeć" th:field="*{gender}">
                         <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
-                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
+                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.domain.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
                     </select>
                 </div>
                 <div class="form-group">
