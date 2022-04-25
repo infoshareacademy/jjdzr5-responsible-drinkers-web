@@ -26,7 +26,10 @@
         </div>
         <div class="col" style="margin: 0px">
             <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px"
-                 th:src="${drink.getDrinkThumb()}">
+                 th:if="${drink.getDrinkThumb()==null || drink.getDrinkThumb().toString().isEmpty()}"
+                 th:src="@{favicon/android-chrome-512x512.png}">
+            <img class="img-fluid " style="border-radius: 5px; max-height:700px; max-width:700px"
+                 th:unless="${drink.getDrinkThumb()==null|| drink.getDrinkThumb().toString().isEmpty()}" th:src="${drink.getDrinkThumb()}">
         </div>
     </div>
 </div>

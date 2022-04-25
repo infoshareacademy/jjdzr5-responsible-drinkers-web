@@ -28,7 +28,8 @@ public class IndexController {
     private DateFormat dateFormat;
 
     private List<Drink> modifyList = new ArrayList<>();
-    private ListParameter listParameter = new ListParameter();
+    @Autowired
+    private ListParameter listParameter;
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
