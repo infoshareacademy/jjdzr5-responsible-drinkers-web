@@ -60,13 +60,13 @@
                     <a th:text="#{html.common.menu.manager}" class="nav-link" th:href="@{manager}"></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Konto
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{login}"></a></li>
-                        <li><a th:text="#{html.common.menu.account}" class="dropdown-item" th:href="@{signup}"></a></li>
+                        <li><a th:text="#{html.common.menu.signup}" class="dropdown-item" th:href="@{signup}"></a></li>
                         <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item" th:href="@{account_settings}"></a></li>
                     </ul>
                 </li>
