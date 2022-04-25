@@ -26,13 +26,6 @@
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
                 <div class="form-group">
-                    <label th:text="#{html.signup.form.gender}">Płeć</label>
-                    <select class="form-select" aria-label="Płeć" th:field="*{gender}">
-                        <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
-                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.domain.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="my-2" for="password" th:text="#{html.signup.form.password}">Hasło</label>
                     <input type="password" th:field="*{password}" class="form-control" id="password"
                            th:placeholder="#{html.signup.form.password}">
@@ -44,6 +37,13 @@
                            th:placeholder="#{html.signup.form.repeatPassword}">
                     <span class="text-danger" th:if="${#fields.hasErrors('repeatPassword')}"
                           th:errors="*{repeatPassword}"></span>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{html.signup.form.gender}">Płeć</label>
+                    <select class="form-select" aria-label="Płeć" th:field="*{gender}">
+                        <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
+                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.domain.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="dateOfBirth" th:text="#{html.signup.form.dateOfBirth}">Data urodzenia</label>
