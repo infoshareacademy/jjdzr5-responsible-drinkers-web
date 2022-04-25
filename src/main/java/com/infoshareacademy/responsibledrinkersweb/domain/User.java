@@ -6,9 +6,10 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class UserAccount {
+public class User {
 
     @Size(min = 4, max = 25, message = "{validation.userName}")
+    @NotBlank(message = "{validation.blank}")
     private String userName;
 
     private String gender;
@@ -81,7 +82,7 @@ public class UserAccount {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserAccount that = (UserAccount) o;
+        User that = (User) o;
         return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(repeatPassword, that.repeatPassword) && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
 
