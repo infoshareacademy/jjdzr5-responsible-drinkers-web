@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class ImageNotFound {
 
-    public static String checkImageURL(String urlImg) {
+    public static String verifyURL(String urlImg) {
         try {
             URL url = new URL(urlImg);
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();

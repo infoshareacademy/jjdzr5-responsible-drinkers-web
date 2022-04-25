@@ -31,7 +31,7 @@ public class DrinkService {
 
     public void addDrink(Drink drink) {
         DrinkManager drinkManager = new DrinkManager(getDrinks());
-        String url = ImageNotFound.checkImageURL(drink.getDrinkThumb().toString());
+        String url = ImageNotFound.verifyURL(drink.getDrinkThumb().toString());
         drink.setDrinkThumb(URI.create(url));
         if (drink.getIngredient3().isBlank()) {
             drink.setIngredient3(null);
