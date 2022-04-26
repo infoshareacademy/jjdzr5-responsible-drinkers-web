@@ -85,6 +85,9 @@
                    th:href="@{/drink_list(sort=3)}"
                    methods="post">Data dodania</a>
             </th>
+            <th th:text="#{html.drink_list.th.status}" scope="col" class="text-center" style="color: #343a40">
+                Actions
+            </th>
             <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
                 Actions
             </th>
@@ -103,6 +106,7 @@
                       th:text="#{html.drink_list.th.date.empty}"></span>
                 <span></span>
             </td>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getStatus().getName()}"></td>
             <td class="text-center">
                 <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
                    class="btn btn-info btn-sm active"

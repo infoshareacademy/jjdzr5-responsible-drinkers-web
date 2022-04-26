@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class DrinkService {
 
-    private final List<Drink> drinkList = new DrinkRepository().getRepository();
+    private  List<Drink> drinkList = new DrinkRepository().getRepository();
 
     public List<Drink> getDrinks() {
         return drinkList;
