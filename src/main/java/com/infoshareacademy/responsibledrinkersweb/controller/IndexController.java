@@ -45,7 +45,6 @@ public class IndexController {
         if (parameter.getKeyword()!=null) {
             modifyList = drinkService.search(parameter.getKeyword());
         }
-//        listParameter = parameter;
         if (parameter.getAlcoholic() != null) {
             modifyList = modifyList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
         }

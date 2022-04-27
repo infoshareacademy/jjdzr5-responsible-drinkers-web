@@ -69,8 +69,8 @@
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('1')}">
                     <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.id}">
                 </form>
-                <!--                <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"-->
-                <!--                   th:href="@{/drink_list(sort=1)}">ID</a>-->
+<!--                                <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"-->
+<!--                                   th:href="@{/drink_list(sort=1)}">ID</a>-->
             </th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
