@@ -63,17 +63,17 @@
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
         <thead>
         <tr>
-            <th scope="col" class="text-center text-dark">#</th>
+            <th scope="col" class="text-center text-dark">
+                <button  class=" text-dark btn btn-link btn-lg" >#</button>
+            </th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
                     <input hidden th:field="*{alcoholic}">
                     <input hidden th:field="*{filterElements}">
                     <input hidden th:field="*{keyword}">
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('1')}">
-                    <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.id}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg" th:text="#{html.drink_list.th.id}"></button>
                 </form>
-<!--                                <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"-->
-<!--                                   th:href="@{/drink_list(sort=1)}">ID</a>-->
             </th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
@@ -81,12 +81,8 @@
                     <input hidden th:field="*{alcoholic}">
                     <input hidden th:field="*{filterElements}">
                     <input hidden th:field="*{keyword}">
-                    <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.name}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg" th:text="#{html.drink_list.th.name}"></button>
                 </form>
-                <!--                <a th:text="#{html.drink_list.th.name}"-->
-                <!--                   class="bi-sort-down-alt text-dark"-->
-                <!--                   th:href="@{/drink_list(sort=2)}"-->
-                <!--                   methods="post">Nazwa</a>-->
             </th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
@@ -94,12 +90,8 @@
                     <input hidden th:field="*{alcoholic}">
                     <input hidden th:field="*{filterElements}">
                     <input hidden th:field="*{keyword}">
-                    <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.type}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg" th:text="#{html.drink_list.th.type}"></button>
                 </form>
-                <!--                <a th:text="#{html.drink_list.th.type}"-->
-                <!--                   class="bi-sort-down-alt text-dark"-->
-                <!--                   th:href="@{/drink_list(sort=4)}"-->
-                <!--                   methods="post">Typ</a>-->
             </th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
@@ -107,15 +99,11 @@
                     <input hidden th:field="*{alcoholic}">
                     <input hidden th:field="*{filterElements}">
                     <input hidden th:field="*{keyword}">
-                    <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.date}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg" th:text="#{html.drink_list.th.date}"></button>
                 </form>
-                <!--                <a th:text="#{html.drink_list.th.date}"-->
-                <!--                   class="bi-sort-down-alt text-dark"-->
-                <!--                   th:href="@{/drink_list(sort=3)}"-->
-                <!--                   methods="post">Data dodania</a>-->
             </th>
-            <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
-                Actions
+            <th scope="col" class="text-center text-dark" style="color: #343a40">
+                <button class=" text-dark btn btn-link btn-lg" th:text="#{html.drink_list.th.actions}"></button>
             </th>
         </tr>
         </thead>
