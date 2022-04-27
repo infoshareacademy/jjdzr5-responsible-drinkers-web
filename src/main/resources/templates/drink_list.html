@@ -66,6 +66,9 @@
             <th scope="col" class="text-center text-dark">#</th>
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('1')}">
                     <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.id}">
                 </form>
@@ -75,6 +78,9 @@
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('2')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
                     <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.name}">
                 </form>
                 <!--                <a th:text="#{html.drink_list.th.name}"-->
@@ -85,6 +91,9 @@
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('4')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
                     <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.type}">
                 </form>
                 <!--                <a th:text="#{html.drink_list.th.type}"-->
@@ -95,6 +104,9 @@
             <th scope="col" class="text-center">
                 <form action="#" th:action="@{list}" th:object="${listparameter}">
                     <input hidden th:field="*{sort}" th:value="${listparameter.setSort('3')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
                     <input type="submit" class="bi-sort-down-alt text-dark" th:value="#{html.drink_list.th.date}">
                 </form>
                 <!--                <a th:text="#{html.drink_list.th.date}"-->
