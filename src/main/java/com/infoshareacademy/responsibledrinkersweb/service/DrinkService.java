@@ -2,6 +2,7 @@ package com.infoshareacademy.responsibledrinkersweb.service;
 
 import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.manage.DrinkManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
@@ -16,7 +17,7 @@ import java.util.List;
 @Component
 public class DrinkService {
 
-    private  List<Drink> drinkList = new DrinkRepository().getRepository();
+    private final List<Drink> drinkList = new DrinkRepository().getRepository();
 
     public List<Drink> getDrinks() {
         return drinkList;

@@ -3,8 +3,94 @@
 <head th:insert="common::header (#{html.manager.title})"></head>
 <body style="background-color: #2b2b2b">
 <nav th:insert="common::navbar"></nav>
-<h1 th:text="#{html.manager.description}" class="text-center" style="color: white; margin-top: 20px">Pij odpowiedzialnie!</h1>
+<h1 th:text="#{html.manager.description}" class="text-center" style="color: white; margin-top: 20px">Pij
+    odpowiedzialnie!</h1>
 <div class="container">
+    <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center text-dark">#</th>
+            <th scope="col" class="text-center">
+                <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"
+                   th:href="@{/manager(sort=1)}">ID</a>
+            </th>
+            <th scope="col" class="text-center">
+                <a th:text="#{html.drink_list.th.name}"
+                   class="bi-sort-down-alt text-dark"
+                   th:href="@{/manager(sort=2)}"
+                   methods="post">Nazwa</a>
+            </th>
+            <th scope="col" class="text-center">
+                <a th:text="#{html.drink_list.th.type}"
+                   class="bi-sort-down-alt text-dark"
+                   th:href="@{/manager(sort=4)}"
+                   methods="post">Typ</a>
+            </th>
+            <th scope="col" class="text-center">
+                <a th:text="#{html.drink_list.th.date}"
+                   class="bi-sort-down-alt text-dark"
+                   th:href="@{/manager(sort=3)}"
+                   methods="post">Data dodania</a>
+            </th>
+            <th scope="col" class="text-center" style="color: #343a40">
+                <a th:text="#{html.drink_list.th.status}"
+                   class="bi-sort-down-alt text-dark"
+                   th:href="@{/manager(sort=5)}"
+                   methods="post">Status</a>
+            </th>
+            <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="drink : ${drinklist}">
+            <th class="text-center" style="color:#343a40;" scope="row" th:text="${drinkStat.index+1}"></th>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getIdDrink()}"></td>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
+            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center">
+                <span th:if="${drink.getDateModified() != null}" th:with="df = ${dateformat}"
+                      th:text="${#temporals.format(drink.getDateModified(),df)}"></span>
+                <span th:unless="${drink.getDateModified()}" th:with="df = ${dateformat}"
+                      th:text="#{html.drink_list.th.date.empty}"></span>
+                <span></span>
+            </td>
+            <td class="text-center" style="color:#343a40">
+
+                    <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).ACCEPTED == drink.getStatus()}">
+                        <span style="color: green" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).BLOCKED == drink.getStatus()}">
+                    <span style="color: red" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).DELETED == drink.getStatus()}">
+                    <span style="color: dimgrey" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).MODIFIED == drink.getStatus()}">
+                    <span style="color: orange" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).ADDED == drink.getStatus()}">
+                    <span style="color: blue" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:unless="${T(com.infoshareacademy.drinkers.domain.drink.Status)}">
+                    <span style="color: black" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+            </td>
+            <td class="text-center">
+                <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-info btn-sm active"
+                   role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
+                <a th:text="#{html.drink_list.actions.modify}" th:href="@{'/edit?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-outline-primary btn-sm active mx-2"
+                   role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
+                <a th:text="#{html.drink_list.actions.delete}" th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-danger btn-sm active"
+                   role="button" aria-pressed="true" methods="post">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 <div th:insert="common::footer"></div>
 <div th:insert="common::script"></div>

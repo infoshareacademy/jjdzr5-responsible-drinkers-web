@@ -1,6 +1,7 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -102,6 +104,7 @@ public class IndexController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
+            drink.setStatus(Status.ADDED);
             drinkService.addDrink(drink);
             model.addAttribute("dateformat", dateFormat.getDatePatter());
             model.addAttribute("drink", drink);
@@ -136,7 +139,30 @@ public class IndexController {
     }
 
     @GetMapping("/manager")
-    public String manager(Model model) {
+    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
+        List<Drink> drinkListManager = new ArrayList<>();
+
+        System.out.println(sort);
+        SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
+        if (sort == 1) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.ID);
+        } else if (sort == 2) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.DRINK_NAME);
+        } else if (sort == 4) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+        } else if (sort == 3) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.DATE);
+        } else if (sort == 5) {
+            drinkListManager = drinkService.getDrinks().stream()
+                    .sorted((d1, d2) -> {
+                        return d2.getStatus().getName().compareTo(d1.getStatus().getName());
+                    }).toList();
+        } else {
+            listParameter = new ListParameter();
+            drinkListManager = drinkService.getDrinks();
+        }
+        model.addAttribute("drinklist", drinkListManager);
+        model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "manager";
     }
 
