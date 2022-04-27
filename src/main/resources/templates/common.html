@@ -75,12 +75,24 @@
             </ul>
         </div>
         <div class="nav-item float-end" id="lang_select" style="margin-right: 20px">
-            <a href="?lang=pl" class="text-muted" type="button">
+            <a onclick="changeLanguagePL()" class="text-muted" type="button">
                 <i class="flag flag-pl"></i>
             </a>
-            <a class="text-muted" href="?lang=en" type="button">
+            <a onclick="changeLanguageEN()" class="text-muted" type="button">
                 <i class="flag flag-uk"></i>
             </a>
+            <script>
+                function changeLanguagePL() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('lang', 'pl');
+                    window.location.search = urlParams;
+                }
+                function changeLanguageEN() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('lang', 'en');
+                    window.location.search = urlParams;
+                }
+            </script>
         </div>
         <div class="nav-item dropdown float-end" style="margin-right: 10px">
             <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle link-dark"

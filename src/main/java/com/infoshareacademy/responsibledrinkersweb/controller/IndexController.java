@@ -40,7 +40,7 @@ public class IndexController {
         return "index";
     }
 
-    @PostMapping(value = "/list")
+    @RequestMapping(value = "/list")
     public String list(@ModelAttribute ListParameter parameter, Model model,
                        @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
         listParameter = parameter;
