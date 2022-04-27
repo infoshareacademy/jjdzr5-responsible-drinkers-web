@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
-            <form th:action="@{/new_account}" th:object="${userAccount}" method="post">
+            <form th:action="@{/new_account}" th:object="${user}" method="post">
                 <div class="form-group">
                     <label class="my-2" for="userName" th:text="#{html.signup.form.userName}">Nazwa użytkownika</label>
                     <input type="text" th:field="*{userName}" class="form-control" id="userName"
@@ -24,13 +24,6 @@
                     <input type="text" th:field="*{email}" class="form-control" id="email"
                            th:placeholder="#{html.signup.form.email}">
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                </div>
-                <div class="form-group">
-                    <label th:text="#{html.signup.form.gender}">Płeć</label>
-                    <select class="form-select" aria-label="Płeć" th:field="*{gender}">
-                        <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
-                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.domain.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
-                    </select>
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="password" th:text="#{html.signup.form.password}">Hasło</label>
@@ -46,6 +39,13 @@
                           th:errors="*{repeatPassword}"></span>
                 </div>
                 <div class="form-group">
+                    <label th:text="#{html.signup.form.gender}">Płeć</label>
+                    <select class="form-select" aria-label="Płeć" th:field="*{gender}">
+                        <option value="" th:text="#{html.signup.form.gender.choose}">--Wybierz--</option>
+                        <option th:each="gender : ${T(com.infoshareacademy.responsibledrinkersweb.domain.Gender).values()}" th:value="${gender}" th:text="${gender.getName()}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="my-2" for="dateOfBirth" th:text="#{html.signup.form.dateOfBirth}">Data urodzenia</label>
                     <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
                            th:placeholder="#{html.signup.form.dateOfBirth}">
@@ -57,7 +57,9 @@
                            th:value="#{html.signup.form.button.submit}"/>
                     <input type="reset" class="btn btn-primary my-3" th:value="#{html.signup.form.button.reset}"/>
                 </div>
-
+                <div class="container text-center" style="padding: 15px">
+                    <a th:text="#{html.signup.form.button.login}" th:href="@{'/login'}" class="button" style="color: #0066cc" methods="post"/>
+                </div>
 
             </form>
             <!--            <script src="../static/script.js"></script>-->

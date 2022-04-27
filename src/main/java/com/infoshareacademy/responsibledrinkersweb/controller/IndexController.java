@@ -4,7 +4,7 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
-import com.infoshareacademy.responsibledrinkersweb.domain.UserAccount;
+import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
@@ -28,7 +28,8 @@ public class IndexController {
     private DateFormat dateFormat;
 
     private List<Drink> modifyList = new ArrayList<>();
-    private ListParameter listParameter = new ListParameter();
+    @Autowired
+    private ListParameter listParameter;
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
@@ -144,15 +145,14 @@ public class IndexController {
         return "login";
     }
 
-
     @GetMapping("/signup")
     public String signup(Model model) {
-        model.addAttribute("userAccount", new UserAccount());
+        model.addAttribute("user", new User());
         return "signup";
     }
 
     @PostMapping("/new_account")
-    public String newAccount(@Valid @ModelAttribute UserAccount account, BindingResult result, Model model) {
+    public String newAccount(@Valid @ModelAttribute User account, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "/signup";
         }
