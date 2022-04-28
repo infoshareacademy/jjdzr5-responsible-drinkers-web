@@ -52,10 +52,10 @@
                     <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}"
                           th:errors="*{dateOfBirth}"></span>
                 </div>
-                <div class="container text-center">
+                <div class="container text-center" style="margin-top: 16px">
                     <input onclick="return checkPassword()" type="submit" class="btn btn-primary mx-2"
                            th:value="#{html.signup.form.button.submit}"/>
-                    <input type="reset" class="btn btn-primary my-3" th:value="#{html.signup.form.button.reset}"/>
+                    <input type="reset" class="btn btn-primary mx-2" th:value="#{html.signup.form.button.reset}"/>
                 </div>
                 <div class="container text-center" style="padding: 15px">
                     <a th:text="#{html.signup.form.button.login}" th:href="@{'/login'}" class="button" style="color: #0066cc" methods="post"/>

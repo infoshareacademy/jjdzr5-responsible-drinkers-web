@@ -1,9 +1,9 @@
 package com.infoshareacademy.responsibledrinkersweb.domain;
 
 public enum Gender {
-    MALE("Mężczyzna"),
-    FEMALE("Kobieta"),
-    OTHER("Inna");
+    MALE("Male"),
+    FEMALE("Female"),
+    OTHER("Other");
 
     private final String name;
 
