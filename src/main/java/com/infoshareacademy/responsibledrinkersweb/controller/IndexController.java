@@ -38,11 +38,10 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/list")
-    public String list(@ModelAttribute ListParameter parameter, Model model) {
-        System.out.println(parameter);
+    @GetMapping(value = "/list")
+    public String list(@ModelAttribute() ListParameter parameter, Model model) {
         List<Drink> modifyList = drinkService.getDrinks();
-        if (parameter.getKeyword()!=null) {
+        if (parameter.getKeyword() != null) {
             modifyList = drinkService.search(parameter.getKeyword());
         }
         if (parameter.getAlcoholic() != null) {
@@ -53,15 +52,16 @@ public class IndexController {
             modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
         }
         SortDrinks sortDrinks = new SortDrinks(modifyList);
-        if (parameter.getSort() == 1) {
-            modifyList = sortDrinks.getSortedList(SortItems.ID);
-        } else if (parameter.getSort() == 2) {
-            modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
-        } else if (parameter.getSort() == 4) {
-            modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-        } else if (parameter.getSort() == 3) {
-            modifyList = sortDrinks.getSortedList(SortItems.DATE);
-        } else {
+        if (parameter.getSort() != null) {
+            if (parameter.getSort().equals("ID")) {
+                modifyList = sortDrinks.getSortedList(SortItems.ID);
+            } else if (parameter.getSort().equals("NAME")) {
+                modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
+            } else if (parameter.getSort().equals("DATE")) {
+                modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+            } else if (parameter.getSort().equals("TYPE")) {
+                modifyList = sortDrinks.getSortedList(SortItems.DATE);
+            }
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", modifyList);
