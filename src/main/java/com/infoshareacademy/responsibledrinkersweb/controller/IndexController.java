@@ -5,10 +5,10 @@ import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
+import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -37,7 +36,7 @@ public class IndexController {
 
     @GetMapping(path = {"/", "/index"})
     public String main(Model model) {
-        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
+        model.addAttribute("newestdrinks", drinkService.getNewestAccepted(ELEMENTS_TO_PRINT));
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "index";
     }
@@ -64,7 +63,7 @@ public class IndexController {
     public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
         List<Drink> drinkList = modifyList;
         if (modifyList.isEmpty()) {
-            modifyList = drinkService.getDrinks();
+            modifyList = drinkService.getAcceptedDrinks();
         }
 
         SortDrinks sortDrinks = new SortDrinks(modifyList);
@@ -140,9 +139,8 @@ public class IndexController {
 
     @GetMapping("/manager")
     public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
-        List<Drink> drinkListManager = new ArrayList<>();
+        List<Drink> drinkListManager;
 
-        System.out.println(sort);
         SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
         if (sort == 1) {
             drinkListManager = sortDrinks.getSortedList(SortItems.ID);

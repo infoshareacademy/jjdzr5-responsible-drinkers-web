@@ -30,6 +30,19 @@ public class DrinkService {
                 .toList();
     }
 
+    public List<Drink> getNewestAccepted(int count) {
+        return getAcceptedDrinks().stream()
+                .sorted(Comparator.comparing(Drink::getDateModified, Comparator.nullsLast(Comparator.reverseOrder())))
+                .limit(count)
+                .toList();
+    }
+
+    public List<Drink> getAcceptedDrinks() {
+        return getDrinks().stream()
+                .filter(drink -> drink.getStatus().equals(Status.ACCEPTED))
+                .toList();
+    }
+
     public void addDrink(Drink drink) {
         DrinkManager drinkManager = new DrinkManager(getDrinks());
         String url = ImageNotFound.verifyURL(drink.getDrinkThumb().toString());
@@ -69,7 +82,7 @@ public class DrinkService {
     }
 
     public List<Drink> search(String searchString) {
-        if (searchString!=null) {
+        if (searchString != null) {
             return getDrinks().stream()
                     .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
                     .toList();
