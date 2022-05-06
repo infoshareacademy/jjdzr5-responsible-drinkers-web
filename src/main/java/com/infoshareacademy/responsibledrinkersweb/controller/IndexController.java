@@ -9,7 +9,7 @@ import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,15 +20,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
 
-    @Autowired
-    private DrinkService drinkService;
-    @Autowired
-    private DateFormat dateFormat;
-
-    @Autowired
-    private ListParameter listParameter;
+    private final DrinkService drinkService;
+    private final DateFormat dateFormat;
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
@@ -46,7 +42,9 @@ public class IndexController {
             modifyList = drinkService.search(parameter.getKeyword());
         }
         if (parameter.getAlcoholic() != null) {
-            modifyList = modifyList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
+            modifyList = modifyList.stream()
+                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
+                    .toList();
         }
         if (parameter.getFilterElements() != null) {
             FilterList filterList = new FilterList(modifyList);
@@ -54,15 +52,13 @@ public class IndexController {
         }
         SortDrinks sortDrinks = new SortDrinks(modifyList);
         if (parameter.getSort() != null) {
-            if (parameter.getSort().equals("ID")) {
-                modifyList = sortDrinks.getSortedList(SortItems.ID);
-            } else if (parameter.getSort().equals("NAME")) {
-                modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
-            } else if (parameter.getSort().equals("DATE")) {
-                modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-            } else if (parameter.getSort().equals("TYPE")) {
-                modifyList = sortDrinks.getSortedList(SortItems.DATE);
-            }
+            modifyList = switch (parameter.getSort()) {
+                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
+                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
+                case "DATE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+                case "TYPE" -> sortDrinks.getSortedList(SortItems.DATE);
+                default -> modifyList;
+            };
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", modifyList);
@@ -149,25 +145,24 @@ public class IndexController {
     }
 
     @GetMapping("/manager")
-    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
+    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") String sort) {
         List<Drink> drinkListManager;
 
         SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
-        if (sort == 1) {
+        if (sort.equals("ID")) {
             drinkListManager = sortDrinks.getSortedList(SortItems.ID);
-        } else if (sort == 2) {
+        } else if (sort.equalsIgnoreCase("NAME")) {
             drinkListManager = sortDrinks.getSortedList(SortItems.DRINK_NAME);
-        } else if (sort == 4) {
+        } else if (sort.equalsIgnoreCase("TYPE")) {
             drinkListManager = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-        } else if (sort == 3) {
+        } else if (sort.equalsIgnoreCase("DATE")) {
             drinkListManager = sortDrinks.getSortedList(SortItems.DATE);
-        } else if (sort == 5) {
+        } else if (sort.equalsIgnoreCase("STATUS")) {
             drinkListManager = drinkService.getDrinks().stream()
-                    .sorted((d1, d2) -> {
-                        return d2.getStatus().getName().compareTo(d1.getStatus().getName());
-                    }).toList();
+                    .sorted((d1, d2) ->
+                         d2.getStatus().getName().compareTo(d1.getStatus().getName())
+                    ).toList();
         } else {
-            listParameter = new ListParameter();
             drinkListManager = drinkService.getDrinks();
         }
         model.addAttribute("drinklist", drinkListManager);

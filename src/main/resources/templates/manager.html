@@ -12,30 +12,30 @@
             <th scope="col" class="text-center text-dark">#</th>
             <th scope="col" class="text-center">
                 <a th:text="#{html.drink_list.th.id}" class="bi-sort-down-alt text-dark"
-                   th:href="@{/manager(sort=1)}">ID</a>
+                   th:href="@{/manager(sort='ID')}">ID</a>
             </th>
             <th scope="col" class="text-center">
                 <a th:text="#{html.drink_list.th.name}"
                    class="bi-sort-down-alt text-dark"
-                   th:href="@{/manager(sort=2)}"
+                   th:href="@{/manager(sort='NAME')}"
                    methods="post">Nazwa</a>
             </th>
             <th scope="col" class="text-center">
                 <a th:text="#{html.drink_list.th.type}"
                    class="bi-sort-down-alt text-dark"
-                   th:href="@{/manager(sort=4)}"
+                   th:href="@{/manager(sort='TYPE')}"
                    methods="post">Typ</a>
             </th>
             <th scope="col" class="text-center">
                 <a th:text="#{html.drink_list.th.date}"
                    class="bi-sort-down-alt text-dark"
-                   th:href="@{/manager(sort=3)}"
+                   th:href="@{/manager(sort='DATE')}"
                    methods="post">Data dodania</a>
             </th>
             <th scope="col" class="text-center" style="color: #343a40">
                 <a th:text="#{html.drink_list.th.status}"
                    class="bi-sort-down-alt text-dark"
-                   th:href="@{/manager(sort=5)}"
+                   th:href="@{/manager(sort='STATUS')}"
                    methods="post">Status</a>
             </th>
             <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
