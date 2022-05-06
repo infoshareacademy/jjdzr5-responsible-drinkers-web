@@ -170,6 +170,11 @@ public class IndexController {
         return "manager";
     }
 
+    @GetMapping("/panel")
+    public String panel(Model model) {
+        return "panel";
+    }
+
     @GetMapping("/login")
     public String login(Model model) {
         return "login";
