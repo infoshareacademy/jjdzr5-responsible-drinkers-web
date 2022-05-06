@@ -37,7 +37,7 @@ public class IndexController {
 
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
-        List<Drink> modifyList = drinkService.getDrinks();
+        List<Drink> modifyList = drinkService.getAcceptedDrinks();
         if (parameter.getKeyword() != null) {
             modifyList = drinkService.search(parameter.getKeyword());
         }
@@ -55,8 +55,8 @@ public class IndexController {
             modifyList = switch (parameter.getSort()) {
                 case "ID" -> sortDrinks.getSortedList(SortItems.ID);
                 case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
-                case "DATE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-                case "TYPE" -> sortDrinks.getSortedList(SortItems.DATE);
+                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
                 default -> modifyList;
             };
         }
@@ -160,7 +160,7 @@ public class IndexController {
         } else if (sort.equalsIgnoreCase("STATUS")) {
             drinkListManager = drinkService.getDrinks().stream()
                     .sorted((d1, d2) ->
-                         d2.getStatus().getName().compareTo(d1.getStatus().getName())
+                            d2.getStatus().getName().compareTo(d1.getStatus().getName())
                     ).toList();
         } else {
             drinkListManager = drinkService.getDrinks();
@@ -171,7 +171,38 @@ public class IndexController {
     }
 
     @GetMapping("/panel")
-    public String panel(Model model) {
+    public String panel(@ModelAttribute ListParameter parameter, Model model) {
+        System.out.println(parameter);
+        List<Drink> modifyList = drinkService.getDrinks();
+        if (parameter.getKeyword() != null) {
+            modifyList = drinkService.search(parameter.getKeyword());
+        }
+        if (parameter.getAlcoholic() != null) {
+            modifyList = modifyList.stream()
+                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
+                    .toList();
+        }
+        if (parameter.getFilterElements() != null) {
+            FilterList filterList = new FilterList(modifyList);
+            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+        }
+        if (parameter.getStatus() != null) {
+            FilterList filterList = new FilterList(modifyList);
+            modifyList = filterList.getFilteredByStatus(parameter.getStatus()).getResults();
+        }
+        SortDrinks sortDrinks = new SortDrinks(modifyList);
+        if (parameter.getSort() != null) {
+            modifyList = switch (parameter.getSort()) {
+                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
+                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
+                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
+                default -> modifyList;
+            };
+        }
+        model.addAttribute("listparameter", parameter);
+        model.addAttribute("drinklist", modifyList);
+        model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "panel";
     }
 
