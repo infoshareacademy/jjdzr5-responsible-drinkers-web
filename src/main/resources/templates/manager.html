@@ -5,6 +5,11 @@
 <nav th:insert="common::navbar"></nav>
 <h1 th:text="#{html.manager.description}" class="text-center" style="color: white; margin-top: 20px">Pij
     odpowiedzialnie!</h1>
+<div th:if="${deleted.booleanValue()}" class="text-center container alert alert-warning alert-dismissible fade show"
+     role="alert">
+    <span class="btn-close" onclick="this.parentElement.style.display='none';"></span>
+    <span class="my-4" th:text="#{html.manager.message.deleted}"></span>
+</div>
 <div class="container">
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
         <thead>
