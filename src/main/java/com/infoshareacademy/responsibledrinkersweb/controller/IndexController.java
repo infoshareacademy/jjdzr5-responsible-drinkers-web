@@ -31,38 +31,38 @@ public class IndexController {
     @GetMapping(path = {"/", "/index"})
     public String main(Model model) {
         model.addAttribute("newestdrinks", drinkService.getNewestAccepted(ELEMENTS_TO_PRINT));
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "index";
     }
 
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
-        List<Drink> modifyList = drinkService.getAcceptedDrinks();
-        if (parameter.getKeyword() != null) {
-            modifyList = drinkService.search(parameter.getKeyword());
-        }
-        if (parameter.getAlcoholic() != null) {
-            modifyList = modifyList.stream()
-                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
-                    .toList();
-        }
-        if (parameter.getFilterElements() != null) {
-            FilterList filterList = new FilterList(modifyList);
-            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
-        }
-        SortDrinks sortDrinks = new SortDrinks(modifyList);
-        if (parameter.getSort() != null) {
-            modifyList = switch (parameter.getSort()) {
-                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
-                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
-                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
-                default -> modifyList;
-            };
-        }
+//        List<Drink> modifyList = drinkService.getAcceptedDrinks();
+//        if (parameter.getKeyword() != null) {
+//            modifyList = drinkService.search(parameter.getKeyword());
+//        }
+//        if (parameter.getAlcoholic() != null) {
+//            modifyList = modifyList.stream()
+//                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
+//                    .toList();
+//        }
+//        if (parameter.getFilterElements() != null) {
+//            FilterList filterList = new FilterList(modifyList);
+//            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+//        }
+//        SortDrinks sortDrinks = new SortDrinks(modifyList);
+//        if (parameter.getSort() != null) {
+//            modifyList = switch (parameter.getSort()) {
+//                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
+//                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
+//                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+//                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
+//                default -> modifyList;
+//            };
+//        }
         model.addAttribute("listparameter", parameter);
-        model.addAttribute("drinklist", modifyList);
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("drinklist", func(parameter,drinkService.getAcceptedDrinks()));
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "drink_list";
     }
 
@@ -112,7 +112,7 @@ public class IndexController {
         } else {
             drink.setStatus(Status.ADDED);
             drinkService.addDrink(drink);
-            model.addAttribute("dateformat", dateFormat.getDatePatter());
+            model.addAttribute("dateformat", dateFormat.getDatePattern());
             model.addAttribute("drink", drink);
             return "new_drink";
         }
@@ -126,7 +126,7 @@ public class IndexController {
             drinkService.deleteDrink(drink.getIdDrink());
             drinkService.addDrink(drink);
             model.addAttribute("drink", drink);
-            model.addAttribute("dateformat", dateFormat.getDatePatter());
+            model.addAttribute("dateformat", dateFormat.getDatePattern());
             return "modify";
         }
     }
@@ -166,14 +166,12 @@ public class IndexController {
             drinkListManager = drinkService.getDrinks();
         }
         model.addAttribute("drinklist", drinkListManager);
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "manager";
     }
 
-    @GetMapping("/panel")
-    public String panel(@ModelAttribute ListParameter parameter, Model model) {
-        System.out.println(parameter);
-        List<Drink> modifyList = drinkService.getDrinks();
+    private List<Drink> func(ListParameter parameter, List<Drink> drinkList) {
+        List<Drink> modifyList = drinkList;
         if (parameter.getKeyword() != null) {
             modifyList = drinkService.search(parameter.getKeyword());
         }
@@ -200,9 +198,43 @@ public class IndexController {
                 default -> modifyList;
             };
         }
+        return modifyList;
+    }
+
+    @GetMapping("/panel")
+    public String panel(@ModelAttribute ListParameter parameter, Model model) {
+        System.out.println(parameter);
+
+//        List<Drink> modifyList = drinkService.getDrinks();
+//        if (parameter.getKeyword() != null) {
+//            modifyList = drinkService.search(parameter.getKeyword());
+//        }
+//        if (parameter.getAlcoholic() != null) {
+//            modifyList = modifyList.stream()
+//                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
+//                    .toList();
+//        }
+//        if (parameter.getFilterElements() != null) {
+//            FilterList filterList = new FilterList(modifyList);
+//            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+//        }
+//        if (parameter.getStatus() != null) {
+//            FilterList filterList = new FilterList(modifyList);
+//            modifyList = filterList.getFilteredByStatus(parameter.getStatus()).getResults();
+//        }
+//        SortDrinks sortDrinks = new SortDrinks(modifyList);
+//        if (parameter.getSort() != null) {
+//            modifyList = switch (parameter.getSort()) {
+//                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
+//                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
+//                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+//                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
+//                default -> modifyList;
+//            };
+//        }
         model.addAttribute("listparameter", parameter);
-        model.addAttribute("drinklist", modifyList);
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("drinklist", func(parameter, drinkService.getDrinks()));
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "panel";
     }
 
@@ -236,7 +268,7 @@ public class IndexController {
     @RequestMapping("/show-more")
     public String showMore(@RequestParam int id, Model model) {
         model.addAttribute("drink", drinkService.getDrink(id));
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "show-more";
     }
 }
