@@ -6,6 +6,14 @@
 <h1 th:text="#{html.manager.description}" class="text-center" style="color: white; margin-top: 20px">Pij
     odpowiedzialnie!</h1>
 <div class="container">
+    <div th:if="${deleted}" class="text-center alert alert-success alert-dismissible fade show"
+         role="alert">
+        <span class="btn-close" onclick="this.parentElement.style.display='none';
+        location.href='/manager';"></span>
+        <strong><span class="my-4" th:text="#{html.manager.message.deleted}"></span></strong>
+    </div>
+</div>
+<div class="container">
     <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
         <thead>
         <tr>

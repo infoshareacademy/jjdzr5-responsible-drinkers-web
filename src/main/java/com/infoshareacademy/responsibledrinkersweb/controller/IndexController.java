@@ -141,13 +141,12 @@ public class IndexController {
     @GetMapping("delete-drink")
     public RedirectView delete(@RequestParam int id) {
         drinkService.deleteDrink(id);
-        return new RedirectView("/manager");
+        return new RedirectView("/manager?deleted=true");
     }
 
     @GetMapping("/manager")
-    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") String sort) {
+    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") String sort, @RequestParam(value = "deleted", required = false, defaultValue = "false") boolean deleted) {
         List<Drink> drinkListManager;
-
         SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
         if (sort.equals("ID")) {
             drinkListManager = sortDrinks.getSortedList(SortItems.ID);
@@ -167,6 +166,7 @@ public class IndexController {
         }
         model.addAttribute("drinklist", drinkListManager);
         model.addAttribute("dateformat", dateFormat.getDatePattern());
+        model.addAttribute("deleted", deleted);
         return "manager";
     }
 
