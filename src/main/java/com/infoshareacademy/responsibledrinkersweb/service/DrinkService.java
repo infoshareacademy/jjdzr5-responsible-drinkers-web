@@ -7,6 +7,7 @@ import com.infoshareacademy.drinkers.service.manage.DrinkManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-@Component
+@Service
 public class DrinkService {
 
     private final List<Drink> drinkList = new DrinkRepository().getRepository();
