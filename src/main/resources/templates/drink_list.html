@@ -91,7 +91,7 @@
                 </th>
                 <th scope="col" class="text-center">
                     <form action="#" th:action="@{list}" th:object="${listparameter}">
-                        <input hidden th:field="*{sort}" th:value="${listparameter.setSort('DATE')}">
+                        <input hidden th:field="*{sort}" th:value="${listparameter.setSort('TYPE')}">
                         <input hidden th:field="*{alcoholic}">
                         <input hidden th:field="*{filterElements}">
                         <input hidden th:field="*{keyword}">
@@ -101,7 +101,7 @@
                 </th>
                 <th scope="col" class="text-center">
                     <form action="#" th:action="@{list}" th:object="${listparameter}">
-                        <input hidden th:field="*{sort}" th:value="${listparameter.setSort('TYPE')}">
+                        <input hidden th:field="*{sort}" th:value="${listparameter.setSort('DATE')}">
                         <input hidden th:field="*{alcoholic}">
                         <input hidden th:field="*{filterElements}">
                         <input hidden th:field="*{keyword}">

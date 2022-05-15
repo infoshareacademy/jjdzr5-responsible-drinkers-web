@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class DateFormat {
 
-    public String getDatePatter() {
+    public String getDatePattern() {
         return ApplicationProperties.getDatePattern();
     }
 }

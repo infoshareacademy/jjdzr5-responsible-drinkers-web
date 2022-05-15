@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common::header (#{html.manager.title})"></head>
+<body style="background-color: #2b2b2b">
+<nav th:insert="common::navbar"></nav>
+<h1 th:text="#{html.manager.description}" class="text-center" style="color: white; margin-top: 20px">Pij
+    odpowiedzialnie!</h1>
+<div class="container my-4 text-center">
+    <form action="#" th:action="@{/panel}" th:object="${listparameter}" method="get">
+        <div class="row justify-content-center">
+            <div class="col-3 ">
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" name="f" th:field="*{alcoholic}"
+                            id="alcoholic">
+                        <option value="" th:text="#{html.drink_list.select.text}">Wybierz...</option>
+                        <option th:each="value : ${T(com.infoshareacademy.drinkers.domain.drink.Alcoholic).values()}"
+                                th:value="${value}" th:text="${value.getName()}" th:name="alcoholic"
+                                th:selected="${value.equals(listparameter.alcoholic)? true : false}">
+                            Wybierz ...
+                        </option>
+                    </select>
+                    <input type="submit" class="btn btn-outline-danger"
+                           th:value="#{html.drink_list.button.filter}"/>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" th:field="*{filterElements}">
+                        <option value="" th:text="#{html.drink_list.select.text}">Wybierz...</option>
+                        <option th:each="valueElement : ${T(com.infoshareacademy.drinkers.service.filtering.FilterElements).values()}"
+                                th:value="${valueElement}" th:text="${valueElement.getName()}"
+                                th:selected="${valueElement.equals(listparameter.filterElements) ? true : false}">
+                            Wybierz ...
+                        </option>
+                    </select>
+                    <input type="submit" class="btn  btn-outline-danger"
+                           th:value="#{html.drink_list.button.filter}"/>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <select class="form-select" aria-label="Default select example" th:field="*{status}">
+                        <option value="" th:text="#{html.drink_list.select.text}">Wybierz...</option>
+                        <option th:each="valueElement : ${T(com.infoshareacademy.drinkers.domain.drink.Status).values()}"
+                                th:value="${valueElement}" th:text="${valueElement.getName()}"
+                                th:selected="${valueElement.equals(listparameter.status) ? true : false}">
+                            Wybierz ...
+                        </option>
+                    </select>
+                    <input type="submit" class="btn  btn-outline-danger"
+                           th:value="#{html.drink_list.button.filter}"/>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="input-group">
+                    <input type="search" name="keyword" th:field="*{keyword}" class="form-control rounded"
+                           th:placeholder="#{html.drink_list.actions.placeholder.search}" aria-label="Search"
+                           aria-describedby="search-addon"/>
+                    <input type="submit" class="btn btn-outline-primary"
+                           th:value="#{html.drink_list.actions.search}">
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="text-center">
+                    <a th:href="@{/panel}">
+                        <button class="btn btn-warning" type="button" th:text="#{html.add_new_drink.reset}">Reset
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <table class="table caption-top table-hover bg-light" style="border-radius: 7px">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center text-dark">#</th>
+            <th scope="col" class="text-center">
+                <form action="#" th:action="@{panel}" th:object="${listparameter}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
+                    <input hidden th:field="*{sort}" th:value="${listparameter.setSort('ID')}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg"
+                            th:text="#{html.drink_list.th.id}" style="padding: 10px"></button>
+                </form>
+            </th>
+            <th scope="col" class="text-center">
+                <form action="#" th:action="@{panel}" th:object="${listparameter}">
+                    <input hidden th:field="*{sort}" th:value="${listparameter.setSort('NAME')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
+                    <input hidden th:field="*{status}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg"
+                            th:text="#{html.drink_list.th.name}" style="padding: 10px"></button>
+                </form>
+            </th>
+            <th scope="col" class="text-center">
+                <form action="#" th:action="@{panel}" th:object="${listparameter}">
+                    <input hidden th:field="*{sort}" th:value="${listparameter.setSort('TYPE')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
+                    <input hidden th:field="*{status}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg"
+                            th:text="#{html.drink_list.th.type}" style="padding: 10px"></button>
+                </form>
+            </th>
+            <th scope="col" class="text-center">
+                <form action="#" th:action="@{panel}" th:object="${listparameter}">
+                    <input hidden th:field="*{sort}" th:value="${listparameter.setSort('DATE')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
+                    <input hidden th:field="*{status}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg"
+                            th:text="#{html.drink_list.th.date}" style="padding: 10px"></button>
+                </form>
+            </th>
+            <th scope="col" class="text-center" style="color: #343a40">
+                <form action="#" th:action="@{panel}" th:object="${listparameter}">
+                    <input hidden th:field="*{sort}" th:value="${listparameter.setSort('STATUS')}">
+                    <input hidden th:field="*{alcoholic}">
+                    <input hidden th:field="*{filterElements}">
+                    <input hidden th:field="*{keyword}">
+                    <input hidden th:field="*{status}">
+                    <button type="submit" class="bi-sort-down-alt text-dark btn btn-link btn-lg"
+                            th:text="#{html.drink_list.th.status}" style="padding: 10px"></button>
+                </form>
+            </th>
+            <th th:text="#{html.drink_list.th.actions}" scope="col" class="text-center" style="color: #343a40">
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="drink : ${drinklist}">
+            <th class="text-center" style="color:#343a40;" scope="row" th:text="${drinkStat.index+1}"></th>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getIdDrink()}"></td>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getDrink()}"></td>
+            <td class="text-center" style="color:#343a40;" th:text="${drink.getAlcoholic()}"></td>
+            <td style="color:#171717;" th:with="df = ${dateformat}" class="text-center">
+                <span th:if="${drink.getDateModified() != null}" th:with="df = ${dateformat}"
+                      th:text="${#temporals.format(drink.getDateModified(),df)}"></span>
+                <span th:unless="${drink.getDateModified()}" th:with="df = ${dateformat}"
+                      th:text="#{html.drink_list.th.date.empty}"></span>
+                <span></span>
+            </td>
+            <td class="text-center" style="color:#343a40">
+
+                    <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).ACCEPTED == drink.getStatus()}">
+                        <span style="color: green" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).BLOCKED == drink.getStatus()}">
+                    <span style="color: red" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).DELETED == drink.getStatus()}">
+                    <span style="color: dimgrey" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).MODIFIED == drink.getStatus()}">
+                    <span style="color: orange" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:if="${T(com.infoshareacademy.drinkers.domain.drink.Status).ADDED == drink.getStatus()}">
+                    <span style="color: blue" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+                <span th:unless="${T(com.infoshareacademy.drinkers.domain.drink.Status)}">
+                    <span style="color: black" th:text="${drink.getStatus().getName()}"></span>
+                    </span>
+            </td>
+            <td class="text-center">
+                <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-info btn-sm active"
+                   role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
+                <a th:text="#{html.drink_list.actions.modify}" th:href="@{'/edit?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-outline-primary btn-sm active mx-2"
+                   role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
+                <a th:text="#{html.drink_list.actions.delete}" th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}"
+                   class="btn btn-danger btn-sm active"
+                   role="button" aria-pressed="true" methods="post">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:insert="common::footer"></div>
+<div th:insert="common::script"></div>
+</body>
+</html>
