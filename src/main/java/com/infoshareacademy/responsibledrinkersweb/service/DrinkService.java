@@ -2,6 +2,7 @@ package com.infoshareacademy.responsibledrinkersweb.service;
 
 import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.manage.DrinkManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
@@ -26,6 +27,19 @@ public class DrinkService {
         return getDrinks().stream()
                 .sorted(Comparator.comparing(Drink::getDateModified, Comparator.nullsLast(Comparator.reverseOrder())))
                 .limit(count)
+                .toList();
+    }
+
+    public List<Drink> getNewestAccepted(int count) {
+        return getAcceptedDrinks().stream()
+                .sorted(Comparator.comparing(Drink::getDateModified, Comparator.nullsLast(Comparator.reverseOrder())))
+                .limit(count)
+                .toList();
+    }
+
+    public List<Drink> getAcceptedDrinks() {
+        return getDrinks().stream()
+                .filter(drink -> drink.getStatus().equals(Status.ACCEPTED))
                 .toList();
     }
 
@@ -68,7 +82,7 @@ public class DrinkService {
     }
 
     public List<Drink> search(String searchString) {
-        if (searchString!=null) {
+        if (searchString != null) {
             return getDrinks().stream()
                     .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
                     .toList();

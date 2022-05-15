@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @ToString
 @NoArgsConstructor
 public class ListParameter {
-    private int sort;
+    private String sort;
     private String keyword;
     private Alcoholic alcoholic;
     private FilterElements filterElements;

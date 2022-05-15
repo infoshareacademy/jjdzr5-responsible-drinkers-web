@@ -13,6 +13,8 @@
         <link rel="manifest" href="../favicon/site.webmanifest">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/bootstrap.min.css}"/>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.css" rel="stylesheet"/>
     </div>
 </div>
 
@@ -51,7 +53,7 @@
                     <a th:text="#{html.common.menu.index}" class="nav-link" th:href="@{index}"></a>
                 </li>
                 <li class="nav-item">
-                    <a th:text="#{html.common.menu.list}" class="nav-link" th:href="@{drink_list}"></a>
+                    <a th:text="#{html.common.menu.list}" class="nav-link" th:href="@{list}"></a>
                 </li>
                 <li class="nav-item">
                     <a th:text="#{html.common.menu.add}" class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
@@ -59,22 +61,60 @@
                 <li class="nav-item">
                     <a th:text="#{html.common.menu.manager}" class="nav-link" th:href="@{manager}"></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Konto
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{login}"></a></li>
-                        <li><a th:text="#{html.common.menu.account}" class="dropdown-item" th:href="@{signup}"></a></li>
-                        <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item" th:href="@{account_settings}"></a></li>
-                    </ul>
-                </li>
+                <!--                <li class="nav-item dropdown">-->
+                <!--                    <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
+                <!--                       data-bs-toggle="dropdown" aria-expanded="false">-->
+                <!--                        Konto-->
+                <!--                    </a>-->
+                <!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                <!--                        <li><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{login}"></a></li>-->
+                <!--                        <li><a th:text="#{html.common.menu.signup}" class="dropdown-item" th:href="@{signup}"></a></li>-->
+                <!--                        <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item" th:href="@{account_settings}"></a></li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+        <div class="nav-item float-end" id="lang_select" style="margin-right: 20px">
+            <a onclick="changeLanguagePL()" class="text-muted" type="button">
+                <i class="flag flag-pl"></i>
+            </a>
+            <a onclick="changeLanguageEN()" class="text-muted" type="button">
+                <i class="flag flag-uk"></i>
+            </a>
+            <script>
+                function changeLanguagePL() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('lang', 'pl');
+                    window.location.search = urlParams;
+                }
+                function changeLanguageEN() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('lang', 'en');
+                    window.location.search = urlParams;
+                }
+            </script>
+        </div>
+        <div class="nav-item dropdown float-end" style="margin-right: 10px">
+            <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle link-dark"
+               style="background-color: ghostwhite; border-radius: 3px" href="#" id="navbarDropdownMenuLink"
+               role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                Konto
+            </a>
+            <ul class="dropdown-menu" style="margin-right: auto" aria-labelledby="navbarDropdownMenuLink">
+                <li><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{login}"></a></li>
+                <li><a th:text="#{html.common.menu.signup}" class="dropdown-item" th:href="@{signup}"></a></li>
+                <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item"
+                       th:href="@{account_settings}"></a></li>
             </ul>
         </div>
     </div>
 </div>
-<script th:fragment="script" th:src="@{/bootstrap/bootstrap.bundle.min.js}">
+<!-- MDB -->
+<div th:fragment="script">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"></script>
+    <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+</div>
 </script>
 </body>
 </html>

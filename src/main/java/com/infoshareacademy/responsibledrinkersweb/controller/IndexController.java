@@ -1,14 +1,15 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
+import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,41 +17,48 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
 
-    @Autowired
-    private DrinkService drinkService;
-    @Autowired
-    private DateFormat dateFormat;
-
-    private List<Drink> modifyList = new ArrayList<>();
-    @Autowired
-    private ListParameter listParameter;
+    private final DrinkService drinkService;
+    private final DateFormat dateFormat;
 
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
     @GetMapping(path = {"/", "/index"})
     public String main(Model model) {
-        model.addAttribute("newestdrinks", drinkService.getNewest(ELEMENTS_TO_PRINT));
+        model.addAttribute("newestdrinks", drinkService.getNewestAccepted(ELEMENTS_TO_PRINT));
         model.addAttribute("dateformat", dateFormat.getDatePatter());
         return "index";
     }
 
-    @PostMapping(value = "/list")
-    public String list(@ModelAttribute ListParameter parameter, Model model,
-                       @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
-        listParameter = parameter;
-        modifyList = drinkService.search(parameter.getKeyword());
+    @GetMapping(value = "/list")
+    public String list(@ModelAttribute() ListParameter parameter, Model model) {
+        List<Drink> modifyList = drinkService.getDrinks();
+        if (parameter.getKeyword() != null) {
+            modifyList = drinkService.search(parameter.getKeyword());
+        }
         if (parameter.getAlcoholic() != null) {
-            modifyList = modifyList.stream().filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName())).toList();
+            modifyList = modifyList.stream()
+                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
+                    .toList();
         }
         if (parameter.getFilterElements() != null) {
             FilterList filterList = new FilterList(modifyList);
             modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
+        }
+        SortDrinks sortDrinks = new SortDrinks(modifyList);
+        if (parameter.getSort() != null) {
+            modifyList = switch (parameter.getSort()) {
+                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
+                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
+                case "DATE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+                case "TYPE" -> sortDrinks.getSortedList(SortItems.DATE);
+                default -> modifyList;
+            };
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", modifyList);
@@ -58,31 +66,31 @@ public class IndexController {
         return "drink_list";
     }
 
-    @GetMapping("/drink_list")
-    public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
-        List<Drink> drinkList = modifyList;
-        if (modifyList.isEmpty()) {
-            modifyList = drinkService.getDrinks();
-        }
-
-        SortDrinks sortDrinks = new SortDrinks(modifyList);
-        if (sort == 1) {
-            modifyList = sortDrinks.getSortedList(SortItems.ID);
-        } else if (sort == 2) {
-            modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
-        } else if (sort == 4) {
-            modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-        } else if (sort == 3) {
-            modifyList = sortDrinks.getSortedList(SortItems.DATE);
-        } else {
-            listParameter = new ListParameter();
-            modifyList = drinkService.getDrinks();
-        }
-        model.addAttribute("drinklist", modifyList);
-        model.addAttribute("dateformat", dateFormat.getDatePatter());
-        model.addAttribute("listparameter", listParameter);
-        return "drink_list";
-    }
+//    @GetMapping("/drink_list")
+//    public String drinkList(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") int sort) {
+//        List<Drink> drinkList = modifyList;
+//        if (modifyList.isEmpty()) {
+//            modifyList = drinkService.getDrinks();
+//        }
+//
+//        SortDrinks sortDrinks = new SortDrinks(modifyList);
+//        if (sort == 1) {
+//            modifyList = sortDrinks.getSortedList(SortItems.ID);
+//        } else if (sort == 2) {
+//            modifyList = sortDrinks.getSortedList(SortItems.DRINK_NAME);
+//        } else if (sort == 4) {
+//            modifyList = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+//        } else if (sort == 3) {
+//            modifyList = sortDrinks.getSortedList(SortItems.DATE);
+//        } else {
+//            listParameter = new ListParameter();
+//            modifyList = drinkService.getDrinks();
+//        }
+//        model.addAttribute("drinklist", modifyList);
+//        model.addAttribute("dateformat", dateFormat.getDatePatter());
+//        model.addAttribute("listparameter", listParameter);
+//        return "drink_list";
+//    }
 
     @GetMapping(value = "/add_new_drink")
     public String addNewDrink(Model model, Drink drink) {
@@ -102,6 +110,7 @@ public class IndexController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
+            drink.setStatus(Status.ADDED);
             drinkService.addDrink(drink);
             model.addAttribute("dateformat", dateFormat.getDatePatter());
             model.addAttribute("drink", drink);
@@ -132,11 +141,32 @@ public class IndexController {
     @GetMapping("delete-drink")
     public RedirectView delete(@RequestParam int id) {
         drinkService.deleteDrink(id);
-        return new RedirectView("/drink_list?sort=0");
+        return new RedirectView("/manager?deleted=true");
     }
 
     @GetMapping("/manager")
-    public String manager(Model model) {
+    public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") String sort, @RequestParam(value = "deleted", required = false, defaultValue = "false") boolean deleted) {
+        List<Drink> drinkListManager;
+        SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
+        if (sort.equals("ID")) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.ID);
+        } else if (sort.equalsIgnoreCase("NAME")) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.DRINK_NAME);
+        } else if (sort.equalsIgnoreCase("TYPE")) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
+        } else if (sort.equalsIgnoreCase("DATE")) {
+            drinkListManager = sortDrinks.getSortedList(SortItems.DATE);
+        } else if (sort.equalsIgnoreCase("STATUS")) {
+            drinkListManager = drinkService.getDrinks().stream()
+                    .sorted((d1, d2) ->
+                         d2.getStatus().getName().compareTo(d1.getStatus().getName())
+                    ).toList();
+        } else {
+            drinkListManager = drinkService.getDrinks();
+        }
+        model.addAttribute("drinklist", drinkListManager);
+        model.addAttribute("dateformat", dateFormat.getDatePatter());
+        model.addAttribute("deleted", deleted);
         return "manager";
     }
 
