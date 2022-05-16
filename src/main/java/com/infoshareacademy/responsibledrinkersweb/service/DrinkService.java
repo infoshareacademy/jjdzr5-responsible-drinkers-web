@@ -6,7 +6,6 @@ import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.manage.DrinkManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;

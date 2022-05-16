@@ -18,19 +18,32 @@ class DrinkServiceTest {
     private DrinkService drinkService;
 
     @Test
-    void getDrinks_shouldReturnDrinkList() {
+    void getDrinks_shouldReturnsDrinkList() {
+        // given
         List<Drink> drinkList = drinkService.getDrinks();
-        assertThat(drinkList).isNotNull();
-        assertThat(drinkList).isNotEmpty();
+        // when
+        // then
+        assertThat(drinkList).isInstanceOf(List.class).isNotNull().isNotEmpty();
     }
 
     @Test
-    void getAcceptedDrinks_returnsValidDrinks() {
-        // TODO: test do zrobienia
-        // TODO: test nie działa poprawnie
-        Drink d1 = new Drink();
-        d1.setStatus(Status.ADDED);
-        List<Drink> acceptedDrinks = drinkService.getAcceptedDrinks();
-        assertThat(acceptedDrinks).containsOnly(d1);
+    void getAcceptedDrinks_returnsExpectedDrinks() {
+        // given
+        List<Drink> expectedResult = drinkService.getDrinks().stream()
+                .filter(drink -> drink.getStatus() == Status.ACCEPTED)
+                .toList();
+        // when
+        List<Drink> actualResult = drinkService.getAcceptedDrinks();
+        // then
+        assertThat(actualResult).isEqualTo(expectedResult);
+    }
+
+    @Test
+    void getAcceptedDrinks_shouldReturnsDrinkList() {
+        // given
+        // when
+        List<Drink> actualResult = drinkService.getDrinks();
+        // then
+        assertThat(actualResult).isInstanceOf(List.class).isNotNull();
     }
 }
