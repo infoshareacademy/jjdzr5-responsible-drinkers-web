@@ -11,12 +11,16 @@
 </div>
 <div class="container">
     <blockquote class="blockquote text-center">
-        <p th:text="#{html.index.description2}" class="mb-0 bg-light text-black rounded-2"
+        <p sec:authorize="isAnonymous()" th:text="#{html.index.description2}" class="mb-0 bg-light text-black rounded-2"
            style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
-        <p th:text="#{html.index.description3}" class="mb-0 bg-light text-black rounded-2"
+        <p sec:authorize="isAnonymous()" th:text="#{html.index.description2.anonim}"
+           class="mb-0 bg-light text-black rounded-2"
+           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
+        <p sec:authorize="isAnonymous()" th:text="#{html.index.description3}" class="mb-0 bg-light text-black rounded-2"
            style="margin-bottom: 20px; margin-top: 20px; padding: 10px">
         </p>
-        <p th:text="#{html.index.description3.url}" class="mb-0 bg-light text-black rounded-2"
+        <p sec:authorize="isAnonymous()" th:text="#{html.index.description3.url}"
+           class="mb-0 bg-light text-black rounded-2"
            style="margin-bottom: 20px; margin-top: 20px; padding: 10px">
         </p>
         <p th:text="#{html.index.description4}" class="mb-0 bg-light text-black rounded-2"
