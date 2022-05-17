@@ -25,6 +25,9 @@
                 <div class="container align-content-start" style="margin-bottom: 10px; padding-left: 0px">
                     <span class="text-danger" th:if="${param.error}" th:text="#{html.login.form.error}"></span>
                 </div>
+                <div class="container align-content-start" style="margin-bottom: 10px; padding-left: 0px">
+                    <span class="text-success" th:if="${param.logout}" th:text="#{html.login.form.logout}"></span>
+                </div>
                 <div class="container text-center">
                     <input type="submit" class="btn btn-primary mx-2" style="background-color: #0066cc"
                            th:value="#{html.login.form.button.submit}"/>
