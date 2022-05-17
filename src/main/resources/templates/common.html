@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -56,10 +57,16 @@
                     <a th:text="#{html.common.menu.list}" class="nav-link" th:href="@{list}"></a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" th:text="#{html.common.menu.add}" class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
+                    <a sec:authorize="isAuthenticated()" th:text="#{html.common.menu.add}" class="nav-link"
+                       th:href="@{add_new_drink}">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="hasRole('ADMIN')" th:text="#{html.common.menu.manager}" class="nav-link" th:href="@{manager}"></a>
+                    <a sec:authorize="hasRole('ADMIN')" th:text="#{html.common.menu.panel}" class="nav-link"
+                       th:href="@{panel}"></a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ADMIN')" th:text="#{html.common.menu.manager}" class="nav-link"
+                       th:href="@{manager}"></a>
                 </li>
                 <!--                <li class="nav-item dropdown">-->
                 <!--                    <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
@@ -87,6 +94,7 @@
                     urlParams.set('lang', 'pl');
                     window.location.search = urlParams;
                 }
+
                 function changeLanguageEN() {
                     const urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('lang', 'en');
@@ -102,16 +110,20 @@
                 Konto
             </a>
             <ul class="dropdown-menu" style="margin-right: auto" aria-labelledby="navbarDropdownMenuLink">
-                <li sec:authorize="isAnonymous()"><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{/login}"></a></li>
-                <li sec:authorize="isAuthenticated()"><a th:text="#{html.common.menu.logout}" class="dropdown-item" th:href="@{/logout}"></a></li>
-                <li><a th:text="#{html.common.menu.signup}" class="dropdown-item" th:href="@{signup}"></a></li>
-                <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item"
-                       th:href="@{account_settings}"></a></li>
+                <li sec:authorize="isAnonymous()"><a th:text="#{html.common.menu.login}" class="dropdown-item"
+                                                     th:href="@{/login}"></a></li>
+                <li sec:authorize="isAuthenticated()"><a th:text="#{html.common.menu.logout}" class="dropdown-item"
+                                                         th:href="@{/logout}"></a></li>
+                <li sec:authorize="isAnonymous()"><a th:text="#{html.common.menu.signup}" class="dropdown-item"
+                                                     th:href="@{signup}"></a></li>
+                <li sec:authorize="isAuthenticated()"><a th:text="#{html.common.menu.accountservice}"
+                                                         class="dropdown-item"
+                                                         th:href="@{account_settings}"></a></li>
             </ul>
         </div>
-        <div class="nav-item float-end">
-            <a type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark" th:text="#{html.common.menu.logout}" th:href="@{logout}">Log out</a>
-        </div>
+        <!--        <div class="nav-item float-end">-->
+        <!--            <a type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark" th:text="#{html.common.menu.logout}" th:href="@{logout}">Log out</a>-->
+        <!--        </div>-->
     </div>
 </div>
 <!-- MDB -->

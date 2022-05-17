@@ -173,7 +173,10 @@ public class IndexController {
     private List<Drink> func(ListParameter parameter, List<Drink> drinkList) {
         List<Drink> modifyList = drinkList;
         if (parameter.getKeyword() != null) {
-            modifyList = drinkService.search(parameter.getKeyword());
+            modifyList = modifyList.stream()
+                    .filter(drink -> drink.getDrink().toLowerCase().contains(parameter.getKeyword().toLowerCase())).
+                    toList();
+//            modifyList = drinkService.search(parameter.getKeyword());
         }
         if (parameter.getAlcoholic() != null) {
             modifyList = modifyList.stream()
