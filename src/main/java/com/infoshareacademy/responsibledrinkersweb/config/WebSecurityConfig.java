@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.Properties;
 
@@ -18,20 +19,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(inMemoryUserDetailsManager());
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        final Properties users = new Properties();
-        users.put("user", "{noop}user,ROLE_USER,enabled");
-        users.put("admin", "{noop}admin,ROLE_ADMIN,enabled");
-        return new InMemoryUserDetailsManager(users);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        auth.inMemoryAuthentication()
+                .withUser("user").password("{noop}user").roles("USER")
+                .and()
+                .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 
     @Override
@@ -46,6 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .permitAll();
     }
+
+
 }

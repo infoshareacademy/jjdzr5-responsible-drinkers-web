@@ -11,22 +11,27 @@
         <div class="col-3"></div>
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
-            <form th:action="@{/index}" method="get">
+            <form th:action="@{/login}" method="post">
                 <div class="form-floating mb-3">
-                    <input required type="email" class="form-control" id="email"
-                           th:placeholder="#{html.login.form.email}">
-                    <label for="email" th:text="#{html.login.form.email}">Adres e-mail</label>
+                    <input required type="text" name="username" class="form-control" id="userName"
+                           th:placeholder="#{html.login.form.userName}">
+                    <label for="userName" th:text="#{html.login.form.userName}">Nazwa użytkownika</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input required minlength="8" type="password" class="form-control" id="password"
+                    <input required type="password" name="password" class="form-control" id="password"
                            th:placeholder="#{html.login.form.password}">
-                    <label for="password" th:text="#{html.signup.form.password}">Hasło</label>
+                    <label for="password" th:text="#{html.login.form.password}">Hasło</label>
+                </div>
+                <div class="container align-content-start" style="margin-bottom: 10px; padding-left: 0px">
+                    <span class="text-danger" th:if="${param.error}" th:text="#{html.login.form.error}"></span>
                 </div>
                 <div class="container text-center">
-                    <input type="submit" class="btn btn-primary mx-2" style="background-color: #0066cc" th:value="#{html.login.form.button.submit}"/>
+                    <input type="submit" class="btn btn-primary mx-2" style="background-color: #0066cc"
+                           th:value="#{html.login.form.button.submit}"/>
                 </div>
                 <div class="container text-center" style="padding: 15px">
-                    <a th:text="#{html.login.form.button.signup}" th:href="@{'/signup'}" class="button" style="color: #0066cc" methods="post"/>
+                    <a th:text="#{html.login.form.button.signup}" th:href="@{'/signup'}" class="button"
+                       style="color: #0066cc" methods="post"/>
                 </div>
             </form>
         </div>
