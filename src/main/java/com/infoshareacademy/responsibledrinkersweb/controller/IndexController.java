@@ -238,7 +238,7 @@ public class IndexController {
         return "panel";
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login(Model model) {
         return "login";
     }
