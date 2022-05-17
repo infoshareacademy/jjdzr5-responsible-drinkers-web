@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -56,10 +56,10 @@
                     <a th:text="#{html.common.menu.list}" class="nav-link" th:href="@{list}"></a>
                 </li>
                 <li class="nav-item">
-                    <a th:text="#{html.common.menu.add}" class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
+                    <a sec:authorize="isAuthenticated()" th:text="#{html.common.menu.add}" class="nav-link" th:href="@{add_new_drink}">Dodaj drinka</a>
                 </li>
                 <li class="nav-item">
-                    <a th:text="#{html.common.menu.manager}" class="nav-link" th:href="@{manager}"></a>
+                    <a sec:authorize="hasRole('ADMIN')" th:text="#{html.common.menu.manager}" class="nav-link" th:href="@{manager}"></a>
                 </li>
                 <!--                <li class="nav-item dropdown">-->
                 <!--                    <a th:text="#{html.common.menu.account}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
@@ -102,7 +102,8 @@
                 Konto
             </a>
             <ul class="dropdown-menu" style="margin-right: auto" aria-labelledby="navbarDropdownMenuLink">
-                <li><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{login}"></a></li>
+                <li sec:authorize="isAnonymous()"><a th:text="#{html.common.menu.login}" class="dropdown-item" th:href="@{/login}"></a></li>
+                <li sec:authorize="isAuthenticated()"><a th:text="#{html.common.menu.logout}" class="dropdown-item" th:href="@{/logout}"></a></li>
                 <li><a th:text="#{html.common.menu.signup}" class="dropdown-item" th:href="@{signup}"></a></li>
                 <li><a th:text="#{html.common.menu.accountservice}" class="dropdown-item"
                        th:href="@{account_settings}"></a></li>
