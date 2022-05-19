@@ -88,19 +88,19 @@
             <a onclick="changeLanguageEN()" class="text-muted" type="button">
                 <i class="flag flag-uk"></i>
             </a>
-            <script>
-                function changeLanguagePL() {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    urlParams.set('lang', 'pl');
-                    window.location.search = urlParams;
-                }
+<!--            <script>-->
+<!--                function changeLanguagePL() {-->
+<!--                    const urlParams = new URLSearchParams(window.location.search);-->
+<!--                    urlParams.set('lang', 'pl');-->
+<!--                    window.location.search = urlParams;-->
+<!--                }-->
 
-                function changeLanguageEN() {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    urlParams.set('lang', 'en');
-                    window.location.search = urlParams;
-                }
-            </script>
+<!--                function changeLanguageEN() {-->
+<!--                    const urlParams = new URLSearchParams(window.location.search);-->
+<!--                    urlParams.set('lang', 'en');-->
+<!--                    window.location.search = urlParams;-->
+<!--                }-->
+<!--            </script>-->
         </div>
         <div class="nav-item dropdown float-end" style="margin-right: 10px">
             <a class="nav-link dropdown-toggle link-dark"
@@ -131,6 +131,8 @@
 <div th:fragment="script">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"></script>
     <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/lang.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
 </div>
 </script>
 </body>
