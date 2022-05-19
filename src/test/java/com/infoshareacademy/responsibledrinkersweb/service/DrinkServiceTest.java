@@ -18,15 +18,6 @@ class DrinkServiceTest {
     private DrinkService drinkService;
 
     @Test
-    void getDrinks_shouldReturnsDrinkList() {
-        // given
-        List<Drink> drinkList = drinkService.getDrinks();
-        // when
-        // then
-        assertThat(drinkList).isInstanceOf(List.class).isNotNull().isNotEmpty();
-    }
-
-    @Test
     void getAcceptedDrinks_returnsExpectedDrinks() {
         // given
         List<Drink> expectedResult = drinkService.getDrinks().stream()
