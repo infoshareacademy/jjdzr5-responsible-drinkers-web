@@ -1,4 +1,4 @@
-package com.infoshareacademy.responsibledrinkersweb.controller;
+package com.infoshareacademy.responsibledrinkersweb.service;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.service.filtering.FilterList;

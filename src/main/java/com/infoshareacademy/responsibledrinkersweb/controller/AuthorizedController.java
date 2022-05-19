@@ -7,6 +7,7 @@ import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
