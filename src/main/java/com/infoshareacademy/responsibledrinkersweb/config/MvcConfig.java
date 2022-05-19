@@ -17,10 +17,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.US);
-        return slr;
+    public LocaleResolver localeResolver () {
+        CookieLocaleResolver r = new CookieLocaleResolver();
+        r.setDefaultLocale(Locale.US);
+        r.setCookieName("localeInfo");
+        r.setCookieMaxAge(-1);
+        return r;
     }
 
     @Bean
