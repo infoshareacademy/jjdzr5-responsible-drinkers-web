@@ -1,13 +1,13 @@
-function checkPassword(){
+function checkPassword() {
     let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirm_password").value;
-    console.log(password,confirmPassword);
+    let repeatPassword = document.getElementById("repeat_password").value;
+    console.log(password, repeatPassword);
 
-    if(password.length !== 0){
-        if (password !== confirmPassword) {
+    if (password.length > 7) {
+        if (password !== repeatPassword) {
             alert("Hasła muszą być jednakowe");
+            return false;
         }
-    } else {
-        alert("Pole hasło nie może być puste");
     }
+    return true;
 }
