@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ExtendWith(MockitoExtension.class)
 class DrinkServiceTest {
@@ -42,9 +43,34 @@ class DrinkServiceTest {
 
     @Test
     void getNewestAccepted_returnsListOfCorrectSize_givenInteger() {
-        DrinkService drinkService = new DrinkService();
         List<Drink> drinkList = drinkService.getNewestAccepted(6);
-        int actualResult = drinkList.size();
-        Assertions.assertEquals(6, actualResult);
+        assertThat(drinkList.size()).isEqualTo(6);
+    }
+
+    @Test
+    void getNewestAccepted_returnsListOfDrinks() {
+        List<Drink> actualResult = drinkService.getNewestAccepted(6);
+        assertThat(actualResult).isInstanceOf(List.class).isNotNull();
+    }
+
+    @Test
+    void getDrink_returnsNewDrink_givenNonExistingID() {
+        Drink drink = drinkService.getDrink(1);
+        assertThat(drink).isEqualTo(new Drink());
+    }
+
+    @Test
+    void getDrink_returnsEmptyDrink_givenNonExistingID() {
+        Drink drink = drinkService.getDrink(1);
+        assertAll(
+                () -> assertThat(drink.getIdDrink()).isZero(),
+                () -> assertThat(drink.getStrDrink()).isNull(),
+                () -> assertThat(drink.getIngredients()).isEmpty(),
+                () -> assertThat(drink.getInstructions()).isNull(),
+                () -> assertThat(drink.getAlcoholic()).isNull(),
+                () -> assertThat(drink.getStrCategory()).isNull(),
+                () -> assertThat(drink.getStrGlass()).isNull(),
+                () -> assertThat(drink.getDateModified()).isNull()
+        );
     }
 }
