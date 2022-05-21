@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Assertions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,15 +63,15 @@ class DrinkServiceTest {
     @Test
     void getDrink_returnsEmptyDrink_givenNonExistingID() {
         Drink drink = drinkService.getDrink(1);
-        assertAll(
-                () -> assertThat(drink.getIdDrink()).isZero(),
-                () -> assertThat(drink.getStrDrink()).isNull(),
-                () -> assertThat(drink.getIngredients()).isEmpty(),
-                () -> assertThat(drink.getInstructions()).isNull(),
-                () -> assertThat(drink.getAlcoholic()).isNull(),
-                () -> assertThat(drink.getStrCategory()).isNull(),
-                () -> assertThat(drink.getStrGlass()).isNull(),
-                () -> assertThat(drink.getDateModified()).isNull()
-        );
+        assertThat(drink)
+                .returns(0, Drink::getIdDrink)
+                .returns(null, Drink::getStrDrink)
+                .returns(new ArrayList<>(), Drink::getIngredients)
+                .returns(null, Drink::getInstructions)
+                .returns(null, Drink::getAlcoholic)
+                .returns(null, Drink::getCategory)
+                .returns(null, Drink::getGlass)
+                .returns(null, Drink::getDateModified);
+
     }
 }
