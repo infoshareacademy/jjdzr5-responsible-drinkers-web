@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/img/**", "/bootstrap/**", "/js/**", "/favicon/**").permitAll()
                 .antMatchers("/panel").hasRole("ADMIN")
                 .antMatchers("/add_new_drink", "/manager").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/", "/index", "/list", "/signup", "/show-more", "/login/**").permitAll()
+                .antMatchers("/", "/index", "/list", "/signup", "/new_account", "/show-more", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -54,8 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
+                .logoutSuccessUrl("/login?logout").permitAll()
                 .deleteCookies("JSESSIONID");
     }
 
