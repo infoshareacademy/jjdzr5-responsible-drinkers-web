@@ -33,10 +33,8 @@
                 </div>
                 <div class="form-group">
                     <label class="my-2" for="repeat_password" th:text="#{html.signup.form.repeatPassword}">Potwierdź hasło</label>
-                    <input type="password" th:field="*{repeatPassword}" class="form-control" id="repeat_password"
+                    <input type="password" class="form-control" id="repeat_password"
                            th:placeholder="#{html.signup.form.repeatPassword}">
-                    <span class="text-danger" th:if="${#fields.hasErrors('repeatPassword')}"
-                          th:errors="*{repeatPassword}"></span>
                 </div>
                 <div class="form-group">
                     <label th:text="#{html.signup.form.gender}">Płeć</label>
