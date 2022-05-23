@@ -21,8 +21,8 @@ public class User {
     @Size(min = 8, max = 25, message = "{validation.password}")
     private String password;
 
-    @Size(min = 8, max = 25, message = "{validation.password}")
-    private String repeatPassword;
+//    @Size(min = 8, max = 25, message = "{validation.password}")
+//    private String repeatPassword;
 
     @Past(message = "{validation.pastDate}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -62,13 +62,13 @@ public class User {
         this.password = password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
+//    public String getRepeatPassword() {
+//        return repeatPassword;
+//    }
+//
+//    public void setRepeatPassword(String repeatPassword) {
+//        this.repeatPassword = repeatPassword;
+//    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -78,17 +78,29 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        User that = (User) o;
+//        return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(repeatPassword, that.repeatPassword) && Objects.equals(dateOfBirth, that.dateOfBirth);
+//    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
-        return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(repeatPassword, that.repeatPassword) && Objects.equals(dateOfBirth, that.dateOfBirth);
+        return Objects.equals(userName, that.userName) && Objects.equals(gender, that.gender) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(userName, gender, email, password, repeatPassword, dateOfBirth);
+//}
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, gender, email, password, repeatPassword, dateOfBirth);
+        return Objects.hash(userName, gender, email, password, dateOfBirth);
     }
 
     @Override
@@ -98,7 +110,7 @@ public class User {
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", repeatPassword='" + repeatPassword + '\'' +
+//                ", repeatPassword='" + repeatPassword + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
