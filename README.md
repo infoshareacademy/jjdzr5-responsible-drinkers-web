@@ -4,8 +4,7 @@
 ```docker-compose up -d```<br/>
 or<br/>
 ```docker-compose up ```<br/>
-or<br/>
-```docker-compose up -d --build```
+
 
 **Stop container with:**<br/>
 ```docker-compose stop```<br/>
@@ -22,3 +21,4 @@ DB_PORT=3306
 DB_DRIVER=mysql
 DB_HOST=mariadb
 ```
+![img.png](img.png)
