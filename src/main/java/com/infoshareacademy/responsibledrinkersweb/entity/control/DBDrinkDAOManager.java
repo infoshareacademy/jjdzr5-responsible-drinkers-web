@@ -6,10 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.UUID;
 
-@Transactional
 @Repository
+@Transactional
 public class DBDrinkDAOManager implements DrinkDAOManager {
 
     @PersistenceContext
@@ -26,12 +27,12 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
     }
 
     @Override
-    public DrinkDAO update(DrinkDAO drinkDAO) {
-        return entityManager.merge(drinkDAO);
+    public List<DrinkDAO> findAll() {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d", DrinkDAO.class).getResultList();
     }
 
     @Override
-    public void delete(UUID uuid) {
-        entityManager.remove(find(uuid));
+    public void update(DrinkDAO drinkDAO) {
+        entityManager.merge(drinkDAO);
     }
 }

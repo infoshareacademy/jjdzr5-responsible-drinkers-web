@@ -2,6 +2,7 @@ package com.infoshareacademy.responsibledrinkersweb.entity.control;
 
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface DrinkDAOManager {
@@ -10,7 +11,8 @@ public interface DrinkDAOManager {
 
     DrinkDAO find(UUID uuid);
 
-    DrinkDAO update(DrinkDAO drinkDAO);
+    List<DrinkDAO> findAll();
 
-    void delete(UUID uuid);
+    void update(DrinkDAO drinkDAO);
+
 }

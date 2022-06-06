@@ -18,11 +18,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = UserDAO.TABLE_NAME)
-
 public class UserDAO {
 
     public static final String TABLE_NAME = "user";
     public static final String COLUMN_PREFIX = "u_";
+
+    public UserDAO(String userName, Gender gender, String email, String password, LocalDate dateOfBirth) {
+        this.userName = userName;
+        this.gender = gender;
+        this.email = email;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     @Id
     @GeneratedValue
@@ -30,7 +37,7 @@ public class UserDAO {
     @Column(name = COLUMN_PREFIX + "id")
     private UUID id;
 
-    @Size(min = 4, max = 25, message = "{validation.userName}")
+    @Size(min = 3, max = 25, message = "{validation.userName}")
     @NotBlank(message = "{validation.blank}")
     @Column(name = COLUMN_PREFIX + "username")
     private String userName;
@@ -44,7 +51,7 @@ public class UserDAO {
     @Column(name = COLUMN_PREFIX + "email")
     private String email;
 
-    @Size(min = 8, max = 25, message = "{validation.password}")
+    @Size(min = 4, max = 25, message = "{validation.password}")
     @Column(name = COLUMN_PREFIX + "password")
     private String password;
 
@@ -54,6 +61,9 @@ public class UserDAO {
     @Column(name = COLUMN_PREFIX + "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "userDAO")
+    @OneToMany(mappedBy = "userDAO", cascade = CascadeType.ALL)
     private List<DrinkDAO> drinkDAO = new ArrayList<>();
+
+    @Column(name = COLUMN_PREFIX + "role")
+    private String role;
 }

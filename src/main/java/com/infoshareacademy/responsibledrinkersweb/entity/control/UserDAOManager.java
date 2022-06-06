@@ -2,12 +2,12 @@ package com.infoshareacademy.responsibledrinkersweb.entity.control;
 
 import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface UserDAOManager {
     void save(UserDAO user);
 
-    UserDAO find(Long id);
+    UserDAO find(UUID id);
 
-    UserDAO update(UserDAO user);
-
-    void delete(UserDAO user);
 }

@@ -12,8 +12,6 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +23,21 @@ public class DrinkDAO {
 
     public static final String TABLE_NAME = "drink";
     public static final String COLUMN_PREFIX = "d_";
+
+    public DrinkDAO(int idDrink, String strDrink, String strCategory, String strAlcoholic, String strGlass,
+                    String strInstructions, String strDrinkThumb, String strIngredient, LocalDateTime dateModified,
+                    Status status) {
+        this.idDrink = idDrink;
+        this.strDrink = strDrink;
+        this.strCategory = strCategory;
+        this.strAlcoholic = strAlcoholic;
+        this.strGlass = strGlass;
+        this.strInstructions = strInstructions;
+        this.strDrinkThumb = strDrinkThumb;
+        this.strIngredient = strIngredient;
+        this.dateModified = dateModified;
+        this.status = status;
+    }
 
     @Id
     @GeneratedValue
