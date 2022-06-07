@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
-class DBTest {
+class DrinkDBTest {
 
     @Autowired
     private DrinkService drinkService;
