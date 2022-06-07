@@ -31,6 +31,7 @@ public class DrinkMapper {
 
     public Drink mapDrinkDAOToDrink(DrinkDAO drinkDAO) {
         Drink drink = new Drink();
+        drink.setId(drinkDAO.getId());
         drink.setIdDrink(drinkDAO.getIdDrink());
         drink.setDrinkName(drinkDAO.getStrDrink());
         drink.setCategory(drinkDAO.getStrCategory());
@@ -79,6 +80,7 @@ public class DrinkMapper {
 
     public DrinkDAO mapDinkToDrinkDAO(Drink drink) {
         DrinkDAO drinkDAO = new DrinkDAO();
+        drinkDAO.setId(drink.getId());
         drinkDAO.setIdDrink(drink.getIdDrink());
         drinkDAO.setStrDrink(drink.getStrDrink());
         drinkDAO.setStrCategory(drink.getStrCategory());

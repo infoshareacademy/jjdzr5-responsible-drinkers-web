@@ -8,6 +8,7 @@ import com.infoshareacademy.responsibledrinkersweb.mapper.DrinkMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DrinkDBService {
@@ -64,5 +65,9 @@ public class DrinkDBService {
     public List<Drink> filter(Boolean isAlcoholic) {
         List<DrinkDAO> drinks = dbDrinkDAOManager.findByAlcoholic(isAlcoholic);
         return drinkMapper.mapToDrinkList(drinks);
+    }
+
+    public Drink getDrinkByUUID(UUID uuid) {
+        return drinkMapper.mapDrinkDAOToDrink(dbDrinkDAOManager.find(uuid));
     }
 }

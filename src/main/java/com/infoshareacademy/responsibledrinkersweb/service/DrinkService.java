@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DrinkService {
@@ -89,6 +90,10 @@ public class DrinkService {
 //                )
 //                .findFirst()
 //                .orElse(new Drink());
+    }
+
+    public Drink getDrink(UUID uuid) {
+        return drinkDBService.getDrinkByUUID(uuid);
     }
 
     public void deleteDrink(int id) {

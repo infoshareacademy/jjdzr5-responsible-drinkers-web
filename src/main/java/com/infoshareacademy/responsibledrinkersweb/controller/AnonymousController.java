@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class AnonymousController {
     }
 
     @RequestMapping("/show-more")
-    public String showMore(@RequestParam int id, Model model) {
+    public String showMore(@RequestParam UUID id, Model model) {
         model.addAttribute("drink", drinkService.getDrink(id));
         model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "show-more";
