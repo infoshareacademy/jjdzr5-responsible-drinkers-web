@@ -35,4 +35,28 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
     public void update(DrinkDAO drinkDAO) {
         entityManager.merge(drinkDAO);
     }
+
+    @Override
+    public void saveAll(List<DrinkDAO> drinkDAOs) {
+        for (DrinkDAO drinkDAO : drinkDAOs) {
+            save(drinkDAO);
+        }
+    }
+
+    @Override
+    public void delete(DrinkDAO drinkDAO) {
+        entityManager.remove(drinkDAO);
+    }
+
+    @Override
+    public void deleteAll() {
+        entityManager.createQuery("DELETE FROM DrinkDAO").executeUpdate();
+    }
+
+    @Override
+    public void deleteByUUID(UUID uuid) {
+        entityManager.createQuery("DELETE FROM DrinkDAO d WHERE d.id = :uuid")
+                .setParameter("uuid", uuid)
+                .executeUpdate();
+    }
 }
