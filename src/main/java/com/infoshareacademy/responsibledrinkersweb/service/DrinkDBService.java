@@ -49,7 +49,7 @@ public class DrinkDBService {
         return drinkMapper.mapDrinkDAOToDrink(drinkDAO);
     }
 
-    public void deleteDrink(int id) {
+    public void deleteDrink(UUID id) {
         dbDrinkDAOManager.delete(id);
     }
 
@@ -70,4 +70,5 @@ public class DrinkDBService {
     public Drink getDrinkByUUID(UUID uuid) {
         return drinkMapper.mapDrinkDAOToDrink(dbDrinkDAOManager.find(uuid));
     }
+
 }

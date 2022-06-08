@@ -86,8 +86,8 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
                 .getSingleResult();
     }
 
-    public void delete(int id) {
-        DrinkDAO byId = findById(id);
+    public void delete(UUID id) {
+        DrinkDAO byId = find(id);
         entityManager.remove(byId);
     }
 

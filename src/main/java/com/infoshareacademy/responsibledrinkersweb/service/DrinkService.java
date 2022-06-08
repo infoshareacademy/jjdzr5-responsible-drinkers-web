@@ -18,9 +18,9 @@ import java.util.UUID;
 public class DrinkService {
 
     private final List<Drink> drinkList = new DrinkRepository().getRepository();
-    private DBDrinkDAOManager dbDrinkDAOManager;
-    private DrinkMapper drinkMapper;
-    private DrinkDBService drinkDBService;
+    private final DBDrinkDAOManager dbDrinkDAOManager;
+    private final DrinkMapper drinkMapper;
+    private final DrinkDBService drinkDBService;
 
     public DrinkService(DBDrinkDAOManager dbDrinkDAOManager, DrinkMapper drinkMapper, DrinkDBService drinkDBService) {
         this.dbDrinkDAOManager = dbDrinkDAOManager;
@@ -30,83 +30,45 @@ public class DrinkService {
 
     public List<Drink> getDrinks() {
         List<DrinkDAO> drinkDAOList = dbDrinkDAOManager.findAll();
-        List<Drink> drinks = drinkMapper.mapToDrinkList(drinkDAOList);
-        return drinks;
-//        return drinkList;
-    }
-
-    public List<Drink> getNewest(int count) {
-        return drinkDBService.getNewest(count);
-//        return getDrinks().stream()
-//                .sorted(Comparator.comparing(Drink::getDateModified, Comparator.nullsLast(Comparator.reverseOrder())))
-//                .limit(count)
-//                .toList();
+        return drinkMapper.mapToDrinkList(drinkDAOList);
     }
 
     public List<Drink> getNewestAccepted(int count) {
         return drinkDBService.getNewestAccepted(count);
-//        return getAcceptedDrinks().stream()
-//                .sorted(Comparator.comparing(Drink::getDateModified, Comparator.nullsLast(Comparator.reverseOrder())))
-//                .limit(count)
-//                .toList();
     }
 
     public List<Drink> getAcceptedDrinks() {
         return drinkDBService.getAcceptedDrinks();
-//        return getDrinks().stream()
-//                .filter(drink -> drink.getStatus().equals(Status.ACCEPTED))
-//                .toList();
     }
 
     public void addDrink(Drink drink) {
         String s = ImageNotFound.verifyURL(drink.getStrDrinkThumb().toString());
         drink.setStrDrinkThumb(URI.create(s));
         drink.setDateModified(LocalDateTime.now());
+        if (drink.getIngredient3().isBlank()) {
+            drink.setIngredient3(null);
+        }
+        if (drink.getIngredient4().isBlank()) {
+            drink.setIngredient4(null);
+        }
+        if (drink.getIngredient5().isBlank()) {
+            drink.setIngredient5(null);
+        }
         drink.setStatus(Status.ADDED);
         DrinkDAO drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
         dbDrinkDAOManager.save(drinkDAO);
-//        DrinkManager drinkManager = new DrinkManager(getDrinks());
-//        String url = ImageNotFound.verifyURL(drink.getDrinkThumb().toString());
-//        drink.setDrinkThumb(URI.create(url));
-//        if (drink.getIngredient3().isBlank()) {
-//            drink.setIngredient3(null);
-//        }
-//        if (drink.getIngredient4().isBlank()) {
-//            drink.setIngredient4(null);
-//        }
-//        if (drink.getIngredient5().isBlank()) {
-//            drink.setIngredient5(null);
-//        }
-//        drink.setDateModified(LocalDateTime.now());
-//        drinkManager.addDrinkToList(drink);
-}
+    }
 
     public Drink getDrink(int id) {
         return drinkDBService.getDrinkById(id);
-//        return getDrinks()
-//                .stream()
-//                .filter((Drink d) ->
-//                        d.getIdDrink() == id
-//                )
-//                .findFirst()
-//                .orElse(new Drink());
     }
 
     public Drink getDrink(UUID uuid) {
         return drinkDBService.getDrinkByUUID(uuid);
     }
 
-    public void deleteDrink(int id) {
+    public void deleteDrink(UUID id) {
         dbDrinkDAOManager.delete(id);
-//        getDrinks().removeIf(drink -> drink.getIdDrink().equals(id));
-    }
-
-    public Drink findByID(int id) {
-        return drinkDBService.getDrinkById(id);
-//        return getDrinks().stream()
-//                .filter(drink -> drink.getIdDrink() == id)
-//                .findFirst()
-//                .orElse(new Drink());
     }
 
     public List<Drink> search(String searchString) {
@@ -122,16 +84,14 @@ public class DrinkService {
 
     public List<Drink> filter(Boolean isAlcoholic) {
         return drinkDBService.filter(isAlcoholic);
-//        if (isAlcoholic) {
-//            return getDrinks().stream()
-//                    .filter(drink -> drink.getAlcoholic().equals(Alcoholic.ALCOHOLIC.getName()))
-//                    .toList();
-//        } else {
-//            return getDrinks().stream()
-//                    .filter(drink -> drink.getAlcoholic().equals(Alcoholic.NON_ALCOHOLIC.getName()))
-//                    .toList();
-//        }
     }
 
 
+    public void update(Drink drink) {
+        UUID id = drink.getId();
+        DrinkDAO drinkDAO = dbDrinkDAOManager.find(id);
+        drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
+        drinkDAO.setDateModified(LocalDateTime.now());
+        dbDrinkDAOManager.update(drinkDAO);
+    }
 }

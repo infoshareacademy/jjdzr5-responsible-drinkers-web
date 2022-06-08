@@ -13,6 +13,12 @@
         <div class="col-6 bg-light rounded-3">
             <hr class="border-top">
             <form action="#" th:action="@{/modify}" th:object="${drink}" method="post">
+                <div hidden class="form-group">
+                    <label th:text="#{html.add_new_drink.id}" class="my-2" for="UUID">ID</label>
+                    <input type="text" th:field="*{id}" class="form-control" id="UUID"
+                           aria-describedby="emailHelp"
+                           th:placeholder="#{html.add_new_drink.placeholder.id}" readonly>
+                </div>
                 <div class="form-group">
                     <label th:text="#{html.add_new_drink.id}" class="my-2" for="nextId">ID</label>
                     <input type="text" th:field="*{idDrink}" class="form-control" id="nextId"
