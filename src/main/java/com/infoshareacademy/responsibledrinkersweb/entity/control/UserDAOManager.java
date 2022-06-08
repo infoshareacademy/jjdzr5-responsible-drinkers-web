@@ -2,7 +2,6 @@ package com.infoshareacademy.responsibledrinkersweb.entity.control;
 
 import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface UserDAOManager {

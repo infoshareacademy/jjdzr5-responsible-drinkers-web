@@ -86,13 +86,16 @@
                     </span>
             </td>
             <td class="text-center">
-                <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
+                <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${drink.getId()}}"
                    class="btn btn-info btn-sm active"
                    role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
-                <a th:text="#{html.drink_list.actions.modify}" th:href="@{'/edit?id=' + ${drink.getIdDrink()}}"
+                <a th:text="#{html.drink_list.actions.modify}" th:href="@{'/edit?id=' + ${drink.getId()}}"
                    class="btn btn-outline-primary btn-sm active mx-2"
                    role="button" aria-pressed="true" methods="post" target="_blank">Edit</a>
-                <a th:text="#{html.drink_list.actions.delete}" th:href="@{'/delete-drink?id=' + ${drink.getIdDrink()}}"
+                <a th:text="#{html.drink_list.actions.delete}"
+                   th:href="@{'/delete-drink?id=' + ${drink.getId()}}"
+                   th:data-confirm-delete="|Are you sure you want to delete this drink:  ${drink.getDrink()}|"
+                   onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false;"
                    class="btn btn-danger btn-sm active"
                    role="button" aria-pressed="true" methods="post">Delete</a>
             </td>

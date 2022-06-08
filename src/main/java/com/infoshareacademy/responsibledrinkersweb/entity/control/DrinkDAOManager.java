@@ -15,4 +15,12 @@ public interface DrinkDAOManager {
 
     void update(DrinkDAO drinkDAO);
 
+    void saveAll(List<DrinkDAO> drinkDAOs);
+
+    void delete(DrinkDAO drinkDAO);
+
+    void deleteAll();
+
+    void deleteByUUID(UUID uuid);
+
 }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +34,6 @@ public class AuthorizedController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
-            drink.setStatus(Status.ADDED);
             drinkService.addDrink(drink);
             model.addAttribute("dateformat", dateFormat.getDatePattern());
             model.addAttribute("drink", drink);
@@ -46,8 +46,9 @@ public class AuthorizedController {
         if (result.hasErrors()) {
             return "edit";
         } else {
-            drinkService.deleteDrink(drink.getIdDrink());
-            drinkService.addDrink(drink);
+//            drinkService.deleteDrink(drink.getId());
+//            drinkService.addDrink(drink);
+            drinkService.update(drink);
             model.addAttribute("drink", drink);
             model.addAttribute("dateformat", dateFormat.getDatePattern());
             return "modify";
@@ -55,7 +56,7 @@ public class AuthorizedController {
     }
 
     @GetMapping("delete-drink")
-    public RedirectView delete(@RequestParam int id) {
+    public RedirectView delete(@RequestParam UUID id) {
         drinkService.deleteDrink(id);
         return new RedirectView("/manager?deleted=true");
     }
@@ -87,8 +88,9 @@ public class AuthorizedController {
     }
 
     @GetMapping("edit")
-    public String edit(@RequestParam int id, Model model) {
+    public String edit(@RequestParam UUID id, Model model) {
         Drink drink = drinkService.getDrink(id);
+ //       drink.setId(id);
         model.addAttribute("drink", drink);
         return "edit";
     }

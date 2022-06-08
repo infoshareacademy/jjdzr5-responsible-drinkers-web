@@ -38,7 +38,7 @@
                     <div class="mb-1 text-muted" th:with="df = ${dateformat}"
                          th:text="${#temporals.format(drink.getDateModified(),df)}"></div>
                     <p class="card-text mb-auto" th:text="${drink.getStringIntredientrs()}"></p>
-                    <a th:text="#{html.index.a.title}" th:href="@{'/show-more?id=' + ${drink.getIdDrink()}}"
+                    <a th:text="#{html.index.a.title}" th:href="@{'/show-more?id=' + ${drink.getId()}}"
                        class="button" style="color: #0066cc"
                        methods="post" target="_blank"></a>
                 </div>
