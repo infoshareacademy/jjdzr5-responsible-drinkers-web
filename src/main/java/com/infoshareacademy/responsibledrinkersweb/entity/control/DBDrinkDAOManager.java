@@ -1,6 +1,7 @@
 package com.infoshareacademy.responsibledrinkersweb.entity.control;
 
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.drinkers.service.filtering.FilterElements;
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +125,21 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
 
     public List<DrinkDAO> sortByStatus() {
         return entityManager.createQuery("SELECT d FROM DrinkDAO d ORDER BY d.status", DrinkDAO.class)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> filteredList(String searchString, Boolean isAlcoholic, Status status, FilterElements filterElements) {
+        String alcohol = "Alcoholic";
+        if (!isAlcoholic) {
+            alcohol = "Non alcoholic";
+        }
+
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :searchString AND " +
+                        "d.strAlcoholic LIKE :alcohol AND d.status = :status AND d.strIngredient LIKE :filterElements  ", DrinkDAO.class)
+                .setParameter("searchString", "%" + searchString + "%")
+                .setParameter("alcohol", alcohol)
+                .setParameter("status", status)
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
                 .getResultList();
     }
 }
