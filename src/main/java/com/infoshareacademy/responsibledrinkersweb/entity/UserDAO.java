@@ -49,7 +49,7 @@ public class UserDAO {
 
     @Email(message = "{validation.email}")
     @NotBlank(message = "{validation.blank}")
-    @Column(name = COLUMN_PREFIX + "email")
+    @Column(name = COLUMN_PREFIX + "email", unique = true)
     private String email;
 
     @Size(min = 4, max = 25, message = "{validation.password}")
