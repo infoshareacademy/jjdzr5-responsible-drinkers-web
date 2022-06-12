@@ -23,12 +23,13 @@ public class UserDAO {
     public static final String TABLE_NAME = "user";
     public static final String COLUMN_PREFIX = "u_";
 
-    public UserDAO(String userName, Gender gender, String email, String password, LocalDate dateOfBirth) {
+    public UserDAO(String userName, Gender gender, String email, String password, LocalDate dateOfBirth, String role) {
         this.userName = userName;
         this.gender = gender;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.role = role;
     }
 
     @Id
@@ -66,4 +67,5 @@ public class UserDAO {
 
     @Column(name = COLUMN_PREFIX + "role")
     private String role;
+
 }
