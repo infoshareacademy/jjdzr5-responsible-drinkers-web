@@ -40,7 +40,7 @@ public class UserDAO {
 
     @Size(min = 3, max = 25, message = "{validation.userName}")
     @NotBlank(message = "{validation.blank}")
-    @Column(name = COLUMN_PREFIX + "username")
+    @Column(name = COLUMN_PREFIX + "username", unique = true)
     private String userName;
 
     @Enumerated(EnumType.STRING)
