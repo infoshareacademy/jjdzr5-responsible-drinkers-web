@@ -5,6 +5,7 @@ import com.infoshareacademy.drinkers.service.filtering.FilterList;
 import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
 import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

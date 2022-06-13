@@ -1,5 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb;
 
+import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.filtering.FilterElements;
@@ -63,7 +64,7 @@ public class DBInit implements CommandLineRunner {
         LOGGER.info("***    DB initialized!     ***");
         LOGGER.info("***  Application started!  ***");
 
-        List<DrinkDAO> b = dbDrinkDAOManager.filteredList("af", true, Status.ACCEPTED, FilterElements.JUICE);
+        List<DrinkDAO> b = dbDrinkDAOManager.filteredList("af", Alcoholic.ALCOHOLIC, Status.ACCEPTED, FilterElements.JUICE);
         b.forEach(drinkDAO -> LOGGER.info(drinkMapper.mapDrinkDAOToDrink(drinkDAO).toString()));
         LOGGER.info(b.size() + " drinks found");
     }
