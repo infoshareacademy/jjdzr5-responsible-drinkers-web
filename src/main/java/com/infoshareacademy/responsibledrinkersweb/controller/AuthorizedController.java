@@ -5,6 +5,7 @@ import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
 public class AuthorizedController {
 
     private final DrinkService drinkService;

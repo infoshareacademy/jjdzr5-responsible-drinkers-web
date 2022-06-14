@@ -14,11 +14,25 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-
 public class AnonymousController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+    private static final Integer ELEMENTS_TO_PRINT = 8;
+
+    @GetMapping(path = {"/", "/index"})
+    public String main(Model model) {
+        model.addAttribute("newestdrinks", drinkService.getNewestAccepted(ELEMENTS_TO_PRINT));
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
+        return "index";
+    }
+
+    @RequestMapping("/show-more")
+    public String showMore(@RequestParam UUID id, Model model) {
+        model.addAttribute("drink", drinkService.getDrink(id));
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
+        return "show-more";
+    }
 
     @PostMapping("/new_account")
     public String newAccount(@Valid @ModelAttribute User account, BindingResult result, Model model) {
@@ -40,10 +54,5 @@ public class AnonymousController {
         return "signup";
     }
 
-    @RequestMapping("/show-more")
-    public String showMore(@RequestParam UUID id, Model model) {
-        model.addAttribute("drink", drinkService.getDrink(id));
-        model.addAttribute("dateformat", dateFormat.getDatePattern());
-        return "show-more";
-    }
+
 }
