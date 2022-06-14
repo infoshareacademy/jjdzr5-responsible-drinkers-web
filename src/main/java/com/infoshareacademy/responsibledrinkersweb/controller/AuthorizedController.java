@@ -1,6 +1,7 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
+import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
@@ -26,6 +27,20 @@ public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+
+
+    @GetMapping(value = "/list")
+    public String list(@ModelAttribute() ListParameter parameter, Model model) {
+        List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
+        if (parameter.getKeyword().length() > 0) {
+            // TODO: send search word to REST API
+//            WebTestClient.get().uri("localhost:8081/list?").exchange().expectStatus().isOk();
+        }
+        model.addAttribute("listparameter", parameter);
+        model.addAttribute("drinklist", drinks);
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
+        return "drink_list";
+    }
 
     @PostMapping("/new_drink")
     public String newDrink(@Valid @ModelAttribute Drink drink, BindingResult result, Model model) {
