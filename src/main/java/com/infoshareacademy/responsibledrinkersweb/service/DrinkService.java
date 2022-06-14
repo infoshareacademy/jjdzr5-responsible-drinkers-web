@@ -67,15 +67,62 @@ public class DrinkService {
         dbDrinkDAOManager.delete(id);
     }
 
-    public List<Drink> getSearchAndFilterResult(ListParameter parameter, Status status) {
-        System.out.println(parameter);
+    public List<Drink> getSearchAndFilterAcceptedDrinksResult(ListParameter parameter, Status status) {
+        setOrderParameterToSQL(parameter);
+        if (parameter.getKeyword() != null && parameter.getAlcoholic() != null && parameter.getFilterElements() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements(), status);
+        } else if (parameter.getKeyword() != null && parameter.getAlcoholic() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), status);
+        } else if (parameter.getAlcoholic() != null && parameter.getKeyword() != null) {
+            return drinkDBService.getAlcoholicResults(parameter.getSort(), parameter.getAlcoholic(), parameter.getKeyword(), status);
+        } else if (parameter.getFilterElements() != null && parameter.getKeyword() != null) {
+            return drinkDBService.getFilterResults(parameter.getSort(), parameter.getFilterElements(), parameter.getKeyword(), status);
+        } else if (parameter.getKeyword() != null) {
+            return drinkDBService.getSearchResults(parameter.getSort(), parameter.getKeyword(), status);
+        } else {
+            return drinkDBService.getAllDrinksByStatus(parameter.getSort(), status);
+        }
+    }
+
+    public void update(Drink drink) {
+        DrinkDAO drinkDAO;
+        drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
+        drinkDAO.setDateModified(LocalDateTime.now());
+        dbDrinkDAOManager.update(drinkDAO);
+    }
+
+    public List<Drink> getSearchAndFilterAllDrinksResult(ListParameter parameter) {
+        setOrderParameterToSQL(parameter);
+        if (parameter.getKeyword() == null) {
+            parameter.setKeyword("");
+        }
+
+        if (parameter.getAlcoholic() != null && parameter.getFilterElements() != null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() == null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() != null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() == null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() != null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getFilterElements(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() != null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getFilterElements());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() == null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() == null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword());
+        } else {
+            return drinkDBService.getAllDrinks(parameter.getSort());
+        }
+    }
+
+    private void setOrderParameterToSQL(ListParameter parameter) {
         if (parameter.getSort() == null) {
             parameter.setSort("idDrink");
         } else {
             switch (parameter.getSort()) {
-                case "ID":
-                    parameter.setSort("idDrink");
-                    break;
                 case "NAME":
                     parameter.setSort("strDrink");
                     break;
@@ -85,29 +132,13 @@ public class DrinkService {
                 case "DATE":
                     parameter.setSort("dateModified");
                     break;
+                case "STATUS":
+                    parameter.setSort("status");
+                    break;
+                default:
+                    parameter.setSort("idDrink");
+                    break;
             }
         }
-            if (parameter.getKeyword() != null && parameter.getAlcoholic() != null && parameter.getFilterElements() != null) {
-                return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements(), status);
-            } else if (parameter.getKeyword() != null && parameter.getAlcoholic() != null) {
-                return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), status);
-            } else if (parameter.getAlcoholic() != null && parameter.getKeyword() != null) {
-                return drinkDBService.getAlcoholicResults(parameter.getSort(), parameter.getAlcoholic(), parameter.getKeyword(), status);
-            } else if (parameter.getFilterElements() != null && parameter.getKeyword() != null) {
-                return drinkDBService.getFilterResults(parameter.getSort(), parameter.getFilterElements(), parameter.getKeyword(), status);
-            } else if (parameter.getKeyword() != null) {
-                return drinkDBService.getSearchResults(parameter.getSort(), parameter.getKeyword(), status);
-            } else {
-                return drinkDBService.getAllDrinksByStatus(parameter.getSort(), status);
-            }
-        }
-
-        public void update (Drink drink){
-            UUID id = drink.getId();
-            DrinkDAO drinkDAO = dbDrinkDAOManager.find(id);
-            drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
-            drinkDAO.setDateModified(LocalDateTime.now());
-            dbDrinkDAOManager.update(drinkDAO);
-        }
-
     }
+}

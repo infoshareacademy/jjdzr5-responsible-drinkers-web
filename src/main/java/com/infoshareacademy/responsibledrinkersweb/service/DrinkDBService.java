@@ -55,8 +55,8 @@ public class DrinkDBService {
         dbDrinkDAOManager.delete(id);
     }
 
-    public List<Drink> getSearchResults(String sort,String searchString, Status accepted) {
-        List<DrinkDAO> drinks = dbDrinkDAOManager.findByNameAndStatus(sort,searchString,accepted);
+    public List<Drink> getSearchResults(String sort, String searchString, Status accepted) {
+        List<DrinkDAO> drinks = dbDrinkDAOManager.findByNameAndStatus(sort, searchString, accepted);
         return drinkMapper.mapToDrinkList(drinks);
     }
 
@@ -75,22 +75,51 @@ public class DrinkDBService {
 
 
     public List<Drink> getAllDrinksByStatus(String sort, Status status) {
-        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.findByStatus(sort,status));
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.findByStatus(sort, status));
     }
 
     public List<Drink> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, Status status) {
         return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, alcoholic, status));
     }
 
-    public List<Drink> getSearchAndFilterResult(String sort ,String keyword, Alcoholic alcoholic, FilterElements filterElements, Status status) {
-        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort,keyword, alcoholic, filterElements, status));
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, FilterElements filterElements, Status status) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, alcoholic, filterElements, status));
     }
 
-    public List<Drink> getAlcoholicResults(String sort ,Alcoholic alcoholic, String keyword, Status status) {
-        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getAlcoholicResults(sort,alcoholic, keyword, status));
+    public List<Drink> getAlcoholicResults(String sort, Alcoholic alcoholic, String keyword, Status status) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getAlcoholicResults(sort, alcoholic, keyword, status));
     }
 
-    public List<Drink> getFilterResults(String sort,FilterElements filterElements, String keyword, Status status) {
-        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getFilterResults(sort,filterElements,keyword, status));
+    public List<Drink> getFilterResults(String sort, FilterElements filterElements, String keyword, Status status) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getFilterResults(sort, filterElements, keyword, status));
+    }
+
+    public List<Drink> getAllDrinks(String sort) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.findAll(sort));
+    }
+
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, alcoholic));
+    }
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, FilterElements filterElements) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, alcoholic, filterElements));
+    }
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, FilterElements filterElements, Status status) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, filterElements, status));
+    }
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, FilterElements filterElements) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, filterElements));
+    }
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword, Status status) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword, status));
+    }
+
+    public List<Drink> getSearchAndFilterResult(String sort, String keyword) {
+        return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword));
     }
 }

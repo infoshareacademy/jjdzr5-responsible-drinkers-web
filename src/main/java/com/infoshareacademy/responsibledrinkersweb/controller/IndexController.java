@@ -19,7 +19,6 @@ public class IndexController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
-
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
     @GetMapping(path = {"/", "/index"})
@@ -31,8 +30,7 @@ public class IndexController {
 
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
-        System.out.println(parameter);
-        List<Drink> drinks = drinkService.getSearchAndFilterResult(parameter, Status.ACCEPTED);
+        List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", drinks);
         model.addAttribute("dateformat", dateFormat.getDatePattern());
