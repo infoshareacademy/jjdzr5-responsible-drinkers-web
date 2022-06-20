@@ -2,10 +2,15 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.DBInit;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.service.SendGetRequest;
 import lombok.RequiredArgsConstructor;
+import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,14 +33,20 @@ public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
 
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
         List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
-        if (parameter.getKeyword().length() > 0) {
+        if (parameter.getKeyword()!=null && parameter.getKeyword().length() > 0) {
+
             // TODO: send search word to REST API
-//            WebTestClient.get().uri("localhost:8081/list?").exchange().expectStatus().isOk();
+            SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
+            try {
+                sendGetRequest.sendGet();
+            } catch (Exception e) {
+                LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
+            }
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", drinks);
