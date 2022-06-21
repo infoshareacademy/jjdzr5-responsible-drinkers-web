@@ -98,11 +98,11 @@
                 <li sec:authorize="isAuthenticated()"><a th:text="#{html.common.menu.accountservice}"
                                                          class="dropdown-item"
                                                          th:href="@{account_settings}"></a></li>
+                <li sec:authorize="hasRole('ADMIN')" ><a th:text="#{html.stats.title}"
+                                                         class="dropdown-item"
+                                                         th:href="@{stats}"></a></li>
             </ul>
         </div>
-        <!--        <div class="nav-item float-end">-->
-        <!--            <a type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark" th:text="#{html.common.menu.logout}" th:href="@{logout}">Log out</a>-->
-        <!--        </div>-->
     </div>
 </div>
 <!-- MDB -->

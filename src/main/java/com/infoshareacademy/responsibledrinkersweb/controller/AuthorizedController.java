@@ -125,6 +125,12 @@ public class AuthorizedController {
         return "account_settings";
     }
 
+    @GetMapping("/stats")
+    @Secured("ROLE_ADMIN")
+    public String stats(Model model) {
+        return "stats";
+    }
+
     private void sendRequest(ListParameter parameter) {
         SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
         try {
