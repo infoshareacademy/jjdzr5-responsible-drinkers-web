@@ -2,13 +2,11 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
-import com.infoshareacademy.responsibledrinkersweb.DBInit;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.SendGetRequest;
 import lombok.RequiredArgsConstructor;
-import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -38,15 +36,9 @@ public class AuthorizedController {
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
         List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
-        if (parameter.getKeyword()!=null && parameter.getKeyword().length() > 0) {
-
-            // TODO: send search word to REST API
-            SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
-            try {
-                sendGetRequest.sendGet();
-            } catch (Exception e) {
-                LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
-            }
+        // TODO: send search word to REST API
+        if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
+            sendRequest(parameter);
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", drinks);
@@ -118,6 +110,10 @@ public class AuthorizedController {
     @GetMapping("/panel")
     public String panel(@ModelAttribute ListParameter parameter, Model model) {
         List<Drink> searchAndFilterResult = drinkService.getSearchAndFilterAllDrinksResult(parameter);
+        // TODO: send search word to REST API
+        if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
+            sendRequest(parameter);
+        }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", searchAndFilterResult);
         model.addAttribute("dateformat", dateFormat.getDatePattern());
@@ -129,4 +125,12 @@ public class AuthorizedController {
         return "account_settings";
     }
 
+    private void sendRequest(ListParameter parameter) {
+        SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
+        try {
+            sendGetRequest.sendGet();
+        } catch (Exception e) {
+            LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
+        }
+    }
 }
