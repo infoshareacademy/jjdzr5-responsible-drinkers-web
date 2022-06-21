@@ -15,8 +15,12 @@ public class SendGetRequest {
     private final OkHttpClient httpClient = new OkHttpClient();
 
     private final String url;
-    private final String keyword;
-    private final LocalDateTime now;
+    private String keyword;
+    private LocalDateTime now;
+
+    public SendGetRequest(String url) {
+        this.url = url;
+    }
 
     public SendGetRequest(String url, String keyword, LocalDateTime now) {
         this.url = url;

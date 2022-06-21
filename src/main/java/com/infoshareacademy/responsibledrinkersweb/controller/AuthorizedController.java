@@ -1,11 +1,15 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.SendGetRequest;
+import com.infoshareacademy.responsibledrinkersweb.service.gson.GsonCreator;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +21,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.view.RedirectView;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -128,6 +137,21 @@ public class AuthorizedController {
     @GetMapping("/stats")
     @Secured("ROLE_ADMIN")
     public String stats(Model model) {
+        // TODO : Move block to method
+        WebClient webClient = WebClient.create("http://localhost:8081/count");
+        Mono<String> body = webClient.get().retrieve().bodyToMono(String.class);
+        String s;
+        try {
+            s = body.block();
+
+        } catch (Exception e) {
+            s = "";
+        }
+        Gson gson = GsonCreator.getGson();
+        Type typeToken = new TypeToken<List<Count>>() {
+        }.getType();
+        List<Count> counts = (List<Count>) Optional.ofNullable(gson.fromJson(s, typeToken)).orElse(new ArrayList<>());
+        model.addAttribute("counts", counts);
         return "stats";
     }
 
