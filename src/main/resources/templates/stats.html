@@ -9,31 +9,33 @@
            style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
     </blockquote>
 </div>
-<div th:if="${counts.size() eq 0}" class="container">
-    <blockquote class="blockquote text-center">
-        <p th:text="#{html.stats.empty}" class="mb-0 bg-light text-black rounded-2"
-           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
-    </blockquote>
-</div>
-<div th:if="${counts.size() > 0}" class="container">
-    <blockquote class="blockquote text-center">
-        <table class="table table-bordered bg-white rounded-3">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Word</th>
-                <th scope="col">Count</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="count : ${counts}">
-                <th scope="row" th:text="${countStat.index+1}">1</th>
-                <td th:text="${count.word}">Mark</td>
-                <td th:text="${count.counts}">Mark</td>
-            </tr>
-            </tbody>
-        </table>
-    </blockquote>
+<div class="container">
+    <div th:if="${counts.size() eq 0}" class="container">
+        <blockquote class="blockquote text-center">
+            <p th:text="#{html.stats.empty}" class="mb-0 bg-light text-black rounded-2"
+               style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
+        </blockquote>
+    </div>
+    <div th:if="${counts.size() > 0}" class="container">
+        <blockquote class="blockquote text-center">
+            <table class="table table-bordered bg-white rounded-3">
+                <thead>
+                <tr class="h5">
+                    <th scope="col">#</th>
+                    <th scope="col" th:text="#{html.stats.word}">Word</th>
+                    <th scope="col" th:text="#{html.stats.counts}">Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="count : ${counts}">
+                    <th scope="row" th:text="${countStat.index+1}">1</th>
+                    <td th:text="${count.word}">Mark</td>
+                    <td th:text="${count.counts}">Mark</td>
+                </tr>
+                </tbody>
+            </table>
+        </blockquote>
+    </div>
 </div>
 <div th:insert="common::footer"></div>
 <div th:insert="common::script"></div>

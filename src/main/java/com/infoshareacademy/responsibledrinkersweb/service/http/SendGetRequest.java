@@ -1,4 +1,4 @@
-package com.infoshareacademy.responsibledrinkersweb.service;
+package com.infoshareacademy.responsibledrinkersweb.service.http;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
