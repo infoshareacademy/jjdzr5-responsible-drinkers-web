@@ -131,7 +131,18 @@ public class AuthorizedController {
     public String stats(Model model) {
         String request = WebClientRequest.getRequest("http://localhost:8081/count");
         List<Count> counts = FromJson.getListOfCount(request);
+        StringBuilder code = new StringBuilder();
+        code.append("google.visualization.arrayToDataTable([")
+                .append("['Word', 'Counts'],").append(System.lineSeparator());
+        for (Count c : counts) {
+            code.append("['").append(c.getWord()).append("', ")
+                    .append(c.getCounts()).append("]");
+            code.append(",").append(System.lineSeparator());
+        }
+        code.setLength(code.length() - 2);
+        code.append("]);");
         model.addAttribute("counts", counts);
+        model.addAttribute("scriptcode", code.toString());
         return "stats";
     }
 
