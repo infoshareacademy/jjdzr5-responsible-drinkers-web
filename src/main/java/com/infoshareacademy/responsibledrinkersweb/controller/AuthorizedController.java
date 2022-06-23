@@ -131,6 +131,13 @@ public class AuthorizedController {
     public String stats(Model model) {
         String request = WebClientRequest.getRequest("http://localhost:8081/count");
         List<Count> counts = FromJson.getListOfCount(request);
+        String jsCode = getJSCode(counts);
+        model.addAttribute("counts", counts);
+        model.addAttribute("scriptcode", jsCode);
+        return "stats";
+    }
+
+    private String getJSCode(List<Count> counts) {
         StringBuilder code = new StringBuilder();
         code.append("google.visualization.arrayToDataTable([")
                 .append("['Word', 'Counts'],").append(System.lineSeparator());
@@ -141,9 +148,7 @@ public class AuthorizedController {
         }
         code.setLength(code.length() - 2);
         code.append("]);");
-        model.addAttribute("counts", counts);
-        model.addAttribute("scriptcode", code.toString());
-        return "stats";
+        return code.toString();
     }
 
     private void sendRequest(ListParameter parameter) {
