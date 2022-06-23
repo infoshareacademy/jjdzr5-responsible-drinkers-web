@@ -1,5 +1,14 @@
 # jjdzr5-responsible-drinkers-web<br/><br/>
 
+**Run service:<br>**
+```http://localhost:8080/```
+
+**Login:<br>**
+```
+user : user 
+admin : admin
+```
+
 **Run container with:<br/>**
 ```docker-compose up -d```<br/>
 or<br/>
