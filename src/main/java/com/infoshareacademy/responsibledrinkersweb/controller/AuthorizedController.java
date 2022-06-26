@@ -129,7 +129,7 @@ public class AuthorizedController {
     @GetMapping("/stats")
     @Secured("ROLE_ADMIN")
     public String stats(Model model) {
-        String request = WebClientRequest.getRequest("http://localhost:8081/count");
+        String request = WebClientRequest.getRequest("http://localhost:8081/counts");
         List<Count> counts = FromJson.getListOfCount(request);
         String jsCode = getJSCode(counts);
         model.addAttribute("counts", counts);
