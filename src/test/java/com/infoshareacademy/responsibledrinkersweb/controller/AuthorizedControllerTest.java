@@ -7,6 +7,11 @@ import com.infoshareacademy.responsibledrinkersweb.service.gson.GsonCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +22,8 @@ import java.util.List;
 class AuthorizedControllerTest {
 
     public static final String DUMMY_URL = "https://postman-echo.com/get";
+
+    private RestTemplate restTemplate;
 
     @Test
     void httpTest() {
@@ -44,6 +51,20 @@ class AuthorizedControllerTest {
         }.getType();
         List<Count> counts = gson.fromJson(s, typeToken);
         counts.forEach(count -> System.out.println(count.getCounts() + ": " + count.getWord()));
+    }
+
+    @Test
+    void getJsonFromRequest() {
+        restTemplate = new RestTemplate();
+        ResponseEntity<Iterable<Count>> exchange = restTemplate.exchange("http://localhost:8081/counts",
+                HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Count>>() {
+                });
+        System.out.println(exchange.getBody());
+        System.out.println(exchange.getStatusCode());
+        Iterable<Count> counts = exchange.getBody();
+        counts.forEach(count -> System.out.println(count.getWord() + " *** " + count.getCounts()));
+        Assertions.assertNotNull(exchange);
+        Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
     }
 
 }

@@ -4,14 +4,14 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.dto.SearchRequestDto;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.service.gson.FromJson;
-import com.infoshareacademy.responsibledrinkersweb.service.http.SendGetRequest;
-import com.infoshareacademy.responsibledrinkersweb.service.http.WebClientRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -129,8 +132,17 @@ public class AuthorizedController {
     @GetMapping("/stats")
     @Secured("ROLE_ADMIN")
     public String stats(Model model) {
-        String request = WebClientRequest.getRequest("http://localhost:8081/counts");
-        List<Count> counts = FromJson.getListOfCount(request);
+        RestTemplate restTemplate = new RestTemplate();
+        List<Count> counts = new ArrayList<>();
+        try {
+            ResponseEntity<List<Count>> exchange = restTemplate.exchange("http://localhost:8081/counts",
+                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Count>>() {
+                    });
+            counts = exchange.getBody();
+
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
         String jsCode = getJSCode(counts);
         model.addAttribute("counts", counts);
         model.addAttribute("scriptcode", jsCode);
@@ -152,11 +164,19 @@ public class AuthorizedController {
     }
 
     private void sendRequest(ListParameter parameter) {
-        SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<SearchRequestDto> request = new HttpEntity<>(new SearchRequestDto(parameter.getKeyword(),
+                LocalDateTime.now()), httpHeaders);
+        RestTemplate restTemplate = new RestTemplate();
         try {
-            sendGetRequest.sendGet();
-        } catch (Exception e) {
-            LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
+            ResponseEntity<SearchRequestDto> post = restTemplate.postForEntity("http://localhost:8081/request",
+                    request, SearchRequestDto.class);
+            LOGGER.info(post.getStatusCode().toString());
+            LOGGER.info(post.getBody().toString());
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
         }
+
     }
 }
