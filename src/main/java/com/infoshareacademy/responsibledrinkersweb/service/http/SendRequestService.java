@@ -3,6 +3,7 @@ package com.infoshareacademy.responsibledrinkersweb.service.http;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.dto.SearchRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,19 +18,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SendRequestService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendRequestService.class);
 
+    private final RestTemplate restTemplate;
 
-    public void sendGetRequest(ListParameter parameter) {
+    public void sendPostRequest(ListParameter parameter) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<SearchRequestDto> request = new HttpEntity<>(new SearchRequestDto(parameter.getKeyword(),
                 LocalDateTime.now()), httpHeaders);
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<SearchRequestDto> post = restTemplate.postForEntity("http://localhost:8081/request",
+            ResponseEntity<SearchRequestDto> post = restTemplate.postForEntity("/request",
                     request, SearchRequestDto.class);
             LOGGER.info(post.getStatusCode().toString());
             LOGGER.info(post.getBody().toString());
@@ -38,17 +40,16 @@ public class SendRequestService {
         }
     }
 
-    public List<Count> sendPostRequest() {
-        RestTemplate restTemplate = new RestTemplate();
+    public List<Count> sendPGetRequest() {
         List<Count> counts = new ArrayList<>();
         try {
-            ResponseEntity<List<Count>> exchange = restTemplate.exchange("http://localhost:8081/counts",
+            ResponseEntity<List<Count>> exchange = restTemplate.exchange("/counts",
                     HttpMethod.GET, null, new ParameterizedTypeReference<List<Count>>() {
                     });
             counts = exchange.getBody();
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
         }
-        return Optional.ofNullable(counts).orElse(new ArrayList<>());
+        return counts;
     }
 }
