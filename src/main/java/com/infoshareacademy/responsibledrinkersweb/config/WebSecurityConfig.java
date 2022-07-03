@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/img/**", "/bootstrap/**", "/js/**", "/favicon/**").permitAll()
-                .antMatchers("/panel", "/manager").hasRole("ADMIN")
+                .antMatchers("/panel", "/manager", "/stats").hasRole("ADMIN")
                 .antMatchers("/list", "/add_new_drink").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/", "/index", "/signup", "/new_account", "/show-more", "/login/**").permitAll()
                 .anyRequest().authenticated()

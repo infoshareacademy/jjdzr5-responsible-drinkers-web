@@ -2,13 +2,17 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.service.SendGetRequest;
+import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,14 +37,15 @@ public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+
+    private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
 
     @GetMapping(value = "/list")
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
         List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
-        // TODO: send search word to REST API
         if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
-            sendRequest(parameter);
+            sendRequestService.sendGetRequest(parameter);
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", drinks);
@@ -110,9 +117,8 @@ public class AuthorizedController {
     @GetMapping("/panel")
     public String panel(@ModelAttribute ListParameter parameter, Model model) {
         List<Drink> searchAndFilterResult = drinkService.getSearchAndFilterAllDrinksResult(parameter);
-        // TODO: send search word to REST API
         if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
-            sendRequest(parameter);
+            sendRequestService.sendGetRequest(parameter);
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", searchAndFilterResult);
@@ -125,12 +131,29 @@ public class AuthorizedController {
         return "account_settings";
     }
 
-    private void sendRequest(ListParameter parameter) {
-        SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
-        try {
-            sendGetRequest.sendGet();
-        } catch (Exception e) {
-            LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
-        }
+    @GetMapping("/stats")
+    @Secured("ROLE_ADMIN")
+    public String stats(Model model) {
+        List<Count> counts = sendRequestService.sendPostRequest();
+        String jsCode = getJSCode(counts);
+        model.addAttribute("counts", counts);
+        model.addAttribute("scriptcode", jsCode);
+        return "stats";
     }
+
+    private String getJSCode(List<Count> counts) {
+        StringBuilder code = new StringBuilder();
+        code.append("google.visualization.arrayToDataTable([")
+                .append("['Word', 'Counts'],").append(System.lineSeparator());
+        for (Count c : counts) {
+            code.append("['").append(c.getWord()).append("', ")
+                    .append(c.getCounts()).append("]");
+            code.append(",").append(System.lineSeparator());
+        }
+        code.setLength(code.length() - 2);
+        code.append("]);");
+        return code.toString();
+    }
+
+
 }
