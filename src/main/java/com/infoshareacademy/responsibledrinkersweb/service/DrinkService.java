@@ -2,11 +2,12 @@ package com.infoshareacademy.responsibledrinkersweb.service;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
 import com.infoshareacademy.responsibledrinkersweb.entity.control.DBDrinkDAOManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.mapper.DrinkMapper;
-import com.infoshareacademy.responsibledrinkersweb.repository.DrinkRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -15,18 +16,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class DrinkService {
 
-    private final List<Drink> drinkList = new DrinkRepository().getRepository();
     private final DBDrinkDAOManager dbDrinkDAOManager;
     private final DrinkMapper drinkMapper;
     private final DrinkDBService drinkDBService;
 
-    public DrinkService(DBDrinkDAOManager dbDrinkDAOManager, DrinkMapper drinkMapper, DrinkDBService drinkDBService) {
-        this.dbDrinkDAOManager = dbDrinkDAOManager;
-        this.drinkMapper = drinkMapper;
-        this.drinkDBService = drinkDBService;
-    }
 
     public List<Drink> getDrinks() {
         List<DrinkDAO> drinkDAOList = dbDrinkDAOManager.findAll();
@@ -38,7 +34,7 @@ public class DrinkService {
     }
 
     public List<Drink> getAcceptedDrinks() {
-        return drinkDBService.getAcceptedDrinks();
+        return drinkDBService.getAcceptedDrinks("idDrink");
     }
 
     public void addDrink(Drink drink) {
@@ -71,27 +67,78 @@ public class DrinkService {
         dbDrinkDAOManager.delete(id);
     }
 
-    public List<Drink> search(String searchString) {
-        return drinkDBService.getSearchResults(searchString);
-//        if (searchString != null) {
-//            return getDrinks().stream()
-//                    .filter(drink -> drink.getDrink().toLowerCase().contains(searchString.toLowerCase()))
-//                    .toList();
-//        } else {
-//            return new ArrayList<>();
-//        }
+    public List<Drink> getSearchAndFilterAcceptedDrinksResult(ListParameter parameter, Status status) {
+        setOrderParameterToSQL(parameter);
+        if (parameter.getKeyword() != null && parameter.getAlcoholic() != null && parameter.getFilterElements() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements(), status);
+        } else if (parameter.getKeyword() != null && parameter.getAlcoholic() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), status);
+        } else if (parameter.getAlcoholic() != null && parameter.getKeyword() != null) {
+            return drinkDBService.getAlcoholicResults(parameter.getSort(), parameter.getAlcoholic(), parameter.getKeyword(), status);
+        } else if (parameter.getFilterElements() != null && parameter.getKeyword() != null) {
+            return drinkDBService.getFilterResults(parameter.getSort(), parameter.getFilterElements(), parameter.getKeyword(), status);
+        } else if (parameter.getKeyword() != null) {
+            return drinkDBService.getSearchResults(parameter.getSort(), parameter.getKeyword(), status);
+        } else {
+            return drinkDBService.getAllDrinksByStatus(parameter.getSort(), status);
+        }
     }
-
-    public List<Drink> filter(Boolean isAlcoholic) {
-        return drinkDBService.filter(isAlcoholic);
-    }
-
 
     public void update(Drink drink) {
-        UUID id = drink.getId();
-        DrinkDAO drinkDAO = dbDrinkDAOManager.find(id);
+        DrinkDAO drinkDAO;
         drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
         drinkDAO.setDateModified(LocalDateTime.now());
         dbDrinkDAOManager.update(drinkDAO);
+    }
+
+    public List<Drink> getSearchAndFilterAllDrinksResult(ListParameter parameter) {
+        setOrderParameterToSQL(parameter);
+        if (parameter.getKeyword() == null) {
+            parameter.setKeyword("");
+        }
+
+        if (parameter.getAlcoholic() != null && parameter.getFilterElements() != null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() == null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() != null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getFilterElements());
+        } else if (parameter.getAlcoholic() != null && parameter.getFilterElements() == null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getAlcoholic(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() != null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getFilterElements(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() != null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getFilterElements());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() == null && parameter.getStatus() != null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword(), parameter.getStatus());
+        } else if (parameter.getAlcoholic() == null && parameter.getFilterElements() == null && parameter.getStatus() == null) {
+            return drinkDBService.getSearchAndFilterResult(parameter.getSort(), parameter.getKeyword());
+        } else {
+            return drinkDBService.getAllDrinks(parameter.getSort());
+        }
+    }
+
+    private void setOrderParameterToSQL(ListParameter parameter) {
+        if (parameter.getSort() == null) {
+            parameter.setSort("idDrink");
+        } else {
+            switch (parameter.getSort()) {
+                case "NAME":
+                    parameter.setSort("strDrink");
+                    break;
+                case "TYPE":
+                    parameter.setSort("strAlcoholic");
+                    break;
+                case "DATE":
+                    parameter.setSort("dateModified");
+                    break;
+                case "STATUS":
+                    parameter.setSort("status");
+                    break;
+                default:
+                    parameter.setSort("idDrink");
+                    break;
+            }
+        }
     }
 }

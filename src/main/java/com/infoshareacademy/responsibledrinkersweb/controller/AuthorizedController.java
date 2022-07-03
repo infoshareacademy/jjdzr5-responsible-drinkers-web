@@ -2,13 +2,14 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
-import com.infoshareacademy.drinkers.service.sorting.SortDrinks;
-import com.infoshareacademy.drinkers.service.sorting.SortItems;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
-import com.infoshareacademy.responsibledrinkersweb.service.ParameterService;
+import com.infoshareacademy.responsibledrinkersweb.service.SendGetRequest;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +20,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
 public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
+
+    @GetMapping(value = "/list")
+    public String list(@ModelAttribute() ListParameter parameter, Model model) {
+        List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
+        // TODO: send search word to REST API
+        if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
+            sendRequest(parameter);
+        }
+        model.addAttribute("listparameter", parameter);
+        model.addAttribute("drinklist", drinks);
+        model.addAttribute("dateformat", dateFormat.getDatePattern());
+        return "drink_list";
+    }
 
     @PostMapping("/new_drink")
     public String newDrink(@Valid @ModelAttribute Drink drink, BindingResult result, Model model) {
@@ -46,8 +63,6 @@ public class AuthorizedController {
         if (result.hasErrors()) {
             return "edit";
         } else {
-//            drinkService.deleteDrink(drink.getId());
-//            drinkService.addDrink(drink);
             drinkService.update(drink);
             model.addAttribute("drink", drink);
             model.addAttribute("dateformat", dateFormat.getDatePattern());
@@ -63,25 +78,10 @@ public class AuthorizedController {
 
     @GetMapping("/manager")
     public String manager(Model model, @RequestParam(value = "sort", required = false, defaultValue = "0") String sort, @RequestParam(value = "deleted", required = false, defaultValue = "false") boolean deleted) {
-        List<Drink> drinkListManager;
-        SortDrinks sortDrinks = new SortDrinks(drinkService.getDrinks());
-        if (sort.equals("ID")) {
-            drinkListManager = sortDrinks.getSortedList(SortItems.ID);
-        } else if (sort.equalsIgnoreCase("NAME")) {
-            drinkListManager = sortDrinks.getSortedList(SortItems.DRINK_NAME);
-        } else if (sort.equalsIgnoreCase("TYPE")) {
-            drinkListManager = sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-        } else if (sort.equalsIgnoreCase("DATE")) {
-            drinkListManager = sortDrinks.getSortedList(SortItems.DATE);
-        } else if (sort.equalsIgnoreCase("STATUS")) {
-            drinkListManager = drinkService.getDrinks().stream()
-                    .sorted((d1, d2) ->
-                            d2.getStatus().getName().compareTo(d1.getStatus().getName())
-                    ).toList();
-        } else {
-            drinkListManager = drinkService.getDrinks();
-        }
-        model.addAttribute("drinklist", drinkListManager);
+        ListParameter listParameter = new ListParameter();
+        listParameter.setSort(sort);
+        List<Drink> searchAndFilterResult = drinkService.getSearchAndFilterAllDrinksResult(listParameter);
+        model.addAttribute("drinklist", searchAndFilterResult);
         model.addAttribute("dateformat", dateFormat.getDatePattern());
         model.addAttribute("deleted", deleted);
         return "manager";
@@ -90,7 +90,6 @@ public class AuthorizedController {
     @GetMapping("edit")
     public String edit(@RequestParam UUID id, Model model) {
         Drink drink = drinkService.getDrink(id);
- //       drink.setId(id);
         model.addAttribute("drink", drink);
         return "edit";
     }
@@ -110,37 +109,13 @@ public class AuthorizedController {
 
     @GetMapping("/panel")
     public String panel(@ModelAttribute ListParameter parameter, Model model) {
-        System.out.println(parameter);
-
-//        List<Drink> modifyList = drinkService.getDrinks();
-//        if (parameter.getKeyword() != null) {
-//            modifyList = drinkService.search(parameter.getKeyword());
-//        }
-//        if (parameter.getAlcoholic() != null) {
-//            modifyList = modifyList.stream()
-//                    .filter(drink -> drink.getAlcoholic().equalsIgnoreCase(parameter.getAlcoholic().getName()))
-//                    .toList();
-//        }
-//        if (parameter.getFilterElements() != null) {
-//            FilterList filterList = new FilterList(modifyList);
-//            modifyList = filterList.getFilteredByIngredient(parameter.getFilterElements()).getResults();
-//        }
-//        if (parameter.getStatus() != null) {
-//            FilterList filterList = new FilterList(modifyList);
-//            modifyList = filterList.getFilteredByStatus(parameter.getStatus()).getResults();
-//        }
-//        SortDrinks sortDrinks = new SortDrinks(modifyList);
-//        if (parameter.getSort() != null) {
-//            modifyList = switch (parameter.getSort()) {
-//                case "ID" -> sortDrinks.getSortedList(SortItems.ID);
-//                case "NAME" -> sortDrinks.getSortedList(SortItems.DRINK_NAME);
-//                case "TYPE" -> sortDrinks.getSortedList(SortItems.ALCOHOLIC);
-//                case "DATE" -> sortDrinks.getSortedList(SortItems.DATE);
-//                default -> modifyList;
-//            };
-//        }
+        List<Drink> searchAndFilterResult = drinkService.getSearchAndFilterAllDrinksResult(parameter);
+        // TODO: send search word to REST API
+        if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
+            sendRequest(parameter);
+        }
         model.addAttribute("listparameter", parameter);
-        model.addAttribute("drinklist", ParameterService.func(parameter, drinkService.getDrinks()));
+        model.addAttribute("drinklist", searchAndFilterResult);
         model.addAttribute("dateformat", dateFormat.getDatePattern());
         return "panel";
     }
@@ -150,4 +125,12 @@ public class AuthorizedController {
         return "account_settings";
     }
 
+    private void sendRequest(ListParameter parameter) {
+        SendGetRequest sendGetRequest = new SendGetRequest("http://localhost:8081/search_request", parameter.getKeyword(), LocalDateTime.now());
+        try {
+            sendGetRequest.sendGet();
+        } catch (Exception e) {
+            LOGGER.error("Error while sending search request to REST API: " + e.getMessage(), e);
+        }
+    }
 }

@@ -1,8 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
-import com.infoshareacademy.drinkers.domain.drink.Status;
-import com.infoshareacademy.drinkers.service.filtering.FilterElements;
 import com.infoshareacademy.responsibledrinkersweb.domain.Gender;
 import com.infoshareacademy.responsibledrinkersweb.dto.CreateUserDto;
 import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
@@ -45,11 +43,11 @@ public class DBInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        CreateUserDto createUserDto1 = new CreateUserDto("user", Gender.FEMALE,"a@b.pl","user",
-                LocalDate.of(2000, Month.FEBRUARY,1),"USER");
+        CreateUserDto createUserDto1 = new CreateUserDto("user", Gender.FEMALE, "a@b.pl", "user",
+                LocalDate.of(2000, Month.FEBRUARY, 1), "USER");
         userService.addUser(createUserDto1);
-        CreateUserDto createUserDto2 = new CreateUserDto("admin", Gender.MALE,"x@z.pl","admin",
-                LocalDate.of(1999, Month.NOVEMBER,21),"ADMIN");
+        CreateUserDto createUserDto2 = new CreateUserDto("admin", Gender.MALE, "x@z.pl", "admin",
+                LocalDate.of(1999, Month.NOVEMBER, 21), "ADMIN");
         UserDto adminDto = userService.addUser(createUserDto2);
         UserDAO userDAO = modelMapper.map(adminDto, UserDAO.class);
 
@@ -59,12 +57,8 @@ public class DBInit implements CommandLineRunner {
         dbDrinkDAOManager.saveAll(drinkDAOS);
 
 
-
         LOGGER.info("***    DB initialized!     ***");
         LOGGER.info("***  Application started!  ***");
 
-        List<DrinkDAO> b = dbDrinkDAOManager.filteredList("af", true, Status.ACCEPTED, FilterElements.JUICE);
-        b.forEach(drinkDAO -> LOGGER.info(drinkMapper.mapDrinkDAOToDrink(drinkDAO).toString()));
-        LOGGER.info(b.size() + " drinks found");
     }
 }

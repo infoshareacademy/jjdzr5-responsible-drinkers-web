@@ -1,5 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb.entity.control;
 
+import com.infoshareacademy.drinkers.domain.drink.Alcoholic;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.drinkers.service.filtering.FilterElements;
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
@@ -31,6 +32,10 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
     @Override
     public List<DrinkDAO> findAll() {
         return entityManager.createQuery("SELECT d FROM DrinkDAO d", DrinkDAO.class).getResultList();
+    }
+
+    public List<DrinkDAO> findAll(String sort) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d order by d." + sort, DrinkDAO.class).getResultList();
     }
 
     @Override
@@ -75,8 +80,8 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
 
     }
 
-    public List<DrinkDAO> findByStatus(Status status) {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.status = :status", DrinkDAO.class)
+    public List<DrinkDAO> findByStatus(String sort, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.status = :status ORDER BY d." + sort, DrinkDAO.class)
                 .setParameter("status", status)
                 .getResultList();
     }
@@ -92,9 +97,11 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
         entityManager.remove(byId);
     }
 
-    public List<DrinkDAO> findByName(String searchString) {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :searchString", DrinkDAO.class)
+    public List<DrinkDAO> findByNameAndStatus(String sort, String searchString, Status accepted) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :searchString AND " +
+                        "d.status = :status order by d." + sort, DrinkDAO.class)
                 .setParameter("searchString", "%" + searchString + "%")
+                .setParameter("status", accepted)
                 .getResultList();
     }
 
@@ -108,38 +115,104 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
         }
     }
 
-    public List<DrinkDAO> sortByName() {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d ORDER BY d.strDrink", DrinkDAO.class)
-                .getResultList();
-    }
-
-    public List<DrinkDAO> sortByAlcoholic() {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d ORDER BY d.strAlcoholic", DrinkDAO.class)
-                .getResultList();
-    }
-
-    public List<DrinkDAO> sortByDate() {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d ORDER BY d.dateModified", DrinkDAO.class)
-                .getResultList();
-    }
-
-    public List<DrinkDAO> sortByStatus() {
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d ORDER BY d.status", DrinkDAO.class)
-                .getResultList();
-    }
-
-    public List<DrinkDAO> filteredList(String searchString, Boolean isAlcoholic, Status status, FilterElements filterElements) {
+    public List<DrinkDAO> filteredList(String searchString, Alcoholic alcoholic, Status status, FilterElements filterElements) {
         String alcohol = "Alcoholic";
-        if (!isAlcoholic) {
+        if (Alcoholic.NON_ALCOHOLIC.equals(alcoholic)) {
             alcohol = "Non alcoholic";
         }
-
         return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :searchString AND " +
                         "d.strAlcoholic LIKE :alcohol AND d.status = :status AND d.strIngredient LIKE :filterElements  ", DrinkDAO.class)
                 .setParameter("searchString", "%" + searchString + "%")
                 .setParameter("alcohol", alcohol)
                 .setParameter("status", status)
                 .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .getResultList();
+    }
+
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strAlcoholic = :alcohol AND d.status = :status ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("alcohol", alcoholic.getName())
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, FilterElements filterElements, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strAlcoholic = :alcohol AND d.strIngredient LIKE :filterElements AND d.status = :status " +
+                        "ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("alcohol", alcoholic.getName())
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getAlcoholicResults(String sort, Alcoholic alcoholic, String keyword, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strAlcoholic = :alcoholic AND " +
+                        "d.status = :status AND d.strDrink LIKE :keyword ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("alcoholic", alcoholic.getName())
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getFilterResults(String sort, FilterElements filterElements, String keyword, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strIngredient LIKE :filterElements AND " +
+                        "d.status = :status AND d.strDrink LIKE :keyword ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .setParameter("status", status)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strAlcoholic = :alcoholic ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("alcoholic", alcoholic.getName())
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, Alcoholic alcoholic, FilterElements filterElements) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strAlcoholic = :alcoholic AND d.strIngredient LIKE :filterElements ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("alcoholic", alcoholic.getName())
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, FilterElements filterElements, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strIngredient LIKE :filterElements AND d.status = :status ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, FilterElements filterElements) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.strIngredient LIKE :filterElements ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("filterElements", "%" + filterElements.getName() + "%")
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword, Status status) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword AND " +
+                        "d.status = :status ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    public List<DrinkDAO> getSearchAndFilterResult(String sort, String keyword) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.strDrink LIKE :keyword ORDER BY d." + sort, DrinkDAO.class)
+                .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
     }
 }
