@@ -10,9 +10,6 @@ import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestServi
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +39,7 @@ public class AuthorizedController {
     public String list(@ModelAttribute() ListParameter parameter, Model model) {
         List<Drink> drinks = drinkService.getSearchAndFilterAcceptedDrinksResult(parameter, Status.ACCEPTED);
         if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
-            sendRequestService.sendGetRequest(parameter);
+            sendRequestService.sendPostRequest(parameter);
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", drinks);
@@ -118,7 +112,7 @@ public class AuthorizedController {
     public String panel(@ModelAttribute ListParameter parameter, Model model) {
         List<Drink> searchAndFilterResult = drinkService.getSearchAndFilterAllDrinksResult(parameter);
         if (parameter.getKeyword() != null && parameter.getKeyword().length() > 0) {
-            sendRequestService.sendGetRequest(parameter);
+            sendRequestService.sendPostRequest(parameter);
         }
         model.addAttribute("listparameter", parameter);
         model.addAttribute("drinklist", searchAndFilterResult);
@@ -134,7 +128,7 @@ public class AuthorizedController {
     @GetMapping("/stats")
     @Secured("ROLE_ADMIN")
     public String stats(Model model) {
-        List<Count> counts = sendRequestService.sendPostRequest();
+        List<Count> counts = sendRequestService.sendPGetRequest();
         String jsCode = getJSCode(counts);
         model.addAttribute("counts", counts);
         model.addAttribute("scriptcode", jsCode);
