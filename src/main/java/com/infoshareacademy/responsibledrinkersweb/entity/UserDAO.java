@@ -9,9 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -30,6 +28,7 @@ public class UserDAO {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
+        this.active = 1;
     }
 
     @Id
@@ -53,7 +52,7 @@ public class UserDAO {
     private String email;
 
     @Size(min = 4, max = 25, message = "{validation.password}")
-    @Column(name = COLUMN_PREFIX + "password")
+    @Column(name = COLUMN_PREFIX + "password", nullable = false)
     private String password;
 
     @Past(message = "{validation.pastDate}")
@@ -67,5 +66,15 @@ public class UserDAO {
 
     @Column(name = COLUMN_PREFIX + "role")
     private String role;
+
+    @Column(name = COLUMN_PREFIX + "active")
+    private int active;
+
+    public List<String> getRolesList() {
+        if (role.length()>0) {
+            return Arrays.asList(role.split(","));
+        }
+        return new ArrayList<>();
+    }
 
 }
