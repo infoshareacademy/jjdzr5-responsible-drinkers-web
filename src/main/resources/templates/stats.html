@@ -37,7 +37,7 @@
         </blockquote>
     </div>
 </div>
-<div class="container text-center">
+<div class="container text-center" th:if="${counts.size() > 0}" >
     <div id="chart" class="container text-center rounded-3"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript" type="text/javascript">
