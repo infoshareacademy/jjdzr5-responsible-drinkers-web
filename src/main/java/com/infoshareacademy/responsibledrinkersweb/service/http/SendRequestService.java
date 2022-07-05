@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +32,12 @@ public class SendRequestService {
         try {
             ResponseEntity<SearchRequestDto> post = restTemplate.postForEntity("/request",
                     request, SearchRequestDto.class);
-            LOGGER.info(post.getStatusCode().toString());
-            LOGGER.info(post.getBody().toString());
+            if ((post.getBody() != null)) {
+                LOGGER.info(post.getBody().toString());
+                LOGGER.info(post.getStatusCode().toString());
+            } else {
+                LOGGER.info("null");
+            }
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -44,11 +47,11 @@ public class SendRequestService {
         List<Count> counts = new ArrayList<>();
         try {
             ResponseEntity<List<Count>> exchange = restTemplate.exchange("/counts",
-                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Count>>() {
+                    HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                     });
             counts = exchange.getBody();
         } catch (RestClientException e) {
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage());
         }
         return counts;
     }
