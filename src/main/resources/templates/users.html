@@ -5,11 +5,42 @@
 <nav th:insert="common::navbar"></nav>
 <div class="container">
     <blockquote class="blockquote text-center">
-        <p th:text="#{html.stats.text}" class="mb-0 bg-light text-black rounded-2"
+        <p th:text="#{html.users.text}" class="mb-0 bg-light text-black rounded-2"
            style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
     </blockquote>
 </div>
 <div class="container">
+    <div th:if="${users.size() > 0}" class="container">
+        <blockquote class="blockquote text-center">
+            <table class="table table-bordered bg-white rounded-3">
+                <thead>
+                <tr class="h5">
+                    <th scope="col">#</th>
+                    <th scope="col" th:text="#{html.users.name}">Name</th>
+                    <th scope="col" th:text="#{html.users.roles}">Role</th>
+                    <th scope="col" th:text="#{html.users.email}">e-mail</th>
+                    <th scope="col" th:text="#{html.users.gender}">Gender</th>
+                    <th scope="col" th:text="#{html.users.active}">Gender</th>
+                    <th scope="col" th:text="#{html.users.action}">Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <th scope="row" th:text="${userStat.index+1}">1</th>
+                    <td th:text="${user.getUserName()}">Mark</td>
+                    <td th:text="${user.getRole()}">Mark</td>
+                    <td th:text="${user.getEmail()}">Mark</td>
+                    <td th:text="${user.getGender().toString()}">Mark</td>
+                    <td th:text="${user.isActive()}">Mark</td>
+                    <td>
+                        <div>Akcja</div>
+                        <div></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </blockquote>
+    </div>
 </div>
 <div class="container text-center">
     <div id="chart" class="container text-center rounded-3"></div>

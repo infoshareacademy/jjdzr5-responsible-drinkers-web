@@ -7,6 +7,9 @@ import com.infoshareacademy.responsibledrinkersweb.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -28,5 +31,10 @@ public class UserService {
         UserDAO user = userRepository.findByUserName(username);
         return modelMapper.map(user, UserDto.class);
 
+    }
+
+    public List<UserDto> findAll() {
+        List<UserDAO> users = userRepository.findAll();
+        return users.stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
     }
 }

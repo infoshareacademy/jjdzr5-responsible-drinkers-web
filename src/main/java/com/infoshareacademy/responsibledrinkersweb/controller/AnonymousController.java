@@ -1,8 +1,10 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
+import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -17,6 +20,8 @@ import java.util.UUID;
 public class AnonymousController {
 
     private final DrinkService drinkService;
+    private final UserService userService;
+
     private final DateFormat dateFormat;
     private static final Integer ELEMENTS_TO_PRINT = 8;
 
@@ -52,6 +57,13 @@ public class AnonymousController {
     public String signup(Model model) {
         model.addAttribute("user", new User());
         return "signup";
+    }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAll();
+        model.addAttribute("users", users);
+        return "users";
     }
 
 
