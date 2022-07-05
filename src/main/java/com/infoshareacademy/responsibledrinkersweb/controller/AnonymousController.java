@@ -1,5 +1,6 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
+import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.responsibledrinkersweb.domain.Gender;
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.dto.CreateUserDto;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +27,6 @@ public class AnonymousController {
     private final DrinkService drinkService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-
 
     private final DateFormat dateFormat;
     private static final Integer ELEMENTS_TO_PRINT = 8;
@@ -92,4 +93,16 @@ public class AnonymousController {
         return "redirect:/users";
     }
 
+    @GetMapping("/users/accept/{id}")
+    public String acceptUser(@PathVariable UUID id) {
+        userService.acceptUser(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/drinks/{id}")
+    public String userDrinks(@PathVariable UUID id, Model model) {
+        List<Drink> userDrinks = drinkService.getUserDrinks(id);
+        model.addAttribute("drinks", userDrinks);
+        return "user_drinks";
+    }
 }

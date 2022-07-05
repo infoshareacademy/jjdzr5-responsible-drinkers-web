@@ -22,6 +22,7 @@
                     <th scope="col" th:text="#{html.users.gender}">Gender</th>
                     <th scope="col" th:text="#{html.users.active}">Gender</th>
                     <th scope="col" th:text="#{html.users.action}">Gender</th>
+                    <th scope="col" th:text="#{html.users.drinks}">Gender</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +34,7 @@
                     <td th:text="${user.getGender().toString()}">Mark</td>
                     <td th:text="${user.isActive()}">Mark</td>
                     <td>
-                        <div th:if="${user.getRole()} != 'ADMIN'">
+                        <span th:if="${user.getRole()} != 'ADMIN'">
                             <a th:if="${user.isActive()}" th:text="#{html.users.block}"
                                th:href="@{'/users/block/' + ${user.getId()}}"
                                class="btn btn-danger btn-sm active"
@@ -42,8 +43,21 @@
                                th:href="@{'/users/block/' + ${user.getId()}}"
                                class="btn btn-info btn-sm active"
                                role="button" aria-pressed="true" methods="post">More info</a>
-                        </div>
+                        </span>
+                        <span th:if="${user.getRole()} == 'REGISTERED'">
+                            <a th:if="${user.isActive()}" th:text="#{html.users.register}"
+                               th:href="@{'/users/accept/' + ${user.getId()}}"
+                               class="btn btn-danger btn-sm active"
+                               role="button" aria-pressed="true" methods="post">More info</a>
+                        </span>
                     </td>
+                    <td>
+                        <a th:if="${user.isActive()}" th:text="#{html.users.show.drinks}"
+                           th:href="@{'/users/drinks/' + ${user.getId()}}"
+                           class="btn btn-primary btn-sm active"
+                           role="button" aria-pressed="true" methods="post">More info</a>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>

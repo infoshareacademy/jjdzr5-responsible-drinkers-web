@@ -45,6 +45,9 @@ public class DBInit implements CommandLineRunner {
         CreateUserDto createUserDto2 = new CreateUserDto("admin", Gender.MALE, "x@z.pl", passwordEncoder.encode("admin"),
                 LocalDate.of(1999, Month.NOVEMBER, 21), "ADMIN");
         UserDto adminDto = userService.addUser(createUserDto2);
+        CreateUserDto createUserDto3 = new CreateUserDto("new", Gender.MALE, "new@wp.pl", passwordEncoder.encode("new"),
+                LocalDate.of(1991, Month.APRIL, 12), "REGISTERED");
+        userService.addUser(createUserDto3);
         UserDAO userDAO = modelMapper.map(adminDto, UserDAO.class);
 
         List<DrinkDAO> drinkDAOS = drinkMapper.mapToDrinkDAOList(drinkList);

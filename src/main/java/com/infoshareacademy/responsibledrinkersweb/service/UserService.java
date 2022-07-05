@@ -47,4 +47,10 @@ public class UserService {
         }
         userRepository.save(user);
     }
+
+    public void acceptUser(UUID id) {
+        UserDAO user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setRole("USER");
+        userRepository.save(user);
+    }
 }
