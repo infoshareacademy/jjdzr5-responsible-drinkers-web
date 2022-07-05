@@ -33,8 +33,16 @@
                     <td th:text="${user.getGender().toString()}">Mark</td>
                     <td th:text="${user.isActive()}">Mark</td>
                     <td>
-                        <div>Akcja</div>
-                        <div></div>
+                        <div th:if="${user.getRole()} != 'ADMIN'">
+                            <a th:if="${user.isActive()}" th:text="#{html.users.block}"
+                               th:href="@{'/users/block/' + ${user.getId()}}"
+                               class="btn btn-danger btn-sm active"
+                               role="button" aria-pressed="true" methods="post">More info</a>
+                            <a th:if="${!user.isActive()}" th:text="#{html.users.unblock}"
+                               th:href="@{'/users/block/' + ${user.getId()}}"
+                               class="btn btn-info btn-sm active"
+                               role="button" aria-pressed="true" methods="post">More info</a>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -58,7 +66,7 @@
             // Optional; add a title and set the width and height of the chart
             var options = {
                 'height': 750,
-                chartArea: { width: '90%', height: '90%'},
+                chartArea: {width: '90%', height: '90%'},
                 is3D: true,
                 legend: {position: 'bottom', textStyle: {color: 'white', fontSize: 16}},
                 backgroundColor: '#2b2b2b',

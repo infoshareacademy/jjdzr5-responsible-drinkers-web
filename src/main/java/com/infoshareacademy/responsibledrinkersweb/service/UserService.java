@@ -7,8 +7,8 @@ import com.infoshareacademy.responsibledrinkersweb.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -36,5 +36,15 @@ public class UserService {
     public List<UserDto> findAll() {
         List<UserDAO> users = userRepository.findAll();
         return users.stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
+    }
+
+    public void changeUserIsActiveFlag(UUID id) {
+        UserDAO user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (user.isActive()) {
+            user.setActive(false);
+        } else {
+            user.setActive(true);
+        }
+        userRepository.save(user);
     }
 }

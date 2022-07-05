@@ -66,5 +66,10 @@ public class AnonymousController {
         return "users";
     }
 
+    @GetMapping("/users/block/{id}")
+    public String blockUser(@PathVariable UUID id) {
+        userService.changeUserIsActiveFlag(id);
+        return "redirect:/users";
+    }
 
 }
