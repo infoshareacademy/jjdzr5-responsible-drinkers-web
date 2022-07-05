@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class UserDAO {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
+        this.isActive = true;
     }
 
     @Id
@@ -52,8 +54,8 @@ public class UserDAO {
     @Column(name = COLUMN_PREFIX + "email", unique = true)
     private String email;
 
-    @Size(min = 4, max = 25, message = "{validation.password}")
-    @Column(name = COLUMN_PREFIX + "password")
+    @NotBlank(message = "{validation.blank}")
+    @Column(name = COLUMN_PREFIX + "password", nullable = false)
     private String password;
 
     @Past(message = "{validation.pastDate}")
@@ -67,5 +69,15 @@ public class UserDAO {
 
     @Column(name = COLUMN_PREFIX + "role")
     private String role;
+
+    @Column(name = COLUMN_PREFIX + "is_active")
+    private boolean isActive;
+
+    public List<String> getRolesList() {
+        if (role.length() > 0) {
+            return Arrays.asList(role.split(","));
+        }
+        return new ArrayList<>();
+    }
 
 }
