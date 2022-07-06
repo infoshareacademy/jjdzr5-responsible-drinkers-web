@@ -217,8 +217,7 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
     }
 
     public List<DrinkDAO> getUserDrinks(UUID id) {
-        System.out.println(id);
-        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.userDAO = :id", DrinkDAO.class)
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.userDAO.id = :id order by d.strDrink", DrinkDAO.class)
                 .setParameter("id", id)
                 .getResultList();
     }

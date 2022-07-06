@@ -124,11 +124,7 @@ public class DrinkDBService {
     }
 
     public List<Drink> getUserDrinks(UUID id) {
-        // TODO: change to Query
-        List<DrinkDAO> userDrinks = dbDrinkDAOManager.findAll()
-                .stream()
-                .filter(drinkDAO -> drinkDAO.getUserDAO().getId().equals(id))
-                .toList();
+        List<DrinkDAO> userDrinks = dbDrinkDAOManager.getUserDrinks(id);
         return drinkMapper.mapToDrinkList(userDrinks);
     }
 }
