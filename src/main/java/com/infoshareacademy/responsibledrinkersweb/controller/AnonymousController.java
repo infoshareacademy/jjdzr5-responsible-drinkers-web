@@ -79,6 +79,7 @@ public class AnonymousController {
         return "signup";
     }
 
+    // TODO: przenieść do kontrolera AuthorizedController
     @GetMapping("/users")
     public String users(Model model) {
         List<UserDto> users = userService.findAllSortByUserName();
@@ -86,18 +87,21 @@ public class AnonymousController {
         return "users";
     }
 
+    // TODO: przenieść do kontrolera AuthorizedController
     @GetMapping("/users/block/{id}")
     public String blockUser(@PathVariable UUID id) {
         userService.changeUserIsActiveFlag(id);
         return "redirect:/users";
     }
 
+    // TODO: przenieść do kontrolera AuthorizedController
     @GetMapping("/users/accept/{id}")
     public String acceptUser(@PathVariable UUID id) {
         userService.acceptUser(id);
         return "redirect:/users";
     }
 
+    // TODO: przenieść do kontrolera AuthorizedController
     @GetMapping("/users/drinks/{id}")
     public String userDrinks(@PathVariable UUID id, Model model) {
         List<Drink> userDrinks = drinkService.getUserDrinks(id);
