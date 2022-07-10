@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,7 +62,7 @@ public class AnonymousController {
                 break;
         }
         CreateUserDto createUserDto = new CreateUserDto(user.getUserName(), gender, user.getEmail(),
-                passwordEncoder.encode(user.getPassword()), user.getDateOfBirth(), "REGISTERED");
+                passwordEncoder.encode(user.getPassword()), user.getDateOfBirth(), "REGISTERED", false);
         userService.addUser(createUserDto);
         model.addAttribute("userAccount", user);
         return "new_account";
@@ -82,7 +81,7 @@ public class AnonymousController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        List<UserDto> users = userService.findAll();
+        List<UserDto> users = userService.findAllSortByUserName();
         model.addAttribute("users", users);
         return "users";
     }

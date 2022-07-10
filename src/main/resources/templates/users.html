@@ -44,20 +44,13 @@
                                class="btn btn-info btn-sm active"
                                role="button" aria-pressed="true" methods="post">More info</a>
                         </span>
-                        <span th:if="${user.getRole()} == 'REGISTERED'">
-                            <a th:if="${user.isActive()}" th:text="#{html.users.register}"
-                               th:href="@{'/users/accept/' + ${user.getId()}}"
-                               class="btn btn-danger btn-sm active"
-                               role="button" aria-pressed="true" methods="post">More info</a>
-                        </span>
                     </td>
                     <td>
-                        <a th:if="${user.isActive()}" th:text="#{html.users.show.drinks}"
+                        <a th:text="#{html.users.show.drinks}"
                            th:href="@{'/users/drinks/' + ${user.getId()}}"
                            class="btn btn-primary btn-sm active"
                            role="button" aria-pressed="true" methods="post">More info</a>
                     </td>
-
                 </tr>
                 </tbody>
             </table>

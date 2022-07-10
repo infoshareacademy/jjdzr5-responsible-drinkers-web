@@ -19,7 +19,7 @@ class UserServiceTest {
     @Test
     void addUserTest() {
         CreateUserDto createUserDto =
-                new CreateUserDto("example", Gender.FEMALE, "example@mail.com", "passw0rd", LocalDate.now().minusYears(40), "USER");
+                new CreateUserDto("example", Gender.FEMALE, "example@mail.com", "passw0rd", LocalDate.now().minusYears(40), "USER",true);
         UserDto userDto = userService.addUser(createUserDto);
         Assertions.assertNotNull(userDto);
     }
