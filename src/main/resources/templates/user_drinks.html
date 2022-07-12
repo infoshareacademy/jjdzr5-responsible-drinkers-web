@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common::header (#{html.users.title})"></head>
+<body style="background-color: #2b2b2b">
+<nav th:insert="common::navbar"></nav>
+<div class="container">
+    <blockquote class="blockquote text-center">
+        <p th:text="#{html.users.text}" class="mb-0 bg-light text-black rounded-2"
+           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
+    </blockquote>
+</div>
+<div class="container">
+    <blockquote class="blockquote text-center">
+        <table class="table table-bordered bg-white rounded-3">
+            <thead>
+            <tr class="h5">
+                <th scope="col">#</th>
+                <th scope="col" th:text="#{html.drink_list.th.name}">Name</th>
+                <th scope="col" th:text="#{html.add_new_drink.alcoholic}">Role</th>
+                <th scope="col" th:text="#{html.drink_list.th.date}">e-mail</th>
+                <th scope="col" th:text="#{html.add_new_drink.category}">Gender</th>
+                <th scope="col" th:text="#{html.add_new_drink.ingredients}">Gender</th>
+                <th scope="col" th:text="#{html.users.action}">Gender</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${drinks}">
+                <th scope="row" th:text="${dStat.index+1}">1</th>
+                <td th:text="${d.getDrink()}">Mark</td>
+                <td th:text="${d.getAlcoholic()}">Mark</td>
+                <td th:text="${#temporals.format(d.getDateModified(), 'dd-MM-yyyy HH:mm')}">Mark</td>
+                <td th:text="${d.getCategory()}">Mark</td>
+                <td th:text="${d.getIngredients()}">Mark</td>
+                <td>
+                    <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${d.getId()}}"
+                       class="btn btn-info btn-sm active"
+                       role="button" aria-pressed="true" methods="post" target="_blank">More info</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </blockquote>
+</div>
+<div th:insert="common::footer"></div>
+<div th:insert="common::script"></div>
+</body>
+</html>

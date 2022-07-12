@@ -215,4 +215,10 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
                 .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
     }
+
+    public List<DrinkDAO> getUserDrinks(UUID id) {
+        return entityManager.createQuery("SELECT d FROM DrinkDAO d WHERE d.userDAO.id = :id order by d.strDrink", DrinkDAO.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 }

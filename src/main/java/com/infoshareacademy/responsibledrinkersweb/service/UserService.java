@@ -5,7 +5,11 @@ import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 import com.infoshareacademy.responsibledrinkersweb.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -19,7 +23,8 @@ public class UserService {
     }
 
     public UserDto addUser(CreateUserDto createUserDto) {
-        UserDAO user = new UserDAO(createUserDto.getUserName(), createUserDto.getGender(), createUserDto.getEmail(), createUserDto.getPassword(), createUserDto.getDateOfBirth(), createUserDto.getRole());
+        UserDAO user = new UserDAO(createUserDto.getUserName(), createUserDto.getGender(), createUserDto.getEmail(),
+                createUserDto.getPassword(), createUserDto.getDateOfBirth(), createUserDto.getRole(), createUserDto.isActive());
         userRepository.save(user);
         return modelMapper.map(user, UserDto.class);
     }
@@ -28,5 +33,30 @@ public class UserService {
         UserDAO user = userRepository.findByUserName(username);
         return modelMapper.map(user, UserDto.class);
 
+    }
+
+    public List<UserDto> findAllSortByUserName() {
+        List<UserDAO> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userName"));
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .toList();
+    }
+
+    public void changeUserIsActiveFlag(UUID id) {
+        UserDAO user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (user.isActive()) {
+            user.setActive(false);
+            user.setRole("BLOCKED");
+        } else {
+            user.setActive(true);
+            user.setRole("USER");
+        }
+        userRepository.save(user);
+    }
+
+    public void acceptUser(UUID id) {
+        UserDAO user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setRole("USER");
+        userRepository.save(user);
     }
 }

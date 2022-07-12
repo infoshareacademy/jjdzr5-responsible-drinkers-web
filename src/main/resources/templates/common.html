@@ -101,6 +101,9 @@
                 <li sec:authorize="hasRole('ADMIN')" ><a th:text="#{html.stats.title}"
                                                          class="dropdown-item"
                                                          th:href="@{stats}"></a></li>
+                <li sec:authorize="hasRole('ADMIN')" ><a th:text="#{html.users.text}"
+                                                         class="dropdown-item"
+                                                         th:href="@{users}"></a></li>
             </ul>
         </div>
     </div>

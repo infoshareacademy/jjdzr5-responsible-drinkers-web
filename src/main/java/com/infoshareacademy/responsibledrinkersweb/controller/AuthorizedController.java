@@ -32,7 +32,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN","ROLE_REGISTERED"})
 public class AuthorizedController {
 
     private final DrinkService drinkService;
@@ -160,6 +160,4 @@ public class AuthorizedController {
         code.append("]);");
         return code.toString();
     }
-
-
 }
