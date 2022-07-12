@@ -2,15 +2,21 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.config.userlogging.UserPrincipal;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
+import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
+import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +37,7 @@ public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+    private final ModelMapper modelMapper;
 
     private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
@@ -52,7 +59,12 @@ public class AuthorizedController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
-            drinkService.addDrink(drink);
+            DrinkDAO drinkDAO = modelMapper.map(drink, DrinkDAO.class);
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserDto userDto = ((UserPrincipal) principal).getUserDto();
+            UserDAO userDAO = modelMapper.map(userDto, UserDAO.class);
+            drinkDAO.setUserDAO(userDAO);
+            drinkService.addDrink(modelMapper.map(drinkDAO, Drink.class));
             model.addAttribute("dateformat", dateFormat.getDatePattern());
             model.addAttribute("drink", drink);
             return "new_drink";
