@@ -23,7 +23,10 @@
                     <label for="password" th:text="#{html.login.form.password}">Hasło</label>
                 </div>
                 <div class="container align-content-start" style="margin-bottom: 10px; padding-left: 0px">
-                    <span class="text-danger" th:if="${param.error}" th:text="#{html.login.form.error}"></span>
+<!--                    <span class="text-danger" th:if="${param.error}" th:text="#{html.login.form.error}"></span>-->
+<!--                    <span th:if="${error != null}" class="text-danger text-center text-capitalize" th:text="${error}">message</span>-->
+                    <span th:if="${error} eq ${notActiveText}" class="text-danger text-center text-capitalize" th:text="#{html.login.form.not_active}">message</span>
+                    <span th:if="${error} eq ${invalidCredentialsText}" class="text-danger text-center text-capitalize" th:text="#{html.login.form.error}">message</span>
                 </div>
                 <div class="container align-content-start" style="margin-bottom: 10px; padding-left: 0px">
                     <span class="text-success" th:if="${param.logout}" th:text="#{html.login.form.logout}"></span>
