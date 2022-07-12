@@ -3,11 +3,16 @@ package com.infoshareacademy.responsibledrinkersweb.service;
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
+import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 import com.infoshareacademy.responsibledrinkersweb.entity.control.DBDrinkDAOManager;
 import com.infoshareacademy.responsibledrinkersweb.exceptions.ImageNotFound;
 import com.infoshareacademy.responsibledrinkersweb.mapper.DrinkMapper;
+import com.infoshareacademy.responsibledrinkersweb.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -22,6 +27,8 @@ public class DrinkService {
     private final DBDrinkDAOManager dbDrinkDAOManager;
     private final DrinkMapper drinkMapper;
     private final DrinkDBService drinkDBService;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
 
     public List<Drink> getDrinks() {
@@ -50,8 +57,15 @@ public class DrinkService {
         if (drink.getIngredient5().isBlank()) {
             drink.setIngredient5(null);
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserDto currentUserDto = userService.findByUserName(currentPrincipalName);
+        UserDAO currentUserDAO = userMapper.mapToUserDAO(currentUserDto);
+
         drink.setStatus(Status.ADDED);
         DrinkDAO drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
+        drinkDAO.setUserDAO(currentUserDAO);
         dbDrinkDAOManager.save(drinkDAO);
     }
 

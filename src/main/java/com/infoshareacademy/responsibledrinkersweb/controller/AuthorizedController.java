@@ -66,16 +66,7 @@ public class AuthorizedController {
         if (result.hasErrors()) {
             return "add_new_drink";
         } else {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentPrincipalName = authentication.getName();
-            UserDto currentUserDto = userService.findByUserName(currentPrincipalName);
-            UserDAO currentUserDAO = userMapper.mapToUserDAO(currentUserDto);
-
-            DrinkDAO drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
-            drinkDAO.setUserDAO(currentUserDAO);
-            dbDrinkDAOManager.save(drinkDAO);
-
-//            drinkService.addDrink(drink);
+            drinkService.addDrink(drink);
             model.addAttribute("dateformat", dateFormat.getDatePattern());
             model.addAttribute("drink", drink);
             return "new_drink";
