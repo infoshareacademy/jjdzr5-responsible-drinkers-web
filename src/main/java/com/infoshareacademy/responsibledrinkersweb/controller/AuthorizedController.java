@@ -7,6 +7,7 @@ import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
 import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
+import com.infoshareacademy.responsibledrinkersweb.entity.control.DBDrinkDAOManager;
 import com.infoshareacademy.responsibledrinkersweb.mapper.DrinkMapper;
 import com.infoshareacademy.responsibledrinkersweb.mapper.UserMapper;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
@@ -43,6 +44,7 @@ public class AuthorizedController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final DrinkMapper drinkMapper;
+    private final DBDrinkDAOManager dbDrinkDAOManager;
 
     private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
@@ -68,11 +70,12 @@ public class AuthorizedController {
             String currentPrincipalName = authentication.getName();
             UserDto currentUserDto = userService.findByUserName(currentPrincipalName);
             UserDAO currentUserDAO = userMapper.mapToUserDAO(currentUserDto);
+
             DrinkDAO drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
             drinkDAO.setUserDAO(currentUserDAO);
-            Drink drinkWithUser = drinkMapper.mapDrinkDAOToDrink(drinkDAO);
+            dbDrinkDAOManager.save(drinkDAO);
 
-            drinkService.addDrink(drinkWithUser);
+//            drinkService.addDrink(drink);
             model.addAttribute("dateformat", dateFormat.getDatePattern());
             model.addAttribute("drink", drink);
             return "new_drink";
