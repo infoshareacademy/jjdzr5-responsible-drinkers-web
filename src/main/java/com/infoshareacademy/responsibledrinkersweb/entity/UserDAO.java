@@ -24,14 +24,14 @@ public class UserDAO {
     public static final String TABLE_NAME = "user";
     public static final String COLUMN_PREFIX = "u_";
 
-    public UserDAO(String userName, Gender gender, String email, String password, LocalDate dateOfBirth, String role) {
+    public UserDAO(String userName, Gender gender, String email, String password, LocalDate dateOfBirth, String role, Boolean isActive) {
         this.userName = userName;
         this.gender = gender;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
-        this.isActive = true;
+        this.isActive = isActive;
     }
 
     @Id

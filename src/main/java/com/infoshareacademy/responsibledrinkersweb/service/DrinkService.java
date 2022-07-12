@@ -141,4 +141,8 @@ public class DrinkService {
             }
         }
     }
+
+    public List<Drink> getUserDrinks(UUID id) {
+        return drinkDBService.getUserDrinks(id);
+    }
 }

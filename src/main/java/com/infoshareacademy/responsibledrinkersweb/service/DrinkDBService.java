@@ -122,4 +122,9 @@ public class DrinkDBService {
     public List<Drink> getSearchAndFilterResult(String sort, String keyword) {
         return drinkMapper.mapToDrinkList(dbDrinkDAOManager.getSearchAndFilterResult(sort, keyword));
     }
+
+    public List<Drink> getUserDrinks(UUID id) {
+        List<DrinkDAO> userDrinks = dbDrinkDAOManager.getUserDrinks(id);
+        return drinkMapper.mapToDrinkList(userDrinks);
+    }
 }

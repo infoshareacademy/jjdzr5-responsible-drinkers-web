@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="common::header (#{html.users.title})"></head>
+<body style="background-color: #2b2b2b">
+<nav th:insert="common::navbar"></nav>
+<div class="container">
+    <blockquote class="blockquote text-center">
+        <p th:text="#{html.users.text}" class="mb-0 bg-light text-black rounded-2"
+           style="margin-bottom: 20px; margin-top: 20px; padding: 10px"></p>
+    </blockquote>
+</div>
+<div class="container">
+    <div th:if="${users.size() > 0}" class="container">
+        <blockquote class="blockquote text-center">
+            <table class="table table-bordered bg-white rounded-3">
+                <thead>
+                <tr class="h5">
+                    <th scope="col">#</th>
+                    <th scope="col" th:text="#{html.users.name}">Name</th>
+                    <th scope="col" th:text="#{html.users.roles}">Role</th>
+                    <th scope="col" th:text="#{html.users.email}">e-mail</th>
+                    <th scope="col" th:text="#{html.users.gender}">Gender</th>
+                    <th scope="col" th:text="#{html.users.active}">Gender</th>
+                    <th scope="col" th:text="#{html.users.action}">Gender</th>
+                    <th scope="col" th:text="#{html.users.drinks}">Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <th scope="row" th:text="${userStat.index+1}">1</th>
+                    <td th:text="${user.getUserName()}">Mark</td>
+                    <td th:text="${user.getRole()}">Mark</td>
+                    <td th:text="${user.getEmail()}">Mark</td>
+                    <td th:text="${user.getGender().toString()}">Mark</td>
+                    <td th:text="${user.isActive()}">Mark</td>
+                    <td>
+                        <span th:if="${user.getRole()} != 'ADMIN'">
+                            <a th:if="${user.isActive()}" th:text="#{html.users.block}"
+                               th:href="@{'/users/block/' + ${user.getId()}}"
+                               class="btn btn-danger btn-sm active"
+                               role="button" aria-pressed="true" methods="post">More info</a>
+                            <a th:if="${!user.isActive()}" th:text="#{html.users.unblock}"
+                               th:href="@{'/users/block/' + ${user.getId()}}"
+                               class="btn btn-info btn-sm active"
+                               role="button" aria-pressed="true" methods="post">More info</a>
+                        </span>
+                    </td>
+                    <td>
+                        <a th:text="#{html.users.show.drinks}"
+                           th:href="@{'/users/drinks/' + ${user.getId()}}"
+                           class="btn btn-primary btn-sm active"
+                           role="button" aria-pressed="true" methods="post">More info</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </blockquote>
+    </div>
+</div>
+<div class="container text-center">
+    <div id="chart" class="container text-center rounded-3"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript" type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+            /*[+
+                        var data =  [(${scriptcode})]
+            +]*/
+            // Optional; add a title and set the width and height of the chart
+            var options = {
+                'height': 750,
+                chartArea: {width: '90%', height: '90%'},
+                is3D: true,
+                legend: {position: 'bottom', textStyle: {color: 'white', fontSize: 16}},
+                backgroundColor: '#2b2b2b',
+            };
+
+            // Display the chart inside the <div> element with id="chart"
+            var chart = new google.visualization.PieChart(document.getElementById('chart'));
+            chart.draw(data, options);
+        }
+    </script>
+</div>
+<div th:insert="common::footer"></div>
+<div th:insert="common::script"></div>
+</body>
+</html>
