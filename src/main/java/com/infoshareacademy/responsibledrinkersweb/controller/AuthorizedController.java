@@ -4,9 +4,6 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
-import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
-import com.infoshareacademy.responsibledrinkersweb.entity.DrinkDAO;
-import com.infoshareacademy.responsibledrinkersweb.entity.UserDAO;
 import com.infoshareacademy.responsibledrinkersweb.entity.control.DBDrinkDAOManager;
 import com.infoshareacademy.responsibledrinkersweb.mapper.DrinkMapper;
 import com.infoshareacademy.responsibledrinkersweb.mapper.UserMapper;
@@ -15,12 +12,9 @@ import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.UserService;
 import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,10 +35,6 @@ public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
-    private final UserService userService;
-    private final UserMapper userMapper;
-    private final DrinkMapper drinkMapper;
-    private final DBDrinkDAOManager dbDrinkDAOManager;
 
     private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
