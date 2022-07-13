@@ -4,13 +4,17 @@ import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.service.UserService;
 import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,11 +30,12 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@Secured(value = {"ROLE_USER", "ROLE_ADMIN","ROLE_REGISTERED"})
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN", "ROLE_REGISTERED"})
 public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+    private final UserService userService;
 
     private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
@@ -122,7 +127,12 @@ public class AuthorizedController {
 
     @GetMapping("/account_settings")
     public String account(Model model) {
-        return "account_settings";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserDto currentUserDto = userService.findByUserName(currentPrincipalName);
+        List<Drink> userDrinks = drinkService.getUserDrinks(currentUserDto.getId());
+        model.addAttribute("drinks", userDrinks);
+        return "user_drinks";
     }
 
     @GetMapping("/stats")
