@@ -9,6 +9,7 @@ import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -69,7 +71,12 @@ public class AnonymousController {
     }
 
     @RequestMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, @RequestParam("error") final Optional<String> error,
+                        @Value("${message.login.user.not_active}") String notActiveText,
+                        @Value("${message.login.user.invalid}") String invalidCredentialsText) {
+        error.ifPresent(s -> model.addAttribute("error", s));
+        model.addAttribute("notActiveText", notActiveText);
+        model.addAttribute("invalidCredentialsText", invalidCredentialsText);
         return "login";
     }
 
