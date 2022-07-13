@@ -1,10 +1,8 @@
 package com.infoshareacademy.responsibledrinkersweb.controller;
 
-import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.responsibledrinkersweb.domain.Gender;
 import com.infoshareacademy.responsibledrinkersweb.domain.User;
 import com.infoshareacademy.responsibledrinkersweb.dto.CreateUserDto;
-import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
 import com.infoshareacademy.responsibledrinkersweb.service.UserService;
@@ -17,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -84,35 +81,5 @@ public class AnonymousController {
     public String signup(Model model) {
         model.addAttribute("user", new User());
         return "signup";
-    }
-
-    // TODO: przenieść do kontrolera AuthorizedController
-    @GetMapping("/users")
-    public String users(Model model) {
-        List<UserDto> users = userService.findAllSortByUserName();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
-    // TODO: przenieść do kontrolera AuthorizedController
-    @GetMapping("/users/block/{id}")
-    public String blockUser(@PathVariable UUID id) {
-        userService.changeUserIsActiveFlag(id);
-        return "redirect:/users";
-    }
-
-    // TODO: przenieść do kontrolera AuthorizedController
-    @GetMapping("/users/accept/{id}")
-    public String acceptUser(@PathVariable UUID id) {
-        userService.acceptUser(id);
-        return "redirect:/users";
-    }
-
-    // TODO: przenieść do kontrolera AuthorizedController
-    @GetMapping("/users/drinks/{id}")
-    public String userDrinks(@PathVariable UUID id, Model model) {
-        List<Drink> userDrinks = drinkService.getUserDrinks(id);
-        model.addAttribute("drinks", userDrinks);
-        return "user_drinks";
     }
 }

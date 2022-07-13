@@ -18,10 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
@@ -157,5 +154,34 @@ public class AuthorizedController {
         code.setLength(code.length() - 2);
         code.append("]);");
         return code.toString();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAllSortByUserName();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users/block/{id}")
+    public String blockUser(@PathVariable UUID id) {
+        userService.changeUserIsActiveFlag(id);
+        return "redirect:/users";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users/accept/{id}")
+    public String acceptUser(@PathVariable UUID id) {
+        userService.acceptUser(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/drinks/{id}")
+    public String userDrinks(@PathVariable UUID id, Model model) {
+        List<Drink> userDrinks = drinkService.getUserDrinks(id);
+        model.addAttribute("drinks", userDrinks);
+        return "user_drinks";
     }
 }
