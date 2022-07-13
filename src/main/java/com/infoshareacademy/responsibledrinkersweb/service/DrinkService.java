@@ -88,6 +88,7 @@ public class DrinkService {
         DrinkDAO drinkDAO;
         drinkDAO = drinkMapper.mapDinkToDrinkDAO(drink);
         drinkDAO.setDateModified(LocalDateTime.now());
+        drinkDAO.setUserDAO(dbDrinkDAOManager.findById(drink.getIdDrink()).getUserDAO());
         dbDrinkDAOManager.update(drinkDAO);
     }
 

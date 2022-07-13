@@ -28,7 +28,6 @@ public class DBInit implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DBInit.class);
 
-
     private final DBDrinkDAOManager dbDrinkDAOManager;
     private final DrinkMapper drinkMapper;
     private final UserService userService;
