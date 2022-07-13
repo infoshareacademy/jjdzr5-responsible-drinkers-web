@@ -17,10 +17,6 @@ public class UserPrincipal implements UserDetails {
         this.userDto = user;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
