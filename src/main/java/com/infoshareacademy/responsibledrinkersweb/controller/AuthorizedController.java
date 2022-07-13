@@ -2,6 +2,7 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.config.userlogging.UserPrincipal;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
 import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
@@ -13,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -123,11 +123,8 @@ public class AuthorizedController {
     }
 
     @GetMapping("/account_settings")
-    public String account(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        UserDto currentUserDto = userService.findByUserName(currentPrincipalName);
-        List<Drink> userDrinks = drinkService.getUserDrinks(currentUserDto.getId());
+    public String account(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<Drink> userDrinks = drinkService.getUserDrinks(userPrincipal.getId());
         model.addAttribute("drinks", userDrinks);
         return "user_drinks";
     }
