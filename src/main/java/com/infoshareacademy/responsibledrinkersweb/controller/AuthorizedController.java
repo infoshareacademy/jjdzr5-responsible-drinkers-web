@@ -2,22 +2,23 @@ package com.infoshareacademy.responsibledrinkersweb.controller;
 
 import com.infoshareacademy.drinkers.domain.drink.Drink;
 import com.infoshareacademy.drinkers.domain.drink.Status;
+import com.infoshareacademy.responsibledrinkersweb.config.userlogging.UserPrincipal;
 import com.infoshareacademy.responsibledrinkersweb.domain.Count;
 import com.infoshareacademy.responsibledrinkersweb.domain.ListParameter;
+import com.infoshareacademy.responsibledrinkersweb.dto.UserDto;
 import com.infoshareacademy.responsibledrinkersweb.service.DateFormat;
 import com.infoshareacademy.responsibledrinkersweb.service.DrinkService;
+import com.infoshareacademy.responsibledrinkersweb.service.UserService;
 import com.infoshareacademy.responsibledrinkersweb.service.http.SendRequestService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
@@ -26,11 +27,12 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@Secured(value = {"ROLE_USER", "ROLE_ADMIN","ROLE_REGISTERED"})
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN", "ROLE_REGISTERED"})
 public class AuthorizedController {
 
     private final DrinkService drinkService;
     private final DateFormat dateFormat;
+    private final UserService userService;
 
     private final SendRequestService sendRequestService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedController.class);
@@ -121,8 +123,10 @@ public class AuthorizedController {
     }
 
     @GetMapping("/account_settings")
-    public String account(Model model) {
-        return "account_settings";
+    public String account(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<Drink> userDrinks = drinkService.getUserDrinks(userPrincipal.getId());
+        model.addAttribute("drinks", userDrinks);
+        return "user_drinks";
     }
 
     @GetMapping("/stats")
@@ -147,5 +151,34 @@ public class AuthorizedController {
         code.setLength(code.length() - 2);
         code.append("]);");
         return code.toString();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAllSortByUserName();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users/block/{id}")
+    public String blockUser(@PathVariable UUID id) {
+        userService.changeUserIsActiveFlag(id);
+        return "redirect:/users";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/users/accept/{id}")
+    public String acceptUser(@PathVariable UUID id) {
+        userService.acceptUser(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/drinks/{id}")
+    public String userDrinks(@PathVariable UUID id, Model model) {
+        List<Drink> userDrinks = drinkService.getUserDrinks(id);
+        model.addAttribute("drinks", userDrinks);
+        return "user_drinks";
     }
 }

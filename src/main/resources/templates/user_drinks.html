@@ -20,6 +20,7 @@
                 <th scope="col" th:text="#{html.drink_list.th.date}">e-mail</th>
                 <th scope="col" th:text="#{html.add_new_drink.category}">Gender</th>
                 <th scope="col" th:text="#{html.add_new_drink.ingredients}">Gender</th>
+                <th scope="col" th:text="#{html.drink_list.th.status}">Gender</th>
                 <th scope="col" th:text="#{html.users.action}">Gender</th>
             </tr>
             </thead>
@@ -31,6 +32,7 @@
                 <td th:text="${#temporals.format(d.getDateModified(), 'dd-MM-yyyy HH:mm')}">Mark</td>
                 <td th:text="${d.getCategory()}">Mark</td>
                 <td th:text="${d.getIngredients()}">Mark</td>
+                <td th:text="${d.getStatus()}">Mark</td>
                 <td>
                     <a th:text="#{html.drink_list.actions.more}" th:href="@{'/show-more?id=' + ${d.getId()}}"
                        class="btn btn-info btn-sm active"
