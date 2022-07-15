@@ -94,7 +94,8 @@ public class DBDrinkDAOManager implements DrinkDAOManager {
 
     public void delete(UUID id) {
         DrinkDAO byId = find(id);
-        entityManager.remove(byId);
+        byId.setStatus(Status.DELETED);
+        entityManager.merge(byId);
     }
 
     public List<DrinkDAO> findByNameAndStatus(String sort, String searchString, Status accepted) {
