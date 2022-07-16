@@ -67,6 +67,12 @@ public class AnonymousController {
         return "new_account";
     }
 
+    @GetMapping("/new_account")
+    public String newAccount(Model model) {
+        model.addAttribute("userAccount", new User());
+        return "new_account";
+    }
+
     @RequestMapping("/login")
     public String login(Model model, @RequestParam("error") final Optional<String> error,
                         @Value("${message.login.user.not_active}") String notActiveText,
