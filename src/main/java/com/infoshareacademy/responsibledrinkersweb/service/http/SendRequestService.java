@@ -27,7 +27,7 @@ public class SendRequestService {
     public void sendPostRequest(ListParameter parameter) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<SearchRequestDto> request = new HttpEntity<>(new SearchRequestDto(parameter.getKeyword(),
+        HttpEntity<SearchRequestDto> request = new HttpEntity<>(new SearchRequestDto(parameter.getKeyword().toLowerCase(),
                 LocalDateTime.now()), httpHeaders);
         try {
             ResponseEntity<SearchRequestDto> post = restTemplate.postForEntity("/request",
